@@ -1,6 +1,4 @@
-package org.care.servlets;
-
-import org.care.context.MyApplicationContext;
+package org.care.presentation;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
