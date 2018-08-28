@@ -30,7 +30,7 @@ CREATE TABLE `seeker` (
 CREATE TABLE `sitter` (
   `sitter_id` int(32) unsigned NOT NULL AUTO_INCREMENT,
   `experience` int(3) unsigned NOT NULL DEFAULT '0',
-  `last_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`sitter_id`),
   UNIQUE KEY `member_id_UNIQUE` (`sitter_id`),
   CONSTRAINT `sitter_id` FOREIGN KEY (`sitter_id`) REFERENCES `member` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -40,8 +40,8 @@ CREATE TABLE `job` (
   `id` int(32) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(256) NOT NULL,
   `posted_by` int(32) unsigned NOT NULL,
-  `start_date` datetime NOT NULL,
-  `end_date` datetime NOT NULL,
+  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `end_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `pay_per_hour` decimal(10,0) unsigned NOT NULL,
   `status` enum('active','inactive') NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
