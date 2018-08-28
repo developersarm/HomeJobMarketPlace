@@ -14,8 +14,8 @@ public class MyApplicationContext {
     }
 
     public static void initContext() throws ClassNotFoundException, SQLException {
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        jdbcConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/servletdemo?useSSL=false",
+        Class.forName("com.mysql.jdbc.Driver");
+        jdbcConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/homejobmarketplace",
                 "root", "admin");
     }
 

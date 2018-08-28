@@ -7,7 +7,7 @@ CREATE TABLE `member` (
   `phone_no` int(10) unsigned NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(45) NOT NULL,
-  `type` enum('seeker','sitter') NOT NULL,
+  `type` enum('SEEKER','SITTER') NOT NULL,
   `address` varchar(250) NOT NULL,
   `pincode` int(6) unsigned NOT NULL,
   `status` enum('ACTIVE','INACTIVE') NOT NULL,

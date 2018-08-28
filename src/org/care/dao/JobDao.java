@@ -1,5 +1,5 @@
 package org.care.dao;
 
-public class JobDao {
+public class JobDAO {
 
 }
