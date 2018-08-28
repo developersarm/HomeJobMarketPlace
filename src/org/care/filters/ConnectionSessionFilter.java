@@ -17,7 +17,14 @@ public class ConnectionSessionFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-
+        MyApplicationContext.create();
+        try {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(ConnectionSessionFilter.class.getName());
+            logger.log(Level.SEVERE, "Exception generated in the fiter chain! " + e);
+        }
+        MyApplicationContext.destroy();
     }
 
     @Override

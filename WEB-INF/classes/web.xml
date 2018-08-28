@@ -9,6 +9,10 @@
         Home Job Marketplace
     </description>
 
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+
     <listener>
         <listener-class>org.care.listeners.ApplicationListener</listener-class>
     </listener>

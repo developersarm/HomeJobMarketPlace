@@ -9,7 +9,7 @@ public class Job {
     private Timestamp startDate;
     private Timestamp endDate;
     private float payPerHour;
-    private enum status {active, inactive};
+    private enum Status {ACTIVE, INACTIVE};
 
     public Job(String title, int postedBy, Timestamp startDate, Timestamp endDate, float payPerHour) {
         this.title = title;
