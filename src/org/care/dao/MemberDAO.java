@@ -4,25 +4,25 @@ import org.care.model.Member;
 
 import java.io.Serializable;
 
-public class MemberDAO implements DAO<Member> {
+public class MemberDAO<T extends Member> implements DAO<T> {
 
     @Override
-    public void create(Member obj) {
+    public void create(T obj) {
 
     }
 
     @Override
-    public void update(Member obj) {
+    public void update(T obj) {
 
     }
 
     @Override
-    public Member delete(Serializable id) {
+    public T delete(Serializable id) {
         return null;
     }
 
     @Override
-    public Member get(Serializable id) {
+    public T get(Serializable id) {
         return null;
     }
 }

@@ -5,24 +5,25 @@ import org.care.model.Sitter;
 
 import java.io.Serializable;
 
-public class SitterDAO extends MemberDAO {
+public class SitterDAO extends MemberDAO<Sitter> {
+
     @Override
-    public void create() {
-        super.create();
+    public void create(Sitter obj) {
+        super.create(obj);
     }
 
     @Override
-    public void update() {
-        super.update();
+    public void update(Sitter obj) {
+        super.update(obj);
     }
 
     @Override
     public Sitter delete(Serializable id) {
-        return null;
+        return super.delete(id);
     }
 
     @Override
     public Sitter get(Serializable id) {
-        return null;
+        return super.get(id);
     }
 }
