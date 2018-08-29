@@ -9,7 +9,9 @@ public class Job {
     private Timestamp startDate;
     private Timestamp endDate;
     private float payPerHour;
-    private enum Status {ACTIVE, INACTIVE};
+    private Status status;
+
+    public enum Status {ACTIVE, INACTIVE}
 
     public Job(String title, int postedBy, Timestamp startDate, Timestamp endDate, float payPerHour) {
         this.title = title;
@@ -17,6 +19,7 @@ public class Job {
         this.startDate = startDate;
         this.endDate = endDate;
         this.payPerHour = payPerHour;
+        this.status = Status.ACTIVE;
     }
 
     public Job(int id, String title, int postedBy, Timestamp startDate, Timestamp endDate, float payPerHour) {
@@ -70,5 +73,13 @@ public class Job {
 
     public void setPayPerHour(float payPerHour) {
         this.payPerHour = payPerHour;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

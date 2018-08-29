@@ -36,5 +36,34 @@
         <servlet-name>myTestServlet</servlet-name>
         <url-pattern>/hello</url-pattern>
     </servlet-mapping>
-
+    
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>org.care.presentation.visitor.LoginServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/visitor/login</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>org.care.presentation.visitor.MemberRegistrationServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>RegisterServlet</servlet-name>
+        <url-pattern>/visitor/register</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ResetPassword</servlet-name>
+        <servlet-class>org.care.presentation.visitor.ResetPasswordServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ResetPassword</servlet-name>
+        <url-pattern>/visitor/resetpassword</url-pattern>
+    </servlet-mapping>
 </web-app>

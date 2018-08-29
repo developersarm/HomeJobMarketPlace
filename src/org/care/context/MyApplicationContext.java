@@ -1,7 +1,8 @@
 package org.care.context;
 
+import org.care.dao.DAO;
+
 import java.sql.Connection;
-//import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
@@ -9,7 +10,7 @@ public class MyApplicationContext {
 
     private static Connection jdbcConnection;
     private static ThreadLocal<MyApplicationContext> appContextThreadLocal = new ThreadLocal<>();
-//    private static DAOFactory daoFactory = new DAOFactory();
+    private static DAOFactory daoFactory = new DAOFactory();
 
     private MyApplicationContext() {
     }
@@ -38,7 +39,11 @@ public class MyApplicationContext {
         appContextThreadLocal.remove();
     }
 
-//    public static DAOFactory getFactory() {
-//        return daoFactory;
-//    }
+    public static <T extends DAO> T getFactory(Class<T> clazz) {
+        return daoFactory.getDAO(clazz);
+    }
+
+    public static Connection getJdbcConnection() {
+        return jdbcConnection;
+    }
 }

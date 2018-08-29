@@ -25,7 +25,7 @@ CREATE TABLE `seeker` (
   PRIMARY KEY (`seeker_id`),
   UNIQUE KEY `member_id_UNIQUE` (`seeker_id`),
   CONSTRAINT `seeker_id` FOREIGN KEY (`seeker_id`) REFERENCES `member` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Information specific to seeker';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Information specific to SEEKER';
 
 CREATE TABLE `sitter` (
   `sitter_id` int(32) unsigned NOT NULL AUTO_INCREMENT,
@@ -34,7 +34,7 @@ CREATE TABLE `sitter` (
   PRIMARY KEY (`sitter_id`),
   UNIQUE KEY `member_id_UNIQUE` (`sitter_id`),
   CONSTRAINT `sitter_id` FOREIGN KEY (`sitter_id`) REFERENCES `member` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Information about sitter';
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='Information about SITTER';
 
 CREATE TABLE `job` (
   `id` int(32) unsigned NOT NULL AUTO_INCREMENT,

@@ -9,6 +9,7 @@ public class SeekerDAO extends MemberDAO<Seeker> {
     @Override
     public void create(Seeker obj) {
         super.create(obj);
+        return null;
     }
 
     @Override

@@ -8,7 +8,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
     @Override
     public void create(JobApplication obj) {
-
+        return null;
     }
 
     @Override
