@@ -4,9 +4,16 @@ public class Seeker extends Member {
     int totalChildren;
     String spouseName;
 
-    public Seeker(int id, String firstName, String lastName, int phoneNo, String emailId, String password,
-                  String address, int totalChildren, String spouseName) {
-        super(id, firstName, lastName, phoneNo, emailId, password, MemberType.SEEKER, address);
+    public Seeker(int id, String firstName, String lastName, String phoneNo, String emailId, String password,
+                  String address, int pincode, int totalChildren, String spouseName) {
+        super(id, firstName, lastName, phoneNo, emailId, password, MemberType.SEEKER, address, pincode);
+        this.totalChildren = totalChildren;
+        this.spouseName = spouseName;
+    }
+
+    public Seeker(String firstName, String lastName, String phoneNo, String emailId, String password,
+                  String address, int pincode, int totalChildren, String spouseName) {
+        super(firstName, lastName, phoneNo, emailId, password, MemberType.SEEKER, address, pincode);
         this.totalChildren = totalChildren;
         this.spouseName = spouseName;
     }

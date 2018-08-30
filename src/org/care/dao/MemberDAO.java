@@ -23,12 +23,12 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             myStmt.setString(1, obj.getFirstName());
             myStmt.setString(2, obj.getLastName());
-            myStmt.setString(3, String.valueOf(obj.getPhoneNo()));
+            myStmt.setString(3, obj.getPhoneNo());
             myStmt.setString(4, obj.getEmailId());
             myStmt.setString(5, obj.getPassword());
             myStmt.setString(6, String.valueOf(obj.getType()));
             myStmt.setString(7, obj.getAddress());
-            myStmt.setString(8, String.valueOf(obj.getPincode()));
+            myStmt.setInt(8, obj.getPincode());
             int affectedRows = myStmt.executeUpdate();
 
             if (affectedRows == 0) {
@@ -63,5 +63,39 @@ public class MemberDAO<T extends Member> implements DAO<T> {
     @Override
     public T get(Serializable id) {
         return null;
+    }
+
+    public int get(String email, String password) {
+        /*
+        To-do's:
+        - check this code
+        - password should be hashed
+         */
+
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        int userId = -1;
+        try{
+            PreparedStatement myStmt = null;
+            ResultSet myRs = null;
+
+            String sql = "select * from member where email=? and password=?";
+            myStmt = myConn.prepareStatement(sql);
+            myStmt.setString(1, email);
+            myStmt.setString(2, password);
+            myRs = myStmt.executeQuery();
+            if(myRs.next())
+            {
+                 userId = myRs.getInt("id");
+            }
+            else{
+                throw new SQLException("Could not find member with given email and password");
+            }
+
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
+                    "email and password" + e);
+        }
+        return userId;
     }
 }

@@ -1,12 +1,10 @@
 package org.care.model;
 
-import org.omg.PortableInterceptor.INACTIVE;
-
 public class Member {
     private int id;
     private String firstName;
     private String lastName;
-    private int phoneNo;
+    private String phoneNo;
     private String emailId;
     private String password;
     private MemberType type;
@@ -17,7 +15,7 @@ public class Member {
     public enum MemberType {SEEKER, SITTER;};
     public enum Status {ACTIVE, INACTIVE}
 
-    public Member(String firstName, String lastName, int phoneNo, String emailId, String password, MemberType type,
+    public Member(String firstName, String lastName, String phoneNo, String emailId, String password, MemberType type,
                   String address, int pincode) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -30,7 +28,7 @@ public class Member {
         this.status = Status.ACTIVE;
     }
 
-    public Member(int id, String firstName, String lastName, int phoneNo, String emailId, String password,
+    public Member(int id, String firstName, String lastName, String phoneNo, String emailId, String password,
                   MemberType type, String address, int pincode) {
         this(firstName, lastName, phoneNo, emailId, password, type, address, pincode);
         this.id = id;
@@ -60,11 +58,11 @@ public class Member {
         this.lastName = lastName;
     }
 
-    public int getPhoneNo() {
+    public String getPhoneNo() {
         return phoneNo;
     }
 
-    public void setPhoneNo(int phoneNo) {
+    public void setPhoneNo(String phoneNo) {
         this.phoneNo = phoneNo;
     }
 

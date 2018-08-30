@@ -14,6 +14,9 @@ public class SitterDAO extends MemberDAO<Sitter> {
 
     @Override
     public void create(Sitter obj) {
+        //inserting data into member first
+        super.create(obj);
+
         Connection myConn = MyApplicationContext.getJdbcConnection();
         PreparedStatement myStmt = null;
 

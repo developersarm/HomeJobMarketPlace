@@ -25,7 +25,19 @@
     <filter-mapping>
         <filter-name>connectionSessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
+        <!--<dispatcher>INCLUDE</dispatcher>-->
+        <!--<dispatcher>REQUEST</dispatcher>-->
     </filter-mapping>
+    
+    <servlet>
+        <servlet-name>welcomeServlet</servlet-name>
+        <servlet-class>org.care.presentation.visitor.WelcomeServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>welcomeServlet</servlet-name>
+        <url-pattern>/visitor/welcome</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>myTestServlet</servlet-name>
@@ -38,32 +50,42 @@
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>loginServlet</servlet-name>
         <servlet-class>org.care.presentation.visitor.LoginServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
+        <servlet-name>loginServlet</servlet-name>
         <url-pattern>/visitor/login</url-pattern>
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-name>registerServlet</servlet-name>
         <servlet-class>org.care.presentation.visitor.MemberRegistrationServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-name>registerServlet</servlet-name>
         <url-pattern>/visitor/register</url-pattern>
     </servlet-mapping>
     
     <servlet>
-        <servlet-name>ResetPassword</servlet-name>
+        <servlet-name>resetPassword</servlet-name>
         <servlet-class>org.care.presentation.visitor.ResetPasswordServlet</servlet-class>
     </servlet>
     
     <servlet-mapping>
-        <servlet-name>ResetPassword</servlet-name>
+        <servlet-name>resetPassword</servlet-name>
         <url-pattern>/visitor/resetpassword</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>homePageServlet</servlet-name>
+        <servlet-class>org.care.presentation.member.HomePageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>homePageServlet</servlet-name>
+        <url-pattern>/member/home</url-pattern>
     </servlet-mapping>
 </web-app>

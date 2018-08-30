@@ -1,10 +1,12 @@
 package org.care.presentation.visitor;
 
 import org.care.model.Member;
+import org.care.model.Seeker;
 import org.care.model.Sitter;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -21,15 +23,16 @@ public class MemberRegistrationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+        HttpSession session = req.getSession();
+
         String firstName = req.getParameter("firstname");
         String lastName = req.getParameter("lastname");
-        int phoneNo = Integer.parseInt(req.getParameter("phoneno"));
+        String phoneNo = req.getParameter("phoneno");
         String emailId = req.getParameter("emailid");
         String password = req.getParameter("password");
         String typeParam = req.getParameter("type");
-        Member.MemberType memberType = typeParam.equals("SEEKER")? Member.MemberType.SEEKER : Member.MemberType.SITTER;
-        HttpSession session = req.getSession();
-        session.setAttribute("MemberType", typeParam);
+        Member.MemberType memberType = (Member.MemberType) session.getAttribute("MemberType");
         String address = req.getParameter("address");
         int pincode = Integer.parseInt(req.getParameter("pincode"));
 
@@ -37,7 +40,14 @@ public class MemberRegistrationServlet extends HttpServlet {
             int experience = Integer.parseInt(req.getParameter("experience"));
             Sitter sitter = new Sitter(firstName, lastName, phoneNo, emailId, password, address,pincode, experience);
             SitterService.register(sitter);
+        } else if (memberType == Member.MemberType.SEEKER) {
+            int totalChildren = Integer.parseInt(req.getParameter("totalchildren"));
+            String spouseName = req.getParameter("spousename");
+            Seeker seeker = new Seeker(firstName, lastName, phoneNo, emailId, password, address, pincode, totalChildren, spouseName);
+            SeekerService.register(seeker);
         }
 
+        RequestDispatcher rd = req.getRequestDispatcher("/visitor/login");
+        rd.forward(req,resp);
     }
 }
