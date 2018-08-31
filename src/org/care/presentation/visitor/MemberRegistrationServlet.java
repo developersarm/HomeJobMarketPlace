@@ -26,6 +26,8 @@ public class MemberRegistrationServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
+        //todo: add validation of form data
+
         String firstName = req.getParameter("firstname");
         String lastName = req.getParameter("lastname");
         String phoneNo = req.getParameter("phoneno");
@@ -47,7 +49,7 @@ public class MemberRegistrationServlet extends HttpServlet {
             SeekerService.register(seeker);
         }
 
-        RequestDispatcher rd = req.getRequestDispatcher("/visitor/login");
-        rd.forward(req,resp);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/visitor/login");
+        requestDispatcher.forward(req,resp);
     }
 }

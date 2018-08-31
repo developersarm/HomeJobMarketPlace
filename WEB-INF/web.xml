@@ -76,16 +76,81 @@
     
     <servlet-mapping>
         <servlet-name>resetPassword</servlet-name>
-        <url-pattern>/visitor/resetpassword</url-pattern>
+        <url-pattern>/visitor/reset-password</url-pattern>
     </servlet-mapping>
 
+    <!--<servlet>-->
+        <!--<servlet-name>homePageServlet</servlet-name>-->
+        <!--<servlet-class>org.care.presentation.member.HomePageServlet</servlet-class>-->
+    <!--</servlet>-->
+
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>homePageServlet</servlet-name>-->
+        <!--<url-pattern>/member/home</url-pattern>-->
+    <!--</servlet-mapping>-->
+
     <servlet>
-        <servlet-name>homePageServlet</servlet-name>
-        <servlet-class>org.care.presentation.member.HomePageServlet</servlet-class>
+        <servlet-name>seekerHomePageServlet</servlet-name>
+        <servlet-class>org.care.presentation.seeker.SeekerHomePageServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>homePageServlet</servlet-name>
-        <url-pattern>/member/home</url-pattern>
+        <servlet-name>seekerHomePageServlet</servlet-name>
+        <url-pattern>/seeker/home</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>sitterHomePageServlet</servlet-name>
+        <servlet-class>org.care.presentation.sitter.SitterHomePageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>sitterHomePageServlet</servlet-name>
+        <url-pattern>/sitter/home</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>jobServlet</servlet-name>
+        <servlet-class>org.care.presentation.seeker.JobServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>jobServlet</servlet-name>
+        <url-pattern>/seeker/new-job</url-pattern>
+        <url-pattern>/seeker/edit-job</url-pattern>
+        <url-pattern>/seeker/list-job</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>profileServlet</servlet-name>
+        <servlet-class>org.care.presentation.member.ProfileServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>profileServlet</servlet-name>
+        <url-pattern>/member/profile</url-pattern>
+        <url-pattern>/member/edit-profile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>listJobApplicationServlet</servlet-name>
+        <servlet-class>org.care.presentation.seeker.ListJobApplicationsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>listJobApplicationServlet</servlet-name>
+        <url-pattern>/seeker/list-job-application</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>searchMemberServlet</servlet-name>
+        <servlet-class>org.care.presentation.member.MemberSearchServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>searchMemberServlet</servlet-name>
+        <url-pattern>/member/search</url-pattern>
+    </servlet-mapping>
+
+
 </web-app>

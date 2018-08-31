@@ -11,10 +11,10 @@
     <script src="../js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="container">
+    <div class="container mt-5 w-25 mb-5 center-block">
         <div id="wrapper">
             <div id="header">
-                <h2>Register</h2>
+                <h3 class="text-center mb-3">Register</h3>
             </div>
         </div>
         <form action="/HomeJobMarketplace/visitor/register" method="post">
@@ -51,7 +51,7 @@
                 <c:when test="${sessionScope.MemberType == 'SITTER'}">
                     <div class="form-group">
                     <label for="exp">Experience:</label>
-                    <input type="number" class="form-control" id="exp" name="experinece">
+                    <input type="number" class="form-control" id="exp" name="experience">
                     </div>
                 </c:when>
                 <c:when test="${sessionScope.MemberType == 'SEEKER'}">

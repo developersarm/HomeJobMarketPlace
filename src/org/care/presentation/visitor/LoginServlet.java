@@ -16,8 +16,8 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp");
-        rd.forward(req,resp);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp");
+        requestDispatcher.forward(req,resp);
     }
 
     @Override
@@ -26,7 +26,7 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
         HttpSession session = req.getSession();
         Member.MemberType mType = (Member.MemberType) session.getAttribute("MemberType");
-        RequestDispatcher rd;
+        RequestDispatcher requestDispatcher;
         int userId = 0;
 
         if (mType == Member.MemberType.SEEKER) {
@@ -34,16 +34,25 @@ public class LoginServlet extends HttpServlet {
         } else if (mType == Member.MemberType.SITTER) {
             userId = SitterService.validateUser(email, password);
         } else {
-            resp.getWriter().print("Please go to homepage! (Member type not set");
+            // todo: redirect to index with a error message
         }
+
+        // todo: Check if the member is seeker and session if is sitter and vice-versa
+        // todo: destroy the userid saved in session while logging out
 
         if (userId > 0) {
             session.setAttribute("UserId", userId);
-            rd = req.getRequestDispatcher("/member/home");
-            rd.forward(req, resp);
+            if (mType == Member.MemberType.SITTER) {
+                requestDispatcher = req.getRequestDispatcher("/sitter/home");
+                requestDispatcher.forward(req, resp);
+            } else {
+                requestDispatcher = req.getRequestDispatcher("/seeker/home");
+                requestDispatcher.forward(req, resp);
+            }
         } else {
-            resp.getWriter().print("Invalid email id or password!");
-            this.doGet(req, resp);
+            req.setAttribute("error", "Invalid Username/password");
+            requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp");
+            requestDispatcher.include(req,resp);
         }
 
     }
