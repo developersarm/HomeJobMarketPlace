@@ -41,7 +41,7 @@ CREATE TABLE `job` (
   `title` varchar(256) NOT NULL,
   `posted_by` int(32) unsigned NOT NULL,
   `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `end_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `end_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `pay_per_hour` decimal(10,0) unsigned NOT NULL,
   `status` enum('ACTIVE','INACTIVE') NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
