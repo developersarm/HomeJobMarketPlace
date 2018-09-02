@@ -15,7 +15,6 @@ public class SeekerDAO extends MemberDAO<Seeker> {
     public void create(Seeker obj) {
         //inserting data into member first
         super.create(obj);
-        System.out.println("this is working!");
         Connection myConn = MyApplicationContext.getJdbcConnection();
         PreparedStatement myStmt = null;
 
@@ -39,8 +38,6 @@ public class SeekerDAO extends MemberDAO<Seeker> {
             Logger logger = Logger.getLogger(SeekerDAO.class.getName());
             logger.log(Level.SEVERE, "exception while performing insert operation" + e);
         }
-        System.out.println("this part is also working");
-
     }
 
     @Override

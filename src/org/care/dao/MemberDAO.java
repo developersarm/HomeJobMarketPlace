@@ -12,15 +12,11 @@ public class MemberDAO<T extends Member> implements DAO<T> {
     @Override
     public void create(T obj) {
         Connection myConn = MyApplicationContext.getJdbcConnection();
-
-        try {
-            PreparedStatement myStmt = null;
-            String sql = "insert into member "
-                    + "(first_name, last_name, phone_no, email, password, type," +
-                    "address, pincode)"
-                    + "values(?,?,?,?,?,?,?,?)";
-
-            myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        String sql = "insert into member "
+                + "(first_name, last_name, phone_no, email, password, type," +
+                "address, pincode)"
+                + "values(?,?,?,?,?,?,?,?)";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             myStmt.setString(1, obj.getFirstName());
             myStmt.setString(2, obj.getLastName());
             myStmt.setString(3, obj.getPhoneNo());
@@ -40,13 +36,12 @@ public class MemberDAO<T extends Member> implements DAO<T> {
                     obj.setId(generatedKeys.getInt(1));
                 }
                 else {
-                    throw new SQLException("Creating user failed, no ID obtained.");
+                    throw new SQLException("User creation failed, no ID obtained.");
                 }
             }
-
         } catch (SQLException e) {
             Logger logger = Logger.getLogger(MemberDAO.class.getName());
-            logger.log(Level.SEVERE, "exception while performing insert operation" + e);
+            logger.log(Level.SEVERE, "exception while performing insert operation: " + e);
         }
     }
 

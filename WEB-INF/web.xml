@@ -110,15 +110,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>jobServlet</servlet-name>
-        <servlet-class>org.care.presentation.seeker.JobServlet</servlet-class>
+        <servlet-name>newJobServlet</servlet-name>
+        <servlet-class>org.care.presentation.seeker.NewJobServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>jobServlet</servlet-name>
+        <servlet-name>newJobServlet</servlet-name>
         <url-pattern>/seeker/new-job</url-pattern>
-        <url-pattern>/seeker/edit-job</url-pattern>
-        <url-pattern>/seeker/list-job</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -151,6 +149,5 @@
         <servlet-name>searchMemberServlet</servlet-name>
         <url-pattern>/member/search</url-pattern>
     </servlet-mapping>
-
 
 </web-app>
