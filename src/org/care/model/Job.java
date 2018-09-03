@@ -8,12 +8,12 @@ public class Job {
     private int postedBy;
     private Timestamp startDate;
     private Timestamp endDate;
-    private float payPerHour;
+    private double payPerHour;
     private Status status;
 
     public enum Status {ACTIVE, INACTIVE}
 
-    public Job(String title, int postedBy, Timestamp startDate, Timestamp endDate, float payPerHour) {
+    public Job(String title, int postedBy, Timestamp startDate, Timestamp endDate, double payPerHour) {
         this.title = title;
         this.postedBy = postedBy;
         this.startDate = startDate;
@@ -22,9 +22,19 @@ public class Job {
         this.status = Status.ACTIVE;
     }
 
-    public Job(int id, String title, int postedBy, Timestamp startDate, Timestamp endDate, float payPerHour) {
+    public Job(int id, String title, int postedBy, Timestamp startDate, Timestamp endDate, double payPerHour) {
         this(title, postedBy, startDate, endDate, payPerHour);
         this.id = id;
+    }
+
+    public Job(int id, String title, int postedBy, Timestamp startDate, Timestamp endDate, double payPerHour, Status status) {
+        this.id = id;
+        this.title = title;
+        this.postedBy = postedBy;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.payPerHour = payPerHour;
+        this.status = status;
     }
 
     public int getId() {
@@ -67,11 +77,11 @@ public class Job {
         this.endDate = endDate;
     }
 
-    public float getPayPerHour() {
+    public double getPayPerHour() {
         return payPerHour;
     }
 
-    public void setPayPerHour(float payPerHour) {
+    public void setPayPerHour(double payPerHour) {
         this.payPerHour = payPerHour;
     }
 

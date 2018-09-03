@@ -2,7 +2,10 @@ package org.care.presentation.member;
 
 import org.care.dto.ProfileDTO;
 import org.care.dto.SeekerProfileDTO;
+import org.care.model.Member;
 import org.care.service.SeekerService;
+import org.care.service.SitterService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +20,15 @@ public class ViewProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         int userId = (int) session.getAttribute("UserId");
-
-        SeekerProfileDTO profileData = SeekerService.getProfile(userId);
+        Member.MemberType memberType = (Member.MemberType) session.getAttribute("MemberType");
+        ProfileDTO profileData = null;
+        if (memberType == Member.MemberType.SEEKER) {
+            profileData = SeekerService.getProfile(userId);
+        } else if (memberType == Member.MemberType.SITTER){
+            profileData = SitterService.getProfile(userId);
+        } else {
+            //todo: go to homepage if membertype is not set
+        }
         req.setAttribute("ProfileData", profileData);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/member/profile.jsp");
@@ -27,6 +37,6 @@ public class ViewProfileServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        System.out.println("entered post");
     }
 }

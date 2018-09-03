@@ -1,9 +1,7 @@
 package org.care.presentation.seeker;
 
 import org.care.model.Job;
-import org.care.model.JobApplication;
 import org.care.service.SeekerService;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +34,7 @@ public class NewJobServlet extends HttpServlet {
             Timestamp startDateTS = new Timestamp(startDate.getTime());
             Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("enddate"));
             Timestamp endDateTS = new Timestamp(endDate.getTime());
-            float payPerHour = Float.parseFloat(req.getParameter("payperhour"));
+            Double payPerHour = Double.valueOf(req.getParameter("payperhour"));
 
             Job job = new Job(title, userId, startDateTS, endDateTS, payPerHour);
             SeekerService.postJob(job);

@@ -130,12 +130,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>listJobApplicationServlet</servlet-name>
+        <servlet-name>listSeekerJobApplicationServlet</servlet-name>
         <servlet-class>org.care.presentation.seeker.ListJobApplicationsServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>listJobApplicationServlet</servlet-name>
+        <servlet-name>listSeekerJobApplicationServlet</servlet-name>
         <url-pattern>/seeker/list-job-application</url-pattern>
     </servlet-mapping>
 
@@ -147,6 +147,46 @@
     <servlet-mapping>
         <servlet-name>searchMemberServlet</servlet-name>
         <url-pattern>/member/search</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>listSeekerJobsServlet</servlet-name>
+        <servlet-class>org.care.presentation.seeker.ListSeekerJobsServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>listSeekerJobsServlet</servlet-name>
+        <url-pattern>/seeker/list-job</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>logoutServlet</servlet-name>
+        <servlet-class>org.care.presentation.member.LogoutServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>logoutServlet</servlet-name>
+        <url-pattern>/member/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>listSitterJobsServlet</servlet-name>
+        <servlet-class>org.care.presentation.sitter.ListSitterJobsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>listSitterJobsServlet</servlet-name>
+        <url-pattern>/sitter/list-job</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>listSitterJobApplication</servlet-name>
+        <servlet-class>org.care.presentation.sitter.ListJobApplicationServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>listSitterJobApplication</servlet-name>
+        <url-pattern>/sitter/list-job-application</url-pattern>
     </servlet-mapping>
 
 </web-app>

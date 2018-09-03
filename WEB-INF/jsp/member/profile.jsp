@@ -6,7 +6,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Member Registeration</title>
+    <title>Profile</title>
     <link type="text/css" rel="stylesheet" href="../css/bootstrap.css">
     <script src="../js/bootstrap.js"></script>
 </head>
@@ -14,9 +14,10 @@
     <div class="container mt-5 w-25 mb-5 center-block">
         <div id="wrapper">
             <div id="header">
-                <h3 class="text-center mb-3">Register</h3>
+                <h3 class="text-center mb-3">Profile</h3>
             </div>
         </div>
+
         <form action="/HomeJobMarketplace" method="post">
             <div class="form-group">
             <label for="fname">First Name:</label>
@@ -47,7 +48,7 @@
                 <c:when test="${sessionScope.MemberType == 'SITTER'}">
                     <div class="form-group">
                     <label for="exp">Experience:</label>
-                    <input type="number" class="form-control" id="exp" name="experience">
+                    <input type="number" class="form-control" id="exp" name="experience" value="${requestScope.ProfileData.getExperience()}" disabled>
                     </div>
                 </c:when>
                 <c:when test="${sessionScope.MemberType == 'SEEKER'}">
@@ -61,11 +62,12 @@
                     </div>
                 </c:when>
                 <c:otherwise>
-                    Please put the blame on Abhay!
+                    Please put the blame on Abhay!1
                 </c:otherwise>
             </c:choose>
             <div class="input-grp" style="text-align:center">
                 <input type="submit" class="btn btn-default" value="Edit Profile"/>
+                <input type="submit" class="btn btn-default" value="Delete Profile"/>
             </div>
         </form>
     </div>

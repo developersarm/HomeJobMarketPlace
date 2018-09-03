@@ -15,6 +15,11 @@ public class Sitter extends Member {
         this.experience = experience;
     }
 
+    public Sitter(Member member, int experience) {
+        super(member);
+        this.experience = experience;
+    }
+
     public int getExperience() {
         return experience;
     }

@@ -1,14 +1,19 @@
 package org.care.service;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.care.context.MyApplicationContext;
 import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.MemberDAO;
 import org.care.dao.SeekerDAO;
 import org.care.dto.ProfileDTO;
+import org.care.dto.SeekerJobsListDTO;
 import org.care.dto.SeekerProfileDTO;
+import org.care.listeners.ApplicationListener;
 import org.care.model.*;
 
+import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SeekerService {
@@ -60,6 +65,22 @@ public class SeekerService {
         String spouseName = seeker.getSpouseName();
 
         return new SeekerProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode, totalChildren, spouseName);
+    }
+
+    public static List<SeekerJobsListDTO> getJobsList(int userId) {
+        List<SeekerJobsListDTO> seekerJobsListDTOS = new LinkedList<>();
+        List<Job> jobsList;
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        jobsList = jobDAO.getJobsPostedBy(userId);
+        for (Job tempJob :
+                jobsList) {
+            String title = tempJob.getTitle();
+            Job.Status status = tempJob.getStatus();
+            Timestamp startDate = tempJob.getStartDate();
+            Timestamp endDate = tempJob.getEndDate();
+            seekerJobsListDTOS.add(new SeekerJobsListDTO(title, status, startDate, endDate));
+        }
+        return seekerJobsListDTOS;
     }
 
     public void selectApplication(Sitter s) {

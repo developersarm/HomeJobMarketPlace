@@ -57,7 +57,7 @@ public class SeekerDAO extends MemberDAO<Seeker> {
         Member member = super.get(id);
         Seeker seeker = null;
         Connection myConn = MyApplicationContext.getJdbcConnection();
-        String sql = "select * from seeker where id=?";
+        String sql = "select * from seeker where seeker_id=?";
         try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
             myStmt.setInt(1, (Integer) id);
 

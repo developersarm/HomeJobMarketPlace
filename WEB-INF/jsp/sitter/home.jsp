@@ -17,10 +17,11 @@
             </div>
         </div>
 
-
-
-
-
+        <a href="/HomeJobMarketplace/member/profile">View profile</a> </br>
+        <a href="/HomeJobMarketplace/sitter/list-job">Apply for a Job</a> </br>
+        <a href="/HomeJobMarketplace/sitter/list-job-application">View your applications</a> </br>
+        <a href="/HomeJobMarketplace/member/search">Search members</a> </br>
+        <a href="/HomeJobMarketplace/member/logout">Logout</a> </br>
     </div>
 </body>
 </html>

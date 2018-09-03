@@ -40,6 +40,7 @@ public class MyApplicationContext {
     }
 
     public static <T extends DAO> T getFactory(Class<T> clazz) {
+        //todo: include null check
         return daoFactory.getDAO(clazz);
     }
 

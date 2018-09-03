@@ -20,10 +20,10 @@
        	<form action="/HomeJobMarketplace/visitor/welcome" method="get">
        	    <div class="row" style="margin-top:5em">
        	        <div class="col align-self-center" style="text-align:center">
-                    <input type="submit" class="btn btn-default" name="type" value="Apply for a Job"/>
+                    <button type="submit" class="btn btn-default" name="type" value="sitter">Apply for a Job</button>
        	        </div>
        	        <div class="col align-self-center" style="text-align:center">
-                    <input type="submit" class="btn btn-default" name="type" value="Post a Job"/>
+                    <button type="submit" class="btn btn-default" name="type" value="seeker">Post a Job</button>
                 </div>
        	    </div>
         </form>
