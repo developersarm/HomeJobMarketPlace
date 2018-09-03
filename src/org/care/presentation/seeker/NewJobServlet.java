@@ -32,10 +32,10 @@ public class NewJobServlet extends HttpServlet {
             HttpSession session = req.getSession();
             int userId = (int) session.getAttribute("UserId");
             String title = req.getParameter("title");
-            Date startDate = new SimpleDateFormat("dd-MM-yyyy").parse(req.getParameter("startdate"));
-            Timestamp startDateTS = new Timestamp(startDate.getDate());
-            Date endDate = new SimpleDateFormat("dd-MM-yyyy").parse(req.getParameter("enddate"));
-            Timestamp endDateTS = new Timestamp(endDate.getDate());
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startdate"));
+            Timestamp startDateTS = new Timestamp(startDate.getTime());
+            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("enddate"));
+            Timestamp endDateTS = new Timestamp(endDate.getTime());
             float payPerHour = Float.parseFloat(req.getParameter("payperhour"));
 
             Job job = new Job(title, userId, startDateTS, endDateTS, payPerHour);
@@ -44,5 +44,10 @@ public class NewJobServlet extends HttpServlet {
             Logger logger = Logger.getLogger(NewJobServlet.class.getName());
             logger.log(Level.SEVERE, "Cannot convert html date into java date format");
         }
+
+        //todo: Generate error message on unsuccessful registration
+
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/seeker/home");
+        requestDispatcher.forward(req,resp);
     }
 }

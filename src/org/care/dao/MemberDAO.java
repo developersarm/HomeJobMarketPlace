@@ -57,7 +57,37 @@ public class MemberDAO<T extends Member> implements DAO<T> {
 
     @Override
     public T get(Serializable id) {
-        return null;
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "select * from member where id=?";
+        Member member = null;
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+            myStmt.setInt(1, (Integer) id);
+
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                if(myRs.next())
+                {
+                    String firstName = myRs.getString("first_name");
+                    String lastName = myRs.getString("last_name");
+                    String phoneNo = myRs.getString("phone_no");
+                    String emailId = myRs.getString("email");
+                    String password = myRs.getString("password");
+                    Member.MemberType memberType = Member.MemberType.valueOf(myRs.getString("type"));
+                    String address = myRs.getString("address");
+                    int pincode = myRs.getInt("pincode");
+                    Member.Status status = Member.Status.valueOf(myRs.getString("status"));
+                    member = new Member((Integer) id, firstName, lastName, phoneNo, emailId, password, memberType, address, pincode, status);
+                }
+                else{
+                    throw new SQLException("Could not find member with given userId");
+                }
+            }
+
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
+                    "userId " + e);
+        }
+        return (T) member;
     }
 
     public int get(String email, String password) {
@@ -68,22 +98,17 @@ public class MemberDAO<T extends Member> implements DAO<T> {
          */
 
         Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "select * from member where email=? and password=?";
         int userId = -1;
-        try{
-            PreparedStatement myStmt = null;
-            ResultSet myRs = null;
-
-            String sql = "select * from member where email=? and password=?";
-            myStmt = myConn.prepareStatement(sql);
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setString(1, email);
             myStmt.setString(2, password);
-            myRs = myStmt.executeQuery();
-            if(myRs.next())
-            {
-                 userId = myRs.getInt("id");
-            }
-            else{
-                throw new SQLException("Could not find member with given email and password");
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                if (myRs.next()) {
+                    userId = myRs.getInt("id");
+                } else {
+                    throw new SQLException("Could not find member with given email and password");
+                }
             }
 
         } catch (Exception e) {

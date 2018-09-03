@@ -12,8 +12,35 @@ public class Member {
     private int pincode;
     Status status;
 
+    public Member(Member member) {
+        this.id = member.id;
+        this.firstName = member.firstName;
+        this.lastName = member.lastName;
+        this.phoneNo = member.phoneNo;
+        this.emailId = member.emailId;
+        this.password = member.password;
+        this.type = member.type;
+        this.address = member.address;
+        this.pincode = member.pincode;
+        this.status = member.status;
+    }
+
     public enum MemberType {SEEKER, SITTER;};
     public enum Status {ACTIVE, INACTIVE}
+
+    public Member(int id, String firstName, String lastName, String phoneNo, String emailId, String password,
+                  MemberType type, String address, int pincode, Status status) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNo = phoneNo;
+        this.emailId = emailId;
+        this.password = password;
+        this.type = type;
+        this.address = address;
+        this.pincode = pincode;
+        this.status = status;
+    }
 
     public Member(String firstName, String lastName, String phoneNo, String emailId, String password, MemberType type,
                   String address, int pincode) {

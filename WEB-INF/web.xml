@@ -120,14 +120,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>profileServlet</servlet-name>
-        <servlet-class>org.care.presentation.member.ProfileServlet</servlet-class>
+        <servlet-name>viewProfileServlet</servlet-name>
+        <servlet-class>org.care.presentation.member.ViewProfileServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>profileServlet</servlet-name>
+        <servlet-name>viewProfileServlet</servlet-name>
         <url-pattern>/member/profile</url-pattern>
-        <url-pattern>/member/edit-profile</url-pattern>
     </servlet-mapping>
 
     <servlet>

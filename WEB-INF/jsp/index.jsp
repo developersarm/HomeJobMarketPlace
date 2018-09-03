@@ -10,7 +10,7 @@
     <script src="js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="container mt-5 w-50">
+    <div class="container mt-5 w-25">
         <div id="wrapper">
         		<div id="header">
         			<h2 class="text-center mb-5">Home Job Marketplace</h2>
@@ -18,12 +18,12 @@
         	</div>
 
        	<form action="/HomeJobMarketplace/visitor/welcome" method="get">
-       	    <div class="row">
-       	        <div class="col align-self-center">
-                    <input type="submit" class="btn btn-default" name="type" value="sitter"/>
+       	    <div class="row" style="margin-top:5em">
+       	        <div class="col align-self-center" style="text-align:center">
+                    <input type="submit" class="btn btn-default" name="type" value="Apply for a Job"/>
        	        </div>
-       	        <div class="col align-self-center">
-                    <input type="submit" class="btn btn-default" name="type" value="seeker"/>
+       	        <div class="col align-self-center" style="text-align:center">
+                    <input type="submit" class="btn btn-default" name="type" value="Post a Job"/>
                 </div>
        	    </div>
         </form>

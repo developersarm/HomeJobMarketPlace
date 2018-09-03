@@ -18,6 +18,12 @@ public class Seeker extends Member {
         this.spouseName = spouseName;
     }
 
+    public Seeker(Member member, int totalChildren, String spouseName) {
+        super(member);
+        this.totalChildren = totalChildren;
+        this.spouseName = spouseName;
+    }
+
     public int getTotalChildren() {
         return totalChildren;
     }

@@ -1,10 +1,12 @@
 package org.care.dao;
 
 import org.care.context.MyApplicationContext;
+import org.care.model.Member;
 import org.care.model.Seeker;
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +54,30 @@ public class SeekerDAO extends MemberDAO<Seeker> {
 
     @Override
     public Seeker get(Serializable id) {
-        return super.get(id);
+        Member member = super.get(id);
+        Seeker seeker = null;
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "select * from seeker where id=?";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+            myStmt.setInt(1, (Integer) id);
+
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                if(myRs.next())
+                {
+                    int totalChildren = myRs.getInt("total_children");
+                    String spouseName = myRs.getString("spouse_name");
+                    seeker = new Seeker(member, totalChildren, spouseName);
+                }
+                else{
+                    throw new SQLException("Could not find member with given userId");
+                }
+            }
+
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
+                    "userId " + e);
+        }
+        return seeker;
     }
 }
