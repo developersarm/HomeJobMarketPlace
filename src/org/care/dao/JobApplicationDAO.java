@@ -125,7 +125,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
     public List<Map<String, Object>> getSitterJobsList(int userId) {
         List<Map<String, Object>> resultList = new LinkedList<>();
         Connection myConn = MyApplicationContext.getJdbcConnection();
-        String sql = "select title, start_date, experience from job_application app, job jb " +
+        String sql = "select title, start_date, expected_pay from job_application app, job jb " +
                 "where app.job_id = jb.id and app.member_id=? ";
         try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, userId);
@@ -135,7 +135,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
                     Map<String, Object> tempMap = new HashMap<>();
                     tempMap.put("title", myRs.getString("title"));
                     tempMap.put("startDate", myRs.getTimestamp("start_date"));
-                    tempMap.put("experience", myRs.getDouble("experience"));
+                    tempMap.put("expectedPay", myRs.getDouble("expected_pay"));
                     resultList.add(tempMap);
                 }
             }

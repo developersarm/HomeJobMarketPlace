@@ -47,7 +47,26 @@ public class MemberDAO<T extends Member> implements DAO<T> {
 
     @Override
     public void update(T obj) {
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "UPDATE member "
+                + "SET first_name=?, last_name=?, phone_no=?, email=?, address=?, pincode=? "
+                + "WHERE id=?";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+            myStmt.setString(1, obj.getFirstName());
+            myStmt.setString(2, obj.getLastName());
+            myStmt.setString(3, obj.getPhoneNo());
+            myStmt.setString(4, obj.getEmailId());
+            myStmt.setString(5, obj.getAddress());
+            myStmt.setInt(6, obj.getPincode());
+            int affectedRows = myStmt.executeUpdate();
 
+            if (affectedRows == 0) {
+                throw new SQLException("Updating user failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing update operation: " + e);
+        }
     }
 
     @Override

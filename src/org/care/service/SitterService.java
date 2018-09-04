@@ -32,8 +32,8 @@ public class SitterService {
                 sitterJobsList) {
             String title = (String) tempMap.get("title");
             Timestamp startDate = (Timestamp) tempMap.get("startDate");
-            Double experience = (Double) tempMap.get("experience");
-            sitterJobsListDTO.add(new SitterJobsListDTO(title, startDate, experience));
+            Double expectedPay = (Double) tempMap.get("expectedPay");
+            sitterJobsListDTO.add(new SitterJobsListDTO(title, startDate, expectedPay));
         }
         return sitterJobsListDTO;
     }
@@ -49,5 +49,14 @@ public class SitterService {
         int pincode = sitter.getPincode();
         int experience = sitter.getExperience();
         return new SitterProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode, experience);
+    }
+
+    public static void updateProfile(int userId, SitterProfileDTO sitterProfileDTO) {
+        SitterDAO sitterDAO = MyApplicationContext.getFactory(SitterDAO.class);
+        Sitter sitter = sitterDAO.get(userId);
+        sitter.setFirstName(sitterProfileDTO.getFirstName());
+        sitter.setLastName(sitterProfileDTO.getLastName());
+        sitter.setPhoneNo(sitterProfileDTO.getPhoneNo());
+        as;sdjf//start from here
     }
 }

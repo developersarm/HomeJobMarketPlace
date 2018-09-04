@@ -18,7 +18,7 @@
             </div>
         </div>
 
-        <form action="/HomeJobMarketplace" method="post">
+        <form action="/HomeJobMarketplace/member/edit-profile" method="post">
             <div class="form-group">
             <label for="fname">First Name:</label>
             <input type="text" class="form-control" name="firstname" id="fname" value="${requestScope.ProfileData.getFirstName()}" disabled>
@@ -67,7 +67,7 @@
             </c:choose>
             <div class="input-grp" style="text-align:center">
                 <input type="submit" class="btn btn-default" value="Edit Profile"/>
-                <input type="submit" class="btn btn-default" value="Delete Profile"/>
+                <a href="/HomeJobMarketplace/member/delete-profile" class="btn btn-danger" role="button">Delete Profile</a>
             </div>
         </form>
     </div>

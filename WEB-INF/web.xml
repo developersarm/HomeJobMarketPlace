@@ -130,12 +130,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>listSeekerJobApplicationServlet</servlet-name>
+        <servlet-name>listJobApplicationServlet</servlet-name>
         <servlet-class>org.care.presentation.seeker.ListJobApplicationsServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>listSeekerJobApplicationServlet</servlet-name>
+        <servlet-name>listJobApplicationServlet</servlet-name>
         <url-pattern>/seeker/list-job-application</url-pattern>
     </servlet-mapping>
 
@@ -153,17 +153,17 @@
         <servlet-name>listSeekerJobsServlet</servlet-name>
         <servlet-class>org.care.presentation.seeker.ListSeekerJobsServlet</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>listSeekerJobsServlet</servlet-name>
         <url-pattern>/seeker/list-job</url-pattern>
     </servlet-mapping>
-    
+
     <servlet>
         <servlet-name>logoutServlet</servlet-name>
         <servlet-class>org.care.presentation.member.LogoutServlet</servlet-class>
     </servlet>
-    
+
     <servlet-mapping>
         <servlet-name>logoutServlet</servlet-name>
         <url-pattern>/member/logout</url-pattern>
@@ -189,4 +189,27 @@
         <url-pattern>/sitter/list-job-application</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>editProfileServlet</servlet-name>
+        <servlet-class>org.care.presentation.member.EditProfileServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>editProfileServlet</servlet-name>
+        <url-pattern>/member/edit-profile</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>deleteProfileServlet</servlet-name>
+        <servlet-class>org.care.presentation.member.DeleteProfileServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>deleteProfileServlet</servlet-name>
+        <url-pattern>/member/delete-profile</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>saveProfileServlet</servlet-name>
+    </servlet>
 </web-app>

@@ -5,12 +5,12 @@ import java.sql.Timestamp;
 public class SitterJobsListDTO {
     private String title;
     private Timestamp startDate;
-    private double experience;
+    private double expectedPay;
 
-    public SitterJobsListDTO(String title, Timestamp startDate, double experience) {
+    public SitterJobsListDTO(String title, Timestamp startDate, double expectedPay) {
         this.title = title;
         this.startDate = startDate;
-        this.experience = experience;
+        this.expectedPay = expectedPay;
     }
 
     public String getTitle() {
@@ -29,11 +29,11 @@ public class SitterJobsListDTO {
         this.startDate = startDate;
     }
 
-    public double getExperience() {
-        return experience;
+    public double getExpectedPay() {
+        return expectedPay;
     }
 
-    public void setExperience(double experience) {
-        this.experience = experience;
+    public void setExpectedPay(double expectedPay) {
+        this.expectedPay = expectedPay;
     }
 }

@@ -83,6 +83,11 @@ public class SeekerService {
         return seekerJobsListDTOS;
     }
 
+    public static void updateProfile(int userId, SeekerProfileDTO seeker) {
+        SeekerDAO seekerDAO = MyApplicationContext.getFactory(SeekerDAO.class);
+        seekerDAO.update(seeker);
+    }
+
     public void selectApplication(Sitter s) {
 
     }

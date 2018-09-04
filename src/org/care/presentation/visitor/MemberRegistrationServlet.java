@@ -33,7 +33,6 @@ public class MemberRegistrationServlet extends HttpServlet {
         String phoneNo = req.getParameter("phoneno");
         String emailId = req.getParameter("emailid");
         String password = req.getParameter("password");
-        String typeParam = req.getParameter("type");
         Member.MemberType memberType = (Member.MemberType) session.getAttribute("MemberType");
         String address = req.getParameter("address");
         int pincode = Integer.parseInt(req.getParameter("pincode"));
