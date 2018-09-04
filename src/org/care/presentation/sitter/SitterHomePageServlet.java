@@ -1,8 +1,6 @@
 package org.care.presentation.sitter;
 
-import org.care.dto.SitterJobsListDTO;
-import org.care.model.Job;
-import org.care.service.SeekerService;
+import org.care.dto.SitterAppliedJobDTO;
 import org.care.service.SitterService;
 
 import javax.servlet.RequestDispatcher;
@@ -26,7 +24,7 @@ public class SitterHomePageServlet extends HttpServlet {
         HttpSession session = req.getSession();
         int userId = (int) session.getAttribute("UserId");
 
-        List<SitterJobsListDTO> sitterJobList;
+        List<SitterAppliedJobDTO> sitterJobList;
         sitterJobList = SitterService.getAppliedJobsList(userId);
         req.setAttribute("JobsList", sitterJobList);
 

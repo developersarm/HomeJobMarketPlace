@@ -1,16 +1,32 @@
 package org.care.presentation.member;
 
+import org.care.service.MemberService;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 public class DeleteProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("get of delete profile servlet");
+        HttpSession session = req.getSession();
+        int userId = (int) session.getAttribute("UserId");
+        boolean isDeleted = MemberService.deleteUser(userId);
+
+        if (isDeleted) {
+            session.invalidate();
+            resp.sendRedirect("/HomeJobMarketplace/");
+        } else {
+            req.setAttribute("error", "Can't delete profile");
+            //todo: add the error message in jsp page
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher("/member/profile");
+            requestDispatcher.include(req,resp);
+        }
     }
 
     @Override

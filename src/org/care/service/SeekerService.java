@@ -1,18 +1,14 @@
 package org.care.service;
 
-import org.apache.catalina.core.ApplicationContext;
 import org.care.context.MyApplicationContext;
 import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
-import org.care.dao.MemberDAO;
 import org.care.dao.SeekerDAO;
-import org.care.dto.ProfileDTO;
-import org.care.dto.SeekerJobsListDTO;
+import org.care.dto.SeekerJobDTO;
 import org.care.dto.SeekerProfileDTO;
-import org.care.listeners.ApplicationListener;
 import org.care.model.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,13 +17,6 @@ public class SeekerService {
     public static void register(Seeker seeker) {
 
         MyApplicationContext.getFactory(SeekerDAO.class).create(seeker);
-    }
-
-    public static int validateUser(String email, String password) {
-        /*
-        TODO hash the password
-         */
-        return MyApplicationContext.getFactory(SeekerDAO.class).get(email, password);
     }
 
     public static List<JobApplication> getJobApplications(int userId, int noOfResults) {
@@ -67,8 +56,8 @@ public class SeekerService {
         return new SeekerProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode, totalChildren, spouseName);
     }
 
-    public static List<SeekerJobsListDTO> getJobsList(int userId) {
-        List<SeekerJobsListDTO> seekerJobsListDTOS = new LinkedList<>();
+    public static List<SeekerJobDTO> getJobsList(int userId) {
+        List<SeekerJobDTO> seekerJobDTOS = new LinkedList<>();
         List<Job> jobsList;
         JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
         jobsList = jobDAO.getJobsPostedBy(userId);
@@ -76,15 +65,25 @@ public class SeekerService {
                 jobsList) {
             String title = tempJob.getTitle();
             Job.Status status = tempJob.getStatus();
-            Timestamp startDate = tempJob.getStartDate();
-            Timestamp endDate = tempJob.getEndDate();
-            seekerJobsListDTOS.add(new SeekerJobsListDTO(title, status, startDate, endDate));
+            Date startDate = tempJob.getStartDate();
+            Date endDate = tempJob.getEndDate();
+            seekerJobDTOS.add(new SeekerJobDTO(title, status, startDate, endDate));
         }
-        return seekerJobsListDTOS;
+        return seekerJobDTOS;
     }
 
-    public static void updateProfile(int userId, SeekerProfileDTO seeker) {
+    public static void updateProfile(int userId, SeekerProfileDTO seekerProfileDTO) {
         SeekerDAO seekerDAO = MyApplicationContext.getFactory(SeekerDAO.class);
+        Seeker seeker = seekerDAO.get(userId);
+        seeker.setFirstName(seekerProfileDTO.getFirstName());
+        seeker.setLastName(seekerProfileDTO.getLastName());
+        seeker.setPhoneNo(seekerProfileDTO.getPhoneNo());
+        seeker.setEmailId(seekerProfileDTO.getEmailId());
+        seeker.setAddress(seekerProfileDTO.getAddress());
+        seeker.setPincode(seekerProfileDTO.getPincode());
+        seeker.setTotalChildren(seekerProfileDTO.getTotalChildren());
+        seeker.setSpouseName(seekerProfileDTO.getSpouseName());
+
         seekerDAO.update(seeker);
     }
 

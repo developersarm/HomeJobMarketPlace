@@ -1,6 +1,8 @@
 package org.care.presentation.visitor;
 
+import org.care.dto.LoginDTO;
 import org.care.model.Member;
+import org.care.service.MemberService;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
 
@@ -24,24 +26,16 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        LoginDTO loginDTO = MemberService.authenticateUser(email, password);
+        Member.MemberType mType = loginDTO.getmType();
+        int userId = loginDTO.getUserId();
+        Member.Status status = loginDTO.getStatus();
+
         HttpSession session = req.getSession();
-        Member.MemberType mType = (Member.MemberType) session.getAttribute("MemberType");
         RequestDispatcher requestDispatcher;
-        int userId = 0;
-
-        if (mType == Member.MemberType.SEEKER) {
-            userId = SeekerService.validateUser(email, password);
-        } else if (mType == Member.MemberType.SITTER) {
-            userId = SitterService.validateUser(email, password);
-        } else {
-            // todo: redirect to index with a error message
-        }
-
-        // todo: Check if the member is seeker and session if is sitter and vice-versa
-        // todo: destroy the userid saved in session while logging out
-
-        if (userId > 0) {
+        if (userId > 0 && status == Member.Status.ACTIVE) {
             session.setAttribute("UserId", userId);
+            session.setAttribute("MemberType", mType);
             if (mType == Member.MemberType.SITTER) {
                 requestDispatcher = req.getRequestDispatcher("/sitter/home");
                 requestDispatcher.forward(req, resp);

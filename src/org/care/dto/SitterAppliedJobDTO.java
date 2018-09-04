@@ -2,12 +2,12 @@ package org.care.dto;
 
 import java.sql.Timestamp;
 
-public class SitterJobsListDTO {
+public class SitterAppliedJobDTO {
     private String title;
     private Timestamp startDate;
     private double expectedPay;
 
-    public SitterJobsListDTO(String title, Timestamp startDate, double expectedPay) {
+    public SitterAppliedJobDTO(String title, Timestamp startDate, double expectedPay) {
         this.title = title;
         this.startDate = startDate;
         this.expectedPay = expectedPay;

@@ -18,47 +18,47 @@
             </div>
         </div>
 
-        <form action="/HomeJobMarketplace/member/edit-profile" method="post">
+        <form action="/HomeJobMarketplace/member/save-profile" method="post">
             <div class="form-group">
             <label for="fname">First Name:</label>
-            <input type="text" class="form-control" name="firstname" id="fname" value="${requestScope.ProfileData.getFirstName()}">
+            <input type="text" class="form-control" name="firstname" id="fname" value="${requestScope.ProfileData.firstName}">
             </div>
             <div class="form-group">
             <label for="lname">Last Name:</label>
-            <input type="text" class="form-control" id="lname" name="lastname" value="${requestScope.ProfileData.getLastName()}" >
+            <input type="text" class="form-control" id="lname" name="lastname" value="${requestScope.ProfileData.lastName}" >
             </div>
             <div class="form-group">
             <label for="phone">Phone No:</label>
-            <input type="number" class="form-control" id="phone" name="phoneno" value="${requestScope.ProfileData.getPhoneNo()}" >
+            <input type="number" class="form-control" id="phone" name="phoneno" value="${requestScope.ProfileData.phoneNo}" >
             </div>
             <div class="form-group">
             <label for="email">Email Id:</label>
-            <input type="email" class="form-control" id="email" name="emailid"  value="${requestScope.ProfileData.getEmailId()}" >
+            <input type="email" class="form-control" id="email" name="emailid"  value="${requestScope.ProfileData.emailId}" >
             </div>
             <div class="form-group">
             <label for="address">Address:</label>
-            <input type="text" class="form-control" id="address" name="address" value="${requestScope.ProfileData.getAddress()}" >
+            <input type="text" class="form-control" id="address" name="address" value="${requestScope.ProfileData.address}" >
             </div>
             <div class="form-group">
             <label for="pincode">Pincode:</label>
-            <input type="number" class="form-control" id="pincode" name="pincode" value="${requestScope.ProfileData.getPincode()}" >
+            <input type="number" class="form-control" id="pincode" name="pincode" value="${requestScope.ProfileData.pincode}" >
             </div>
 
             <c:choose>
                 <c:when test="${sessionScope.MemberType == 'SITTER'}">
                     <div class="form-group">
                     <label for="exp">Experience:</label>
-                    <input type="number" class="form-control" id="exp" name="experience" value="${requestScope.ProfileData.getExperience()}" >
+                    <input type="number" class="form-control" id="exp" name="experience" value="${requestScope.ProfileData.experience}" >
                     </div>
                 </c:when>
                 <c:when test="${sessionScope.MemberType == 'SEEKER'}">
                     <div class="form-group">
                     <label for="totalchildren">Total Children:</label>
-                    <input type="number" class="form-control" id="totalchildren" name="totalchildren" value="${requestScope.ProfileData.getTotalChildren()}" >
+                    <input type="number" class="form-control" id="totalchildren" name="totalchildren" value="${requestScope.ProfileData.totalChildren}" >
                     </div>
                     <div class="form-group">
                     <label for="sname">Spouse Name:</label>
-                    <input type="text" class="form-control" id="sname" name="spousename" value="${requestScope.ProfileData.getSpouseName()}" >
+                    <input type="text" class="form-control" id="sname" name="spousename" value="${requestScope.ProfileData.spouseName}" >
                     </div>
                 </c:when>
                 <c:otherwise>

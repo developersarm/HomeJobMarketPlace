@@ -4,6 +4,8 @@ import org.care.context.MyApplicationContext;
 import org.care.model.Member;
 import java.io.Serializable;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,6 +60,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             myStmt.setString(4, obj.getEmailId());
             myStmt.setString(5, obj.getAddress());
             myStmt.setInt(6, obj.getPincode());
+            myStmt.setInt(7, obj.getId());
             int affectedRows = myStmt.executeUpdate();
 
             if (affectedRows == 0) {
@@ -70,8 +73,27 @@ public class MemberDAO<T extends Member> implements DAO<T> {
     }
 
     @Override
-    public T delete(Serializable id) {
-        return null;
+    public boolean delete(Serializable id) {
+        boolean isDeleted = false;
+
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "UPDATE member "
+                + "SET status='INACTIVE' "
+                + "WHERE id=?";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+            myStmt.setInt(1, (Integer) id);
+            int affectedRows = myStmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Deleting user failed, no rows affected.");
+            }
+
+            isDeleted = true;
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing delete operation: " + e);
+        }
+        return isDeleted;
     }
 
     @Override
@@ -109,24 +131,25 @@ public class MemberDAO<T extends Member> implements DAO<T> {
         return (T) member;
     }
 
-    public int get(String email, String password) {
+    public Map<String, Object> get(String email, String password) {
         /*
-        To-do's:
-        - check this code
-        - password should be hashed
+        Todo's:password should be hashed
          */
-
         Connection myConn = MyApplicationContext.getJdbcConnection();
-        String sql = "select * from member where email=? and password=?";
-        int userId = -1;
+        Map<String, Object> resultMap = new HashMap<>();
+        resultMap.put("UserId", -1);
+        String sql = "select id, type, status from member where email=? and password=?";
+
         try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setString(1, email);
             myStmt.setString(2, password);
             try (ResultSet myRs = myStmt.executeQuery()) {
                 if (myRs.next()) {
-                    userId = myRs.getInt("id");
+                    resultMap.put("UserId", myRs.getInt("id"));
+                    resultMap.put("Status", Member.Status.valueOf(myRs.getString("status")));
+                    resultMap.put("MemberType", Member.MemberType.valueOf(myRs.getString("type")));
                 } else {
-                    throw new SQLException("Could not find member with given email and password");
+                    throw new SQLException("Could not find member with given email and password. ");
                 }
             }
 
@@ -135,6 +158,6 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
                     "email and password" + e);
         }
-        return userId;
+        return resultMap;
     }
 }

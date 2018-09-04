@@ -2,15 +2,15 @@ package org.care.dto;
 
 import org.care.model.Job;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
-public class SeekerJobsListDTO {
+public class SeekerJobDTO {
     private String title;
     private Job.Status status;
-    private Timestamp startDate;
-    private Timestamp endDate;
+    private Date startDate;
+    private Date endDate;
 
-    public SeekerJobsListDTO(String title, Job.Status status, Timestamp startDate, Timestamp endDate) {
+    public SeekerJobDTO(String title, Job.Status status, Date startDate, Date endDate) {
         this.title = title;
         this.status = status;
         this.startDate = startDate;
@@ -33,19 +33,19 @@ public class SeekerJobsListDTO {
         this.status = status;
     }
 
-    public Timestamp getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 }

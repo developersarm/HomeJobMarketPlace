@@ -21,44 +21,44 @@
         <form action="/HomeJobMarketplace/member/edit-profile" method="post">
             <div class="form-group">
             <label for="fname">First Name:</label>
-            <input type="text" class="form-control" name="firstname" id="fname" value="${requestScope.ProfileData.getFirstName()}" disabled>
+            <input type="text" class="form-control" name="firstname" id="fname" value="${requestScope.ProfileData.getFirstName()}" readonly="readonly">
             </div>
             <div class="form-group">
             <label for="lname">Last Name:</label>
-            <input type="text" class="form-control" id="lname" name="lastname" value="${requestScope.ProfileData.getLastName()}" disabled>
+            <input type="text" class="form-control" id="lname" name="lastname" value="${requestScope.ProfileData.getLastName()}" readonly="readonly">
             </div>
             <div class="form-group">
             <label for="phone">Phone No:</label>
-            <input type="number" class="form-control" id="phone" name="phoneno" value="${requestScope.ProfileData.getPhoneNo()}" disabled>
+            <input type="number" class="form-control" id="phone" name="phoneno" value="${requestScope.ProfileData.getPhoneNo()}" readonly="readonly">
             </div>
             <div class="form-group">
             <label for="email">Email Id:</label>
-            <input type="email" class="form-control" id="email" name="emailid"  value="${requestScope.ProfileData.getEmailId()}" disabled>
+            <input type="email" class="form-control" id="email" name="emailid"  value="${requestScope.ProfileData.getEmailId()}" readonly="readonly">
             </div>
             <div class="form-group">
             <label for="address">Address:</label>
-            <input type="text" class="form-control" id="address" name="address" value="${requestScope.ProfileData.getAddress()}" disabled>
+            <input type="text" class="form-control" id="address" name="address" value="${requestScope.ProfileData.getAddress()}" readonly="readonly">
             </div>
             <div class="form-group">
             <label for="pincode">Pincode:</label>
-            <input type="number" class="form-control" id="pincode" name="pincode" value="${requestScope.ProfileData.getPincode()}" disabled>
+            <input type="number" class="form-control" id="pincode" name="pincode" value="${requestScope.ProfileData.getPincode()}" readonly="readonly">
             </div>
 
             <c:choose>
                 <c:when test="${sessionScope.MemberType == 'SITTER'}">
                     <div class="form-group">
                     <label for="exp">Experience:</label>
-                    <input type="number" class="form-control" id="exp" name="experience" value="${requestScope.ProfileData.getExperience()}" disabled>
+                    <input type="number" class="form-control" id="exp" name="experience" value="${requestScope.ProfileData.getExperience()}" readonly="readonly">
                     </div>
                 </c:when>
                 <c:when test="${sessionScope.MemberType == 'SEEKER'}">
                     <div class="form-group">
                     <label for="totalchildren">Total Children:</label>
-                    <input type="number" class="form-control" id="totalchildren" name="totalchildren" value="${requestScope.ProfileData.getTotalChildren()}" disabled>
+                    <input type="number" class="form-control" id="totalchildren" name="totalchildren" value="${requestScope.ProfileData.getTotalChildren()}" readonly="readonly">
                     </div>
                     <div class="form-group">
                     <label for="sname">Spouse Name:</label>
-                    <input type="text" class="form-control" id="sname" name="spousename" value="${requestScope.ProfileData.getSpouseName()}" disabled>
+                    <input type="text" class="form-control" id="sname" name="spousename" value="${requestScope.ProfileData.getSpouseName()}" readonly="readonly">
                     </div>
                 </c:when>
                 <c:otherwise>

@@ -48,7 +48,7 @@ public class MemberRegistrationServlet extends HttpServlet {
             SeekerService.register(seeker);
         }
 
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/visitor/login");
-        requestDispatcher.forward(req,resp);
+//        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/visitor/login");
+        resp.sendRedirect("/HomeJobMarketplace/visitor/login");
     }
 }

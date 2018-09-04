@@ -2,12 +2,18 @@ package org.care.service;
 
 import org.care.context.MyApplicationContext;
 import org.care.dao.JobApplicationDAO;
+import org.care.dao.JobDAO;
 import org.care.dao.SitterDAO;
-import org.care.dto.SitterJobsListDTO;
+import org.care.dto.JobApplicationDTO;
+import org.care.dto.SitterAppliedJobDTO;
+import org.care.dto.SitterNAJobDTO;
 import org.care.dto.SitterProfileDTO;
+import org.care.model.Job;
+import org.care.model.JobApplication;
 import org.care.model.Sitter;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,24 +24,19 @@ public class SitterService {
         MyApplicationContext.getFactory(SitterDAO.class).create(sitter);
     }
 
-    public static int validateUser(String email, String password) {
-        //todo hash the password
-        return MyApplicationContext.getFactory(SitterDAO.class).get(email, password);
-    }
-
-    public static List<SitterJobsListDTO> getAppliedJobsList(int userId) {
+    public static List<SitterAppliedJobDTO> getAppliedJobsList(int userId) {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
         List<Map<String, Object>> sitterJobsList = jobApplicationDAO.getSitterJobsList(userId);
-        List<SitterJobsListDTO> sitterJobsListDTO = new LinkedList<>();
+        List<SitterAppliedJobDTO> sitterAppliedJobDTO = new LinkedList<>();
 
         for (Map<String, Object> tempMap :
                 sitterJobsList) {
             String title = (String) tempMap.get("title");
             Timestamp startDate = (Timestamp) tempMap.get("startDate");
             Double expectedPay = (Double) tempMap.get("expectedPay");
-            sitterJobsListDTO.add(new SitterJobsListDTO(title, startDate, expectedPay));
+            sitterAppliedJobDTO.add(new SitterAppliedJobDTO(title, startDate, expectedPay));
         }
-        return sitterJobsListDTO;
+        return sitterAppliedJobDTO;
     }
 
     public static SitterProfileDTO getProfile(int userId) {
@@ -57,6 +58,44 @@ public class SitterService {
         sitter.setFirstName(sitterProfileDTO.getFirstName());
         sitter.setLastName(sitterProfileDTO.getLastName());
         sitter.setPhoneNo(sitterProfileDTO.getPhoneNo());
-        as;sdjf//start from here
+        sitter.setEmailId(sitterProfileDTO.getEmailId());
+        sitter.setAddress(sitterProfileDTO.getAddress());
+        sitter.setPincode(sitterProfileDTO.getPincode());
+        sitter.setExperience(sitterProfileDTO.getExperience());
+
+        sitterDAO.update(sitter);
+    }
+
+    public static List<SitterNAJobDTO> getNAJobsList(int userId) {
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        List<Map<String, Object>> sitterNAJobsList = jobApplicationDAO.getSitterNAJobsList(userId);
+        List<SitterNAJobDTO> sitterNAJobDTOS = new LinkedList<>();
+
+        for (Map<String, Object> tempMap :
+                sitterNAJobsList) {
+            int jobId = (int) tempMap.get("jobId");
+            String title = (String) tempMap.get("title");
+            Date startDate = (Timestamp) tempMap.get("startDate");
+            Double payPerHour = (Double) tempMap.get("payPerHour");
+            sitterNAJobDTOS.add(new SitterNAJobDTO(jobId, title, payPerHour, startDate));
+        }
+        return sitterNAJobDTOS;
+    }
+
+    public static boolean applyJob(JobApplicationDTO jobApplicationDTO) {
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        int userId = jobApplicationDTO.getUserId();
+        int jobId = jobApplicationDTO.getJobId();
+        double expectedPay = jobApplicationDTO.getExpectedPay();
+        JobApplication jobApplication = new JobApplication(-1, jobId, userId, expectedPay);
+        jobApplicationDAO.create(jobApplication);
+
+        return jobApplication.getId()>0;
+    }
+
+    public static String getJobTitle(int jobId) {
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        Job job = jobDAO.get(jobId);
+        return job.getTitle();
     }
 }

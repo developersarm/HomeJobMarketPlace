@@ -62,7 +62,7 @@ public class SitterDAO extends MemberDAO<Sitter> {
     }
 
     @Override
-    public Sitter delete(Serializable id) {
+    public boolean delete(Serializable id) {
         return super.delete(id);
     }
 

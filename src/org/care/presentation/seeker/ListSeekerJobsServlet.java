@@ -1,6 +1,6 @@
 package org.care.presentation.seeker;
 
-import org.care.dto.SeekerJobsListDTO;
+import org.care.dto.SeekerJobDTO;
 import org.care.service.SeekerService;
 
 import javax.servlet.RequestDispatcher;
@@ -18,8 +18,8 @@ public class ListSeekerJobsServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
         int userId = (int) session.getAttribute("UserId");
-        List<SeekerJobsListDTO> seekerJobsListDTOS = SeekerService.getJobsList(userId);
-        req.setAttribute("JobsList", seekerJobsListDTOS);
+        List<SeekerJobDTO> seekerJobDTOS = SeekerService.getJobsList(userId);
+        req.setAttribute("JobsList", seekerJobDTOS);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/seeker/yourjobs.jsp");
         requestDispatcher.forward(req, resp);
     }

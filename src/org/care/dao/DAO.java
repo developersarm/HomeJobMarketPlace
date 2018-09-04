@@ -9,7 +9,7 @@ public interface DAO<T> {
 
     public void update(T obj);
 
-    public T delete(Serializable id);
+    public boolean delete(Serializable id);
 
     public T get(Serializable id);
 }

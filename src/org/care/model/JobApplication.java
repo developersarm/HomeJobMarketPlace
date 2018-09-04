@@ -25,6 +25,12 @@ public class JobApplication {
         this.status = status;
     }
 
+    public JobApplication(int jobId, int memberId, double expectedPay) {
+        this.jobId = jobId;
+        this.memberId = memberId;
+        this.expectedPay = expectedPay;
+    }
+
     public int getId() {
         return id;
     }

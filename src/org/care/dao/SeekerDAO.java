@@ -62,7 +62,7 @@ public class SeekerDAO extends MemberDAO<Seeker> {
     }
 
     @Override
-    public Seeker delete(Serializable id) {
+    public boolean delete(Serializable id) {
         return super.delete(id);
     }
 
