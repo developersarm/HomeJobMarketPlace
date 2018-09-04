@@ -23,7 +23,7 @@ public class DeleteProfileServlet extends HttpServlet {
             resp.sendRedirect("/HomeJobMarketplace/");
         } else {
             req.setAttribute("error", "Can't delete profile");
-            //todo: add the error message in jsp page
+            //todo: add error msg in jsp
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/member/profile");
             requestDispatcher.include(req,resp);
         }

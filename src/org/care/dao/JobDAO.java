@@ -56,7 +56,7 @@ public class JobDAO implements DAO<Job> {
             myStmt.setTimestamp(2, obj.getStartDate());
             myStmt.setTimestamp(3, obj.getEndDate());
             myStmt.setDouble(4, obj.getPayPerHour());
-            myStmt.setInt(7, obj.getId());
+            myStmt.setInt(5, obj.getId());
             int affectedRows = myStmt.executeUpdate();
 
             if (affectedRows == 0) {

@@ -20,7 +20,6 @@
         <a href="/HomeJobMarketplace/seeker/new-job">Post a new job</a> </br>
         <a href="/HomeJobMarketplace/member/profile">View profile</a> </br>
         <a href="/HomeJobMarketplace/seeker/list-job">View posted jobs</a> </br>
-        <a href="/HomeJobMarketplace/seeker/list-job-application">View application to your jobs</a> </br>
         <a href="/HomeJobMarketplace/member/search">Search members</a> </br>
         <a href="/HomeJobMarketplace/member/logout">Logout</a>
     </div>

@@ -8,6 +8,7 @@ import org.care.dto.SeekerJobDTO;
 import org.care.dto.SeekerProfileDTO;
 import org.care.model.*;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -63,11 +64,12 @@ public class SeekerService {
         jobsList = jobDAO.getJobsPostedBy(userId);
         for (Job tempJob :
                 jobsList) {
+            int id = tempJob.getId();
             String title = tempJob.getTitle();
             Job.Status status = tempJob.getStatus();
             Date startDate = tempJob.getStartDate();
             Date endDate = tempJob.getEndDate();
-            seekerJobDTOS.add(new SeekerJobDTO(title, status, startDate, endDate));
+            seekerJobDTOS.add(new SeekerJobDTO(id, title, status, startDate, endDate));
         }
         return seekerJobDTOS;
     }
@@ -85,6 +87,36 @@ public class SeekerService {
         seeker.setSpouseName(seekerProfileDTO.getSpouseName());
 
         seekerDAO.update(seeker);
+    }
+
+    public static SeekerJobDTO getJob(int jobId) {
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        Job job = jobDAO.get(jobId);
+        int id = job.getId();
+        String title = job.getTitle();
+        Job.Status status = job.getStatus();
+        Date startDate = job.getStartDate();
+        Date endDate = job.getEndDate();
+        double payPerHour = job.getPayPerHour();
+        return new SeekerJobDTO(id, title, status, startDate, endDate, payPerHour);
+    }
+
+    public static boolean updateJob(int userId, SeekerJobDTO jobDTO) {
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        int id = jobDTO.getId();
+        String title = jobDTO.getTitle();
+        Date startDate = jobDTO.getStartDate();
+        Timestamp startDateTS = new Timestamp(startDate.getTime());
+        Date endDate = jobDTO.getEndDate();
+        Timestamp endDateTS = new Timestamp(endDate.getTime());
+        double payPerHour = jobDTO.getPayPerHour();
+        jobDAO.update(new Job(id, title, userId, startDateTS, endDateTS, payPerHour));
+        return true;
+    }
+
+    public static boolean deleteJob(int jobId) {
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        return jobDAO.delete(jobId);
     }
 
     public void selectApplication(Sitter s) {
