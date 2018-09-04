@@ -228,4 +228,24 @@
         <servlet-name>applyJobServlet</servlet-name>
         <url-pattern>/sitter/apply-job</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>editJobApplication</servlet-name>
+        <servlet-class>org.care.presentation.sitter.EditJobApplicationServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>editJobApplication</servlet-name>
+        <url-pattern>/sitter/edit-job-application</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>deleteJobApplication</servlet-name>
+        <servlet-class>org.care.presentation.sitter.DeleteJobApplicationServlet</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>deleteJobApplication</servlet-name>
+        <url-pattern>/sitter/delete-job-application</url-pattern>
+    </servlet-mapping>
 </web-app>

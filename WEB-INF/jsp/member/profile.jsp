@@ -67,7 +67,7 @@
             </c:choose>
             <div class="input-grp" style="text-align:center">
                 <input type="submit" class="btn btn-default" value="Edit Profile"/>
-                <a href="/HomeJobMarketplace/member/delete-profile" class="btn btn-danger" role="button">Delete Profile</a>
+                <a href="/HomeJobMarketplace/member/delete-profile" class="btn btn-danger" role="button" onclick="if(!(confirm('Sure you want to delete this application?'))) return false">Delete Profile</a>
             </div>
         </form>
     </div>

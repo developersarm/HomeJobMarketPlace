@@ -90,7 +90,33 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
     @Override
     public JobApplication get(Serializable id) {
-        return null;
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "select * from job_application where id=?";
+        JobApplication jobApplication = null;
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+            myStmt.setInt(1, (Integer) id);
+
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                if(myRs.next())
+                {
+                    int jobAppId = myRs.getInt("id");
+                    int jobId = myRs.getInt("job_id");
+                    int memberId = myRs.getInt("member_id");
+                    double expectedPay = myRs.getDouble("expected_pay");
+                    JobApplication.Status status = JobApplication.Status.valueOf(myRs.getString("status"));
+                    jobApplication = new JobApplication(jobAppId, jobId, memberId, expectedPay, status);
+                }
+                else{
+                    throw new SQLException("Could not find job with given userId");
+                }
+            }
+
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
+                    "jobId " + e);
+        }
+        return jobApplication;
     }
 
     public List<JobApplication> get(int userId, int noOfResults) {
@@ -228,5 +254,54 @@ public class JobApplicationDAO implements DAO<JobApplication> {
                     "member_id : " + e);
         }
         return resultList;
+    }
+
+    public List<Map<String, Object>> getAllByUserId(int userId) {
+        List<Map<String, Object>> resultList = new LinkedList<>();
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "Select a.id, title, expected_pay, pay_per_hour, a.status from job, job_application a where " +
+                "job.id = job_id and member_id = ?";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
+            myStmt.setInt(1, userId);
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                while (myRs.next())
+                {
+                    Map<String, Object> tempMap = new HashMap<>();
+                    tempMap.put("id", myRs.getInt("id"));
+                    tempMap.put("title", myRs.getString("title"));
+                    tempMap.put("expectedPay", myRs.getDouble("expected_pay"));
+                    tempMap.put("payPerHour", myRs.getDouble("pay_per_hour"));
+                    tempMap.put("status", JobApplication.Status.valueOf(myRs.getString("status")));
+                    resultList.add(tempMap);
+                }
+            }
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(JobApplicationDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
+                    "member_id : " + e);
+        }
+        return resultList;
+    }
+
+    public boolean update(int jobAppId, double expectedPay) {
+        boolean isUpdated = false;
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "UPDATE job_application "
+                + "SET expected_pay=? "
+                + "WHERE id=?";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+            myStmt.setDouble(1, expectedPay);
+            myStmt.setDouble(2, jobAppId);
+            int affectedRows = myStmt.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new SQLException("Updating job application failed, no rows affected.");
+            }
+            isUpdated = true;
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing update operation: " + e);
+        }
+        return isUpdated;
     }
 }

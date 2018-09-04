@@ -4,10 +4,7 @@ import org.care.context.MyApplicationContext;
 import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.SitterDAO;
-import org.care.dto.JobApplicationDTO;
-import org.care.dto.SitterAppliedJobDTO;
-import org.care.dto.SitterNAJobDTO;
-import org.care.dto.SitterProfileDTO;
+import org.care.dto.*;
 import org.care.model.Job;
 import org.care.model.JobApplication;
 import org.care.model.Sitter;
@@ -97,5 +94,41 @@ public class SitterService {
         JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
         Job job = jobDAO.get(jobId);
         return job.getTitle();
+    }
+
+    public static List<SitterJobApplicationDTO> getJobApplications(int userId) {
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        List<Map<String, Object>> jobApplications = jobApplicationDAO.getAllByUserId(userId);
+        List<SitterJobApplicationDTO> sitterJobApplicationDTOS = new LinkedList<>();
+        for (Map<String, Object> tempApp :
+                jobApplications) {
+            int id = (int) tempApp.get("id");
+            String title = (String) tempApp.get("title");
+            double expectedPay = (double) tempApp.get("expectedPay");
+            double payPerHour = (double) tempApp.get("payPerHour");
+            JobApplication.Status status = (JobApplication.Status) tempApp.get("status");
+            sitterJobApplicationDTOS.add(new SitterJobApplicationDTO(id, title, expectedPay, payPerHour, status));
+        }
+        return sitterJobApplicationDTOS;
+    }
+
+    public static boolean updateJobApplication(int jobAppId, double expectedPay) {
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        return jobApplicationDAO.update(jobAppId, expectedPay);
+    }
+
+    public static String getJobApplicationTitle(int jobAppId) {
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        JobApplication jobApplication = jobApplicationDAO.get((Integer) jobAppId);
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        Job job = jobDAO.get(jobApplication.getJobId());
+        return job.getTitle();
+    }
+
+    public static boolean deleteJobApplication(int jobAppId) {
+        boolean isDeleted = false;
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        isDeleted = jobApplicationDAO.delete(jobAppId);
+        return isDeleted;
     }
 }
