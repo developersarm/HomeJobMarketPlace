@@ -4,6 +4,7 @@ import org.care.context.MyApplicationContext;
 import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.SeekerDAO;
+import org.care.dto.SeekerJobApplicationDTO;
 import org.care.dto.SeekerJobDTO;
 import org.care.dto.SeekerProfileDTO;
 import org.care.model.Job;
@@ -14,6 +15,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class SeekerService {
 
@@ -117,8 +119,36 @@ public class SeekerService {
     }
 
     public static boolean deleteJob(int jobId) {
-        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
-        return jobDAO.delete(jobId);
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        int totalDeletedApplicaitons = jobApplicationDAO.deleteByJobId(jobId);
+
+        boolean isJobDeleted = false;
+        if (totalDeletedApplicaitons >= 0) {
+            JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+            isJobDeleted = jobDAO.delete(jobId);
+        }
+
+        return isJobDeleted;
     }
 
+    public static List<SeekerJobApplicationDTO> getJobApplicationsByJobId(int jobId) {
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        List<Map<String, Object>> jobApplicaitons = jobApplicationDAO.getAllByJobId(jobId);
+        List<SeekerJobApplicationDTO> seekerJobApplicationDTOS = new LinkedList<>();
+        for (Map<String, Object> tempApp :
+                jobApplicaitons) {
+            int id = (int) tempApp.get("id");
+            String firstName = (String) tempApp.get("firstName");
+            JobApplication.Status status = (JobApplication.Status) tempApp.get("status");
+            double expectedPay = (double) tempApp.get("expectedPay");
+            seekerJobApplicationDTOS.add(new SeekerJobApplicationDTO(id, firstName, status, expectedPay));
+        }
+        return seekerJobApplicationDTOS;
+    }
+
+    public static String getJobTitle(int jobId) {
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        Job job = jobDAO.get(jobId);
+        return job.getTitle();
+    }
 }

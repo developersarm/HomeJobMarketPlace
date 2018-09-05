@@ -30,7 +30,6 @@ public class EditJobServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             //todo: correct date error in jsp
-            //todo: correct bootstrap error in jsp
             HttpSession session = req.getSession();
             int userId = (int) session.getAttribute("UserId");
             int jobId = Integer.parseInt(req.getParameter("jobid"));

@@ -131,7 +131,7 @@
 
     <servlet>
         <servlet-name>listJobApplicationServlet</servlet-name>
-        <servlet-class>org.care.presentation.seeker.ListJobApplicationsServlet</servlet-class>
+        <servlet-class>org.care.presentation.seeker.ListSeekerJobApplicationServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

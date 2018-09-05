@@ -34,11 +34,16 @@
             <div class="checkbox">
                 <label><input type="checkbox"> Remember me</label>
             </div>
-            <input type="submit" class="btn btn-default" value="login"/>
+            <div style="text-align:center">
+                <input type="submit" class="btn btn-default" value="login"/>
+            </div>
         </form>
-
-        <a href="/HomeJobMarketplace/visitor/register">Register</a>
-        <a href="/HomeJobMarketplace/visitor/reset-password">Reset Password</a>
+        <div>
+            <div style="text-align:center">
+                <a href="/HomeJobMarketplace/visitor/register">Register</a> &nbsp;&nbsp;&nbsp
+                <a href="/HomeJobMarketplace/visitor/reset-password">Reset Password</a>
+            </div>
+        </div>
     </div>
 </body>
 </html>

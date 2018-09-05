@@ -1,7 +1,6 @@
 package org.care.presentation.sitter;
 
 import org.care.dto.JobApplicationDTO;
-import org.care.model.JobApplication;
 import org.care.service.SitterService;
 
 import javax.servlet.RequestDispatcher;

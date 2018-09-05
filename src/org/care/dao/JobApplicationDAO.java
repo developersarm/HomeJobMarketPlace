@@ -288,4 +288,93 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         }
         return isUpdated;
     }
+
+    public int deleteByJobId(int jobId) {
+        int totalDeletedApps = -1;
+
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "UPDATE job_application "
+                + "SET status='INACTIVE' "
+                + "WHERE job_id=?";
+
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
+            myStmt.setInt(1, jobId);
+            totalDeletedApps = myStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing delete operation: " + e);
+        }
+        return totalDeletedApps;
+    }
+
+    public List<Map<String, Object>> getAllByJobId(int jobId) {
+        List<Map<String, Object>> resultList = new LinkedList<>();
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "Select a.id, first_name, a.status, expected_pay from member m, job_application a " +
+                "where a.id = m.id and job_id = ?";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
+            myStmt.setInt(1, jobId);
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                while (myRs.next()) {
+                    Map<String, Object> tempMap = new HashMap<>();
+                    tempMap.put("id", myRs.getInt("id"));
+                    tempMap.put("firstName", myRs.getString("first_name"));
+                    tempMap.put("status", JobApplication.Status.valueOf(myRs.getString("status")));
+                    tempMap.put("expectedPay", myRs.getDouble("expected_pay"));
+                    resultList.add(tempMap);
+                }
+            }
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(JobApplicationDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
+                    "job_id : " + e);
+        }
+        return resultList;
+    }
+
+    public List<JobApplication> getByJobId(int jobId) {
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        List<JobApplication> resultList = new LinkedList<>();
+        String sql = "SELECT * FROM job_application WHERE job_id=?";
+
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
+            myStmt.setInt(1, jobId);
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                while (myRs.next()) {
+                    int id = myRs.getInt("id");
+                    int userId = myRs.getInt("member_id");
+                    double expectedPay = myRs.getDouble("expected_pay");
+                    JobApplication.Status status = JobApplication.Status.valueOf(myRs.getString("status"));
+                    JobApplication tempJobApplication = new JobApplication(id, jobId, userId, expectedPay, status);
+                    resultList.add(tempJobApplication);
+                }
+            }
+
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
+                    "job_id: " + e);
+        }
+        return resultList;
+    }
+
+    public int deleteByUserId(int userId) {
+        int totalDeletedApps = -1;
+
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        String sql = "UPDATE job_application "
+                + "SET status='INACTIVE' "
+                + "WHERE member_id=?";
+
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
+            myStmt.setInt(1, userId);
+            totalDeletedApps = myStmt.executeUpdate();
+
+        } catch (SQLException e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing delete operation: " + e);
+        }
+        return totalDeletedApps;
+    }
 }

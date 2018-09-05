@@ -11,7 +11,7 @@
     <script src="../js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="container mt-5 w-50">
+    <div class="container mt-5" style="max-width: 500px">
         <div id="wrapper">
             <div id="header">
                 <h2 class="text-center mb-5">Apply for Job</h2>
