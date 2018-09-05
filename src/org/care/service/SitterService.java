@@ -87,7 +87,7 @@ public class SitterService {
         JobApplication jobApplication = new JobApplication(-1, jobId, userId, expectedPay);
         jobApplicationDAO.create(jobApplication);
 
-        return jobApplication.getId()>0;
+        return jobApplication.getId() > 0;
     }
 
     public static String getJobTitle(int jobId) {
@@ -126,7 +126,7 @@ public class SitterService {
     }
 
     public static boolean deleteJobApplication(int jobAppId) {
-        boolean isDeleted = false;
+        boolean isDeleted;
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
         isDeleted = jobApplicationDAO.delete(jobAppId);
         return isDeleted;

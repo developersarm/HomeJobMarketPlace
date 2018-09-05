@@ -2,7 +2,6 @@ package org.care.presentation.seeker;
 
 import org.care.service.SeekerService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

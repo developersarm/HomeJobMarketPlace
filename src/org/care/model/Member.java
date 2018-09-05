@@ -1,6 +1,7 @@
 package org.care.model;
 
 public class Member {
+    private Status status;
     private int id;
     private String firstName;
     private String lastName;
@@ -10,7 +11,6 @@ public class Member {
     private MemberType type;
     private String address;
     private int pincode;
-    Status status;
 
     public Member(Member member) {
         this.id = member.id;
@@ -24,9 +24,6 @@ public class Member {
         this.pincode = member.pincode;
         this.status = member.status;
     }
-
-    public enum MemberType {SEEKER, SITTER;};
-    public enum Status {ACTIVE, INACTIVE}
 
     public Member(int id, String firstName, String lastName, String phoneNo, String emailId, String password,
                   MemberType type, String address, int pincode, Status status) {
@@ -140,4 +137,8 @@ public class Member {
     public void setPincode(int pincode) {
         this.pincode = pincode;
     }
+
+    public enum MemberType {SEEKER, SITTER}
+
+    public enum Status {ACTIVE, INACTIVE}
 }

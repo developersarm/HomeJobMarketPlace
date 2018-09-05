@@ -6,7 +6,6 @@ import org.care.model.Sitter;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +38,7 @@ public class MemberRegistrationServlet extends HttpServlet {
 
         if (memberType == Member.MemberType.SITTER) {
             int experience = Integer.parseInt(req.getParameter("experience"));
-            Sitter sitter = new Sitter(firstName, lastName, phoneNo, emailId, password, address,pincode, experience);
+            Sitter sitter = new Sitter(firstName, lastName, phoneNo, emailId, password, address, pincode, experience);
             SitterService.register(sitter);
         } else if (memberType == Member.MemberType.SEEKER) {
             int totalChildren = Integer.parseInt(req.getParameter("totalchildren"));

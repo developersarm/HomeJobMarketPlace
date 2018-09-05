@@ -6,7 +6,9 @@ import org.care.dao.JobDAO;
 import org.care.dao.SeekerDAO;
 import org.care.dto.SeekerJobDTO;
 import org.care.dto.SeekerProfileDTO;
-import org.care.model.*;
+import org.care.model.Job;
+import org.care.model.JobApplication;
+import org.care.model.Seeker;
 
 import java.sql.Timestamp;
 import java.util.Date;
@@ -119,7 +121,4 @@ public class SeekerService {
         return jobDAO.delete(jobId);
     }
 
-    public void selectApplication(Sitter s) {
-
-    }
 }

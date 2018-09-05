@@ -3,11 +3,11 @@ package org.care.dto;
 import org.care.model.Member;
 
 public class LoginDTO {
+    private Member.MemberType mType;
+    private Member.Status status;
     private int userId;
     private String emailId;
     private String password;
-    Member.MemberType mType;
-    Member.Status status;
 
     public LoginDTO(int userId, String emailId, String password, Member.MemberType mType, Member.Status status) {
         this.userId = userId;

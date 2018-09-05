@@ -20,20 +20,6 @@ public class SeekerJobDTO {
         this.endDate = endDate;
     }
 
-    public SeekerJobDTO(String title, Date startDate, Date endDate, double payPerHour) {
-        this.title = title;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.payPerHour = payPerHour;
-    }
-
-    public SeekerJobDTO(String title, Job.Status status, Date startDate, Date endDate) {
-        this.title = title;
-        this.status = status;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
     public SeekerJobDTO(int id, String title, Date startDate, Date endDate, double payPerHour) {
         this.id = id;
         this.title = title;

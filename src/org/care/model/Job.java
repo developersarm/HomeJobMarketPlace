@@ -1,7 +1,6 @@
 package org.care.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 public class Job {
     private int id;
@@ -18,9 +17,8 @@ public class Job {
         this.postedBy = 0;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.payPerHour = payPerHour;
     }
-
-    public enum Status {ACTIVE, INACTIVE}
 
     public Job(String title, int postedBy, Timestamp startDate, Timestamp endDate, double payPerHour) {
         this.title = title;
@@ -101,4 +99,6 @@ public class Job {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public enum Status {ACTIVE, INACTIVE}
 }

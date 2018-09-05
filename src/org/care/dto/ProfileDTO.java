@@ -1,7 +1,5 @@
 package org.care.dto;
 
-import org.care.model.Member;
-
 public class ProfileDTO {
     private String firstName;
     private String lastName;
@@ -10,7 +8,7 @@ public class ProfileDTO {
     private String address;
     private int pincode;
 
-    public ProfileDTO(String firstName, String lastName, String phoneNo, String emailId, String address, int pincode) {
+    ProfileDTO(String firstName, String lastName, String phoneNo, String emailId, String address, int pincode) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNo = phoneNo;

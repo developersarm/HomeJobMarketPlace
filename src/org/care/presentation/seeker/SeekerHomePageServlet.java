@@ -30,6 +30,6 @@ public class SeekerHomePageServlet extends HttpServlet {
         req.setAttribute("JobApplications", jobApplications);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/seeker/home.jsp");
-        requestDispatcher.forward(req,resp);
+        requestDispatcher.forward(req, resp);
     }
 }

@@ -1,7 +1,6 @@
 package org.care.presentation.seeker;
 
 import org.care.dto.SeekerJobDTO;
-import org.care.model.Job;
 import org.care.service.SeekerService;
 
 import javax.servlet.RequestDispatcher;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -25,7 +23,7 @@ public class EditJobServlet extends HttpServlet {
         SeekerJobDTO seekerJobDTO = SeekerService.getJob(jobId);
         req.setAttribute("Job", seekerJobDTO);
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/seeker/editjob.jsp");
-        dispatcher.forward(req,resp);
+        dispatcher.forward(req, resp);
     }
 
     @Override

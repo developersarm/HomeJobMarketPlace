@@ -2,6 +2,7 @@ package org.care.dao;
 
 import org.care.context.MyApplicationContext;
 import org.care.model.Member;
+
 import java.io.Serializable;
 import java.sql.*;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
                 + "(first_name, last_name, phone_no, email, password, type," +
                 "address, pincode)"
                 + "values(?,?,?,?,?,?,?,?)";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             myStmt.setString(1, obj.getFirstName());
             myStmt.setString(2, obj.getLastName());
             myStmt.setString(3, obj.getPhoneNo());
@@ -36,8 +37,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             try (ResultSet generatedKeys = myStmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     obj.setId(generatedKeys.getInt(1));
-                }
-                else {
+                } else {
                     throw new SQLException("User creation failed, no ID obtained.");
                 }
             }
@@ -53,7 +53,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
         String sql = "UPDATE member "
                 + "SET first_name=?, last_name=?, phone_no=?, email=?, address=?, pincode=? "
                 + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setString(1, obj.getFirstName());
             myStmt.setString(2, obj.getLastName());
             myStmt.setString(3, obj.getPhoneNo());
@@ -80,7 +80,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
         String sql = "UPDATE member "
                 + "SET status='INACTIVE' "
                 + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, (Integer) id);
             int affectedRows = myStmt.executeUpdate();
 
@@ -101,12 +101,11 @@ public class MemberDAO<T extends Member> implements DAO<T> {
         Connection myConn = MyApplicationContext.getJdbcConnection();
         String sql = "select * from member where id=?";
         Member member = null;
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, (Integer) id);
 
             try (ResultSet myRs = myStmt.executeQuery()) {
-                if(myRs.next())
-                {
+                if (myRs.next()) {
                     String firstName = myRs.getString("first_name");
                     String lastName = myRs.getString("last_name");
                     String phoneNo = myRs.getString("phone_no");
@@ -117,8 +116,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
                     int pincode = myRs.getInt("pincode");
                     Member.Status status = Member.Status.valueOf(myRs.getString("status"));
                     member = new Member((Integer) id, firstName, lastName, phoneNo, emailId, password, memberType, address, pincode, status);
-                }
-                else{
+                } else {
                     throw new SQLException("Could not find member with given userId");
                 }
             }

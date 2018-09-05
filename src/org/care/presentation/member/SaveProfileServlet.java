@@ -3,8 +3,6 @@ package org.care.presentation.member;
 import org.care.dto.SeekerProfileDTO;
 import org.care.dto.SitterProfileDTO;
 import org.care.model.Member;
-import org.care.model.Seeker;
-import org.care.model.Sitter;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
 
@@ -40,7 +38,7 @@ public class SaveProfileServlet extends HttpServlet {
                     emailId, address, pincode, experience);
             SitterService.updateProfile(userId, sitterProfileData);
 
-            req.getRequestDispatcher("/sitter/home").forward(req,resp);
+            req.getRequestDispatcher("/sitter/home").forward(req, resp);
         } else if (memberType == Member.MemberType.SEEKER) {
             int totalChildren = Integer.parseInt(req.getParameter("totalchildren"));
             String spouseName = req.getParameter("spousename");
@@ -48,7 +46,7 @@ public class SaveProfileServlet extends HttpServlet {
                     emailId, address, pincode, totalChildren, spouseName);
             SeekerService.updateProfile(userId, seekerProfileData);
 
-            req.getRequestDispatcher("/seeker/home").forward(req,resp);
+            req.getRequestDispatcher("/seeker/home").forward(req, resp);
         }
         //todo: display a success or error message and redirect to other page
 

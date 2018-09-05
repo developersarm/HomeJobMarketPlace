@@ -1,7 +1,7 @@
 package org.care.dto;
 
 public class SitterProfileDTO extends ProfileDTO {
-    int experience;
+    private int experience;
 
     public SitterProfileDTO(String firstName, String lastName, String phoneNo, String emailId, String address,
                             int pincode, int experience) {

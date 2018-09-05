@@ -2,7 +2,6 @@ package org.care.presentation.visitor;
 
 import org.care.model.Member;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,12 +15,16 @@ public class WelcomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String type = req.getParameter("type");
         Member.MemberType mType = null;
-        if (type.equals("sitter")) {
-            mType = Member.MemberType.SITTER;
-        } else if (type.equals("seeker")) {
-            mType = Member.MemberType.SEEKER;
-        } else {
-            resp.getWriter().print("Please select an option");
+        switch (type) {
+            case "sitter":
+                mType = Member.MemberType.SITTER;
+                break;
+            case "seeker":
+                mType = Member.MemberType.SEEKER;
+                break;
+            default:
+                resp.getWriter().print("Please select an option");
+                break;
         }
         HttpSession session = req.getSession();
         session.setAttribute("MemberType", mType);

@@ -2,7 +2,6 @@ package org.care.dao;
 
 import org.care.context.MyApplicationContext;
 import org.care.model.Job;
-import org.care.model.Member;
 
 import java.io.Serializable;
 import java.sql.*;
@@ -51,7 +50,7 @@ public class JobDAO implements DAO<Job> {
         String sql = "UPDATE job "
                 + "SET title=?, start_date=?, end_date=?, pay_per_hour=? "
                 + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setString(1, obj.getTitle());
             myStmt.setTimestamp(2, obj.getStartDate());
             myStmt.setTimestamp(3, obj.getEndDate());
@@ -76,7 +75,7 @@ public class JobDAO implements DAO<Job> {
         String sql = "UPDATE job "
                 + "SET status='INACTIVE' "
                 + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, (Integer) id);
             int affectedRows = myStmt.executeUpdate();
 
@@ -97,12 +96,11 @@ public class JobDAO implements DAO<Job> {
         Connection myConn = MyApplicationContext.getJdbcConnection();
         String sql = "select * from job where id=?";
         Job job = null;
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, (Integer) id);
 
             try (ResultSet myRs = myStmt.executeQuery()) {
-                if(myRs.next())
-                {
+                if (myRs.next()) {
                     int jobId = myRs.getInt("id");
                     String title = myRs.getString("title");
                     int memberId = myRs.getInt("posted_by");
@@ -111,8 +109,7 @@ public class JobDAO implements DAO<Job> {
                     double payPerHour = myRs.getDouble("pay_per_hour");
                     Job.Status status = Job.Status.valueOf(myRs.getString("status"));
                     job = new Job(jobId, title, memberId, startDate, endDate, payPerHour, status);
-                }
-                else{
+                } else {
                     throw new SQLException("Could not find job with given userId");
                 }
             }

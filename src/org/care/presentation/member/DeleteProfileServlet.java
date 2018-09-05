@@ -25,7 +25,7 @@ public class DeleteProfileServlet extends HttpServlet {
             req.setAttribute("error", "Can't delete profile");
             //todo: add error msg in jsp
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/member/profile");
-            requestDispatcher.include(req,resp);
+            requestDispatcher.include(req, resp);
         }
     }
 

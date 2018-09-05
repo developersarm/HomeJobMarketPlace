@@ -7,8 +7,6 @@ public class JobApplication {
     private double expectedPay;
     private Status status;
 
-    public enum Status {ACTIVE, INACTIVE}
-
     public JobApplication(int id, int jobId, int memberId, double expectedPay) {
         this.id = id;
         this.jobId = jobId;
@@ -23,12 +21,6 @@ public class JobApplication {
         this.memberId = memberId;
         this.expectedPay = expectedPay;
         this.status = status;
-    }
-
-    public JobApplication(int jobId, int memberId, double expectedPay) {
-        this.jobId = jobId;
-        this.memberId = memberId;
-        this.expectedPay = expectedPay;
     }
 
     public int getId() {
@@ -70,4 +62,6 @@ public class JobApplication {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public enum Status {ACTIVE, INACTIVE}
 }

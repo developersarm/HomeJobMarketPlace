@@ -9,13 +9,6 @@ public class SitterJobApplicationDTO {
     private double payPerHour;
     private JobApplication.Status status;
 
-    public SitterJobApplicationDTO(String title, double expectedPay, double payPerHour, JobApplication.Status status) {
-        this.title = title;
-        this.expectedPay = expectedPay;
-        this.payPerHour = payPerHour;
-        this.status = status;
-    }
-
     public SitterJobApplicationDTO(int id, String title, double expectedPay, double payPerHour, JobApplication.Status status) {
         this.id = id;
         this.title = title;

@@ -1,7 +1,6 @@
 package org.care.presentation.member;
 
 import org.care.dto.ProfileDTO;
-import org.care.dto.SeekerProfileDTO;
 import org.care.model.Member;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
@@ -24,7 +23,7 @@ public class ViewProfileServlet extends HttpServlet {
         ProfileDTO profileData = null;
         if (memberType == Member.MemberType.SEEKER) {
             profileData = SeekerService.getProfile(userId);
-        } else if (memberType == Member.MemberType.SITTER){
+        } else if (memberType == Member.MemberType.SITTER) {
             profileData = SitterService.getProfile(userId);
         } else {
             //todo: go to homepage if membertype is not set
@@ -32,7 +31,7 @@ public class ViewProfileServlet extends HttpServlet {
         req.setAttribute("ProfileData", profileData);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/member/profile.jsp");
-        requestDispatcher.forward(req,resp);
+        requestDispatcher.forward(req, resp);
     }
 
     @Override

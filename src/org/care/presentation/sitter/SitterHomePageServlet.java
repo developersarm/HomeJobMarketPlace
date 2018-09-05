@@ -29,6 +29,6 @@ public class SitterHomePageServlet extends HttpServlet {
         req.setAttribute("JobsList", sitterJobList);
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/sitter/home.jsp");
-        requestDispatcher.forward(req,resp);
+        requestDispatcher.forward(req, resp);
     }
 }

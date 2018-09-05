@@ -2,6 +2,7 @@ package org.care.presentation.seeker;
 
 import org.care.model.Job;
 import org.care.service.SeekerService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -46,6 +47,6 @@ public class NewJobServlet extends HttpServlet {
         //todo: Generate error message on unsuccessful registration
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/seeker/home");
-        requestDispatcher.forward(req,resp);
+        requestDispatcher.forward(req, resp);
     }
 }

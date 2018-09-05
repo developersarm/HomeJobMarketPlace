@@ -3,8 +3,6 @@ package org.care.presentation.visitor;
 import org.care.dto.LoginDTO;
 import org.care.model.Member;
 import org.care.service.MemberService;
-import org.care.service.SeekerService;
-import org.care.service.SitterService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,7 +17,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp");
-        requestDispatcher.forward(req,resp);
+        requestDispatcher.forward(req, resp);
     }
 
     @Override
@@ -46,7 +44,7 @@ public class LoginServlet extends HttpServlet {
         } else {
             req.setAttribute("error", "Invalid Username/password");
             requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp");
-            requestDispatcher.include(req,resp);
+            requestDispatcher.include(req, resp);
         }
 
     }

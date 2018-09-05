@@ -20,7 +20,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         String sql = "insert into job_application "
                 + "(job_id, member_id, expected_pay)"
                 + "values(?,?,?)";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             myStmt.setInt(1, obj.getJobId());
             myStmt.setInt(2, obj.getMemberId());
             myStmt.setDouble(3, obj.getExpectedPay());
@@ -33,8 +33,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             try (ResultSet generatedKeys = myStmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     obj.setId(generatedKeys.getInt(1));
-                }
-                else {
+                } else {
                     throw new SQLException("Job Application creation failed, no ID obtained.");
                 }
             }
@@ -50,7 +49,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         String sql = "UPDATE job_application "
                 + "SET expected_pay=? "
                 + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setDouble(1, obj.getExpectedPay());
             myStmt.setInt(2, obj.getId());
             int affectedRows = myStmt.executeUpdate();
@@ -72,7 +71,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         String sql = "UPDATE job_application "
                 + "SET status='INACTIVE' "
                 + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, (Integer) id);
             int affectedRows = myStmt.executeUpdate();
 
@@ -93,20 +92,18 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         Connection myConn = MyApplicationContext.getJdbcConnection();
         String sql = "select * from job_application where id=?";
         JobApplication jobApplication = null;
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, (Integer) id);
 
             try (ResultSet myRs = myStmt.executeQuery()) {
-                if(myRs.next())
-                {
+                if (myRs.next()) {
                     int jobAppId = myRs.getInt("id");
                     int jobId = myRs.getInt("job_id");
                     int memberId = myRs.getInt("member_id");
                     double expectedPay = myRs.getDouble("expected_pay");
                     JobApplication.Status status = JobApplication.Status.valueOf(myRs.getString("status"));
                     jobApplication = new JobApplication(jobAppId, jobId, memberId, expectedPay, status);
-                }
-                else{
+                } else {
                     throw new SQLException("Could not find job with given userId");
                 }
             }
@@ -122,24 +119,19 @@ public class JobApplicationDAO implements DAO<JobApplication> {
     public List<JobApplication> get(int userId, int noOfResults) {
         Connection myConn = MyApplicationContext.getJdbcConnection();
         List<JobApplication> resultList = new LinkedList<>();
-        //todo: use try-with-resourses
-        try{
-            PreparedStatement myStmt = null;
-            ResultSet myRs = null;
-
-            String sql = "SELECT * FROM job_application WHERE member_id=? LIMIT ?";
-            myStmt = myConn.prepareStatement(sql);
+        String sql = "SELECT * FROM job_application WHERE member_id=? LIMIT ?";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, userId);
             myStmt.setInt(2, noOfResults);
-            myRs = myStmt.executeQuery();
-            while (myRs.next())
-            {
-                int id = myRs.getInt("id");
-                int jobId = myRs.getInt("job_id");
-                Double expectedPay = myRs.getDouble("expected_pay");
-                JobApplication.Status status = JobApplication.Status.valueOf(myRs.getString("status"));
-                JobApplication tempJobApplication = new JobApplication(id, jobId, userId, expectedPay, status);
-                resultList.add(tempJobApplication);
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                while (myRs.next()) {
+                    int id = myRs.getInt("id");
+                    int jobId = myRs.getInt("job_id");
+                    Double expectedPay = myRs.getDouble("expected_pay");
+                    JobApplication.Status status = JobApplication.Status.valueOf(myRs.getString("status"));
+                    JobApplication tempJobApplication = new JobApplication(id, jobId, userId, expectedPay, status);
+                    resultList.add(tempJobApplication);
+                }
             }
         } catch (Exception e) {
             Logger logger = Logger.getLogger(MemberDAO.class.getName());
@@ -152,23 +144,21 @@ public class JobApplicationDAO implements DAO<JobApplication> {
     public List<JobApplication> get(int userId) {
         Connection myConn = MyApplicationContext.getJdbcConnection();
         List<JobApplication> resultList = new LinkedList<>();
-        try{
-            PreparedStatement myStmt = null;
-            ResultSet myRs = null;
+        String sql = "SELECT * FROM job_application WHERE member_id=?";
 
-            String sql = "SELECT * FROM job_application WHERE member_id=?";
-            myStmt = myConn.prepareStatement(sql);
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, userId);
-            myRs = myStmt.executeQuery();
-            while (myRs.next())
-            {
-                int id = myRs.getInt("id");
-                int jobId = myRs.getInt("job_id");
-                double expectedPay = myRs.getDouble("expected_pay");
-                JobApplication.Status status = JobApplication.Status.valueOf(myRs.getString("status"));
-                JobApplication tempJobApplication = new JobApplication(id, jobId, userId, expectedPay, status);
-                resultList.add(tempJobApplication);
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                while (myRs.next()) {
+                    int id = myRs.getInt("id");
+                    int jobId = myRs.getInt("job_id");
+                    double expectedPay = myRs.getDouble("expected_pay");
+                    JobApplication.Status status = JobApplication.Status.valueOf(myRs.getString("status"));
+                    JobApplication tempJobApplication = new JobApplication(id, jobId, userId, expectedPay, status);
+                    resultList.add(tempJobApplication);
+                }
             }
+
         } catch (Exception e) {
             Logger logger = Logger.getLogger(MemberDAO.class.getName());
             logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
@@ -180,22 +170,19 @@ public class JobApplicationDAO implements DAO<JobApplication> {
     public List<JobApplication> get(int userId, JobApplication.Status status) {
         Connection myConn = MyApplicationContext.getJdbcConnection();
         List<JobApplication> resultList = new LinkedList<>();
-        try{
-            PreparedStatement myStmt = null;
-            ResultSet myRs = null;
+        String sql = "SELECT * FROM job_application WHERE member_id=? and status=?";
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
 
-            String sql = "SELECT * FROM job_application WHERE member_id=? and status=?";
-            myStmt = myConn.prepareStatement(sql);
             myStmt.setInt(1, userId);
             myStmt.setString(2, String.valueOf(status));
-            myRs = myStmt.executeQuery();
-            while (myRs.next())
-            {
-                int id = myRs.getInt("id");
-                int jobId = myRs.getInt("job_id");
-                double expectedPay = myRs.getDouble("expected_pay");
-                JobApplication tempJobApplication = new JobApplication(id, jobId, userId, expectedPay, status);
-                resultList.add(tempJobApplication);
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                while (myRs.next()) {
+                    int id = myRs.getInt("id");
+                    int jobId = myRs.getInt("job_id");
+                    double expectedPay = myRs.getDouble("expected_pay");
+                    JobApplication tempJobApplication = new JobApplication(id, jobId, userId, expectedPay, status);
+                    resultList.add(tempJobApplication);
+                }
             }
         } catch (Exception e) {
             Logger logger = Logger.getLogger(MemberDAO.class.getName());
@@ -213,8 +200,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, userId);
             try (ResultSet myRs = myStmt.executeQuery()) {
-                while (myRs.next())
-                {
+                while (myRs.next()) {
                     Map<String, Object> tempMap = new HashMap<>();
                     tempMap.put("title", myRs.getString("title"));
                     tempMap.put("startDate", myRs.getTimestamp("start_date"));
@@ -238,8 +224,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, userId);
             try (ResultSet myRs = myStmt.executeQuery()) {
-                while (myRs.next())
-                {
+                while (myRs.next()) {
                     Map<String, Object> tempMap = new HashMap<>();
                     tempMap.put("jobId", myRs.getInt("id"));
                     tempMap.put("title", myRs.getString("title"));
@@ -264,8 +249,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, userId);
             try (ResultSet myRs = myStmt.executeQuery()) {
-                while (myRs.next())
-                {
+                while (myRs.next()) {
                     Map<String, Object> tempMap = new HashMap<>();
                     tempMap.put("id", myRs.getInt("id"));
                     tempMap.put("title", myRs.getString("title"));
@@ -289,7 +273,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
         String sql = "UPDATE job_application "
                 + "SET expected_pay=? "
                 + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)){
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setDouble(1, expectedPay);
             myStmt.setDouble(2, jobAppId);
             int affectedRows = myStmt.executeUpdate();
