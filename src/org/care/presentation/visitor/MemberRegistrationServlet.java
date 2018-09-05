@@ -1,11 +1,14 @@
 package org.care.presentation.visitor;
 
+import org.care.dto.SeekerRegistrationFormDTO;
+import org.care.dto.SitterRegistrationFormDTO;
 import org.care.model.Member;
 import org.care.model.Seeker;
 import org.care.model.Sitter;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +28,6 @@ public class MemberRegistrationServlet extends HttpServlet {
 
         HttpSession session = req.getSession();
 
-        //todo: add validation of form data
-
         String firstName = req.getParameter("firstname");
         String lastName = req.getParameter("lastname");
         String phoneNo = req.getParameter("phoneno");
@@ -34,20 +35,35 @@ public class MemberRegistrationServlet extends HttpServlet {
         String password = req.getParameter("password");
         Member.MemberType memberType = (Member.MemberType) session.getAttribute("MemberType");
         String address = req.getParameter("address");
-        int pincode = Integer.parseInt(req.getParameter("pincode"));
+        String pincode = req.getParameter("pincode");
 
         if (memberType == Member.MemberType.SITTER) {
-            int experience = Integer.parseInt(req.getParameter("experience"));
-            Sitter sitter = new Sitter(firstName, lastName, phoneNo, emailId, password, address, pincode, experience);
-            SitterService.register(sitter);
+            String experience = req.getParameter("experience");
+            SitterRegistrationFormDTO sFormData = new SitterRegistrationFormDTO(firstName, lastName, phoneNo, emailId,
+                    password, memberType.toString(), address, pincode, experience);
+            if (sFormData.validate()) {
+                SitterService.register(sFormData);
+                req.setAttribute("msg", "Registered Successfully!");
+                req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("errors", sFormData.getErrors());
+                req.setAttribute("formData", sFormData);
+                req.getRequestDispatcher("/WEB-INF/jsp/visitor/register.jsp").forward(req, resp);
+            }
         } else if (memberType == Member.MemberType.SEEKER) {
-            int totalChildren = Integer.parseInt(req.getParameter("totalchildren"));
+            String totalChildren = req.getParameter("totalchildren");
             String spouseName = req.getParameter("spousename");
-            Seeker seeker = new Seeker(firstName, lastName, phoneNo, emailId, password, address, pincode, totalChildren, spouseName);
-            SeekerService.register(seeker);
+            SeekerRegistrationFormDTO sFormData = new SeekerRegistrationFormDTO(firstName, lastName, phoneNo, emailId,
+                    password, memberType.toString(), address, pincode, totalChildren, spouseName);
+            if (sFormData.validate()) {
+                SeekerService.register(sFormData);
+                req.setAttribute("msg", "Registered Successfully!");
+                req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp").forward(req, resp);
+            } else {
+                req.setAttribute("errors", sFormData.getErrors());
+                req.setAttribute("formData", sFormData);
+                req.getRequestDispatcher("/WEB-INF/jsp/visitor/register.jsp").forward(req, resp);
+            }
         }
-
-//        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/visitor/login");
-        resp.sendRedirect("/HomeJobMarketplace/visitor/login");
     }
 }

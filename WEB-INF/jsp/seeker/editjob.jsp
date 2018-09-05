@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
             <label for="sdate">Start Date:</label>
-            <fmt:formatDate var="fmtStartDate" value="${requestScope.Job.startDate}" pattern="dd-MM-yyyy"/>
+            <fmt:formatDate var="fmtStartDate" value="${requestScope.Job.startDate}" pattern="MM-dd-yyyy"/>
             <input type="date" class="form-control" id="sdate" name="startdate" value="${fmtStartDate}" />
             </div>
             <div class="form-group">

@@ -7,6 +7,7 @@ import org.care.dao.SitterDAO;
 import org.care.dto.*;
 import org.care.model.Job;
 import org.care.model.JobApplication;
+import org.care.model.Member;
 import org.care.model.Sitter;
 
 import java.sql.Timestamp;
@@ -17,8 +18,19 @@ import java.util.Map;
 
 public class SitterService {
 
-    public static void register(Sitter sitter) {
-        MyApplicationContext.getFactory(SitterDAO.class).create(sitter);
+    public static void register(SitterRegistrationFormDTO sitterFormData) {
+        SitterDAO sitterDAO = MyApplicationContext.getFactory(SitterDAO.class);
+        String firstName = sitterFormData.getFirstName();
+        String lastName = sitterFormData.getLastName();
+        String phoneNo = sitterFormData.getPhoneNo();
+        String emailId = sitterFormData.getEmailId();
+        String password = sitterFormData.getPassword();
+        Member.MemberType memberType = Member.MemberType.valueOf(sitterFormData.getType());
+        String address = sitterFormData.getAddress();
+        int pincode = Integer.parseInt(sitterFormData.getPincode());
+        int experience = Integer.parseInt(sitterFormData.getExperience());
+        Sitter sitter = new Sitter(firstName, lastName, phoneNo, emailId, password, memberType, address, pincode, experience);
+        sitterDAO.create(sitter);
     }
 
     public static List<SitterAppliedJobDTO> getAppliedJobsList(int userId) {

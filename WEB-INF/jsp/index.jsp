@@ -6,16 +6,28 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Home Job Marketplace</title>
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
-    <script src="js/bootstrap.js"></script>
+    <script src="/HomeJobMarketplace/js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="/HomeJobMarketplace/css/bootstrap.css">
 </head>
 <body>
     <div class="container mt-5 w-25">
         <div id="wrapper">
-        		<div id="header">
-        			<h2 class="text-center mb-5">Home Job Marketplace</h2>
-        		</div>
-        	</div>
+            <div id="header">
+                <h2 class="text-center mb-5">Home Job Marketplace</h2>
+            </div>
+        </div>
+
+        <c:if test="${not empty requestScope.msg}">
+            <div class="alert alert-success">
+              ${requestScope.msg}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert alert-danger">
+              ${requestScope.error}
+            </div>
+        </c:if>
 
        	<form action="/HomeJobMarketplace/visitor/welcome" method="get">
        	    <div class="row" style="margin-top:5em">

@@ -20,10 +20,10 @@ public class DeleteProfileServlet extends HttpServlet {
 
         if (isDeleted) {
             session.invalidate();
-            resp.sendRedirect("/HomeJobMarketplace/");
+            req.setAttribute("msg", "Account deactivated succefully!");
+            req.getRequestDispatcher("/HomeJobMarketplace").forward(req,resp);
         } else {
             req.setAttribute("error", "Can't delete profile");
-            //todo: add error msg in jsp
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/member/profile");
             requestDispatcher.include(req, resp);
         }

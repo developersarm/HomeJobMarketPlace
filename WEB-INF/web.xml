@@ -40,16 +40,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>myTestServlet</servlet-name>
-        <servlet-class>org.care.presentation.MyTestServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>myTestServlet</servlet-name>
-        <url-pattern>/hello</url-pattern>
-    </servlet-mapping>
-    
-    <servlet>
         <servlet-name>loginServlet</servlet-name>
         <servlet-class>org.care.presentation.visitor.LoginServlet</servlet-class>
     </servlet>

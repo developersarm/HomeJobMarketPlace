@@ -19,6 +19,11 @@
         </div>
 
         <form action="/HomeJobMarketplace/member/edit-profile" method="post">
+            <c:if test="${not empty requestScope.error}">
+                <div class="alert alert-danger">
+                  ${requestScope.error}
+                </div>
+            </c:if>
             <div class="form-group">
             <label for="fname">First Name:</label>
             <input type="text" class="form-control" name="firstname" id="fname" value="${requestScope.ProfileData.getFirstName()}" readonly="readonly">

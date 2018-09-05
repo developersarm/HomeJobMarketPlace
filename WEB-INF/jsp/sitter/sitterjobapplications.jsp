@@ -47,9 +47,16 @@
                             <td> ${tempJobApplication.payPerHour} </td>
                             <td> ${tempJobApplication.status} </td>
                             <td>
-                                <a href="${editLink}">Edit</a>
-                                        |
-                                <a href="${deleteLink}" onclick="if(!(confirm('Sure you want to delete this application?'))) return false">Delete</a>
+                            <c:choose>
+                                <c:when test="${tempJobApplication.status == 'ACTIVE'}">
+                                    <a href="${editLink}">Edit</a>
+                                            |
+                                    <a href="${deleteLink}" onclick="if(!(confirm('Sure you want to delete this application?'))) return false">Delete</a>
+                                </c:when>
+                                <c:otherwise>
+                                    Edit | Delete
+                                </c:otherwise>
+                            </c:choose>
                             </td>
                         </tr>
                     </c:forEach>

@@ -7,8 +7,10 @@ import org.care.dao.SeekerDAO;
 import org.care.dto.SeekerJobApplicationDTO;
 import org.care.dto.SeekerJobDTO;
 import org.care.dto.SeekerProfileDTO;
+import org.care.dto.SeekerRegistrationFormDTO;
 import org.care.model.Job;
 import org.care.model.JobApplication;
+import org.care.model.Member;
 import org.care.model.Seeker;
 
 import java.sql.Timestamp;
@@ -19,9 +21,20 @@ import java.util.Map;
 
 public class SeekerService {
 
-    public static void register(Seeker seeker) {
-
-        MyApplicationContext.getFactory(SeekerDAO.class).create(seeker);
+    public static void register(SeekerRegistrationFormDTO seekerFormData) {
+        SeekerDAO seekerDAO = MyApplicationContext.getFactory(SeekerDAO.class);
+        String firstName = seekerFormData.getFirstName();
+        String lastName = seekerFormData.getLastName();
+        String phoneNo = seekerFormData.getPhoneNo();
+        String emailId = seekerFormData.getEmailId();
+        String password = seekerFormData.getPassword();
+        Member.MemberType memberType = Member.MemberType.valueOf(seekerFormData.getType());
+        String address = seekerFormData.getAddress();
+        int pincode = Integer.parseInt(seekerFormData.getPincode());
+        int totalChildren = Integer.parseInt(seekerFormData.getTotalChildren());
+        String spouseName = seekerFormData.getSpouseName();
+        Seeker seeker = new Seeker(firstName, lastName, phoneNo, emailId, password, address, pincode, totalChildren, spouseName);
+        seekerDAO.create(seeker);
     }
 
     public static List<JobApplication> getJobApplications(int userId, int noOfResults) {

@@ -26,7 +26,7 @@ public class ViewProfileServlet extends HttpServlet {
         } else if (memberType == Member.MemberType.SITTER) {
             profileData = SitterService.getProfile(userId);
         } else {
-            //todo: go to homepage if membertype is not set
+            resp.sendRedirect("/HomeJobMarketplace/");
         }
         req.setAttribute("ProfileData", profileData);
 
