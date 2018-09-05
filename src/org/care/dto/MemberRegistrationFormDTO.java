@@ -1,5 +1,8 @@
 package org.care.dto;
 
+import org.care.service.MemberService;
+import org.care.service.SeekerService;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -140,6 +143,8 @@ public class MemberRegistrationFormDTO {
             errors.put("emailId", "Email id can't be empty!");
         } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+.)+[a-z]{2,5}$")) {
             errors.put("emailId", "Incorrect email format");
+        } else if (MemberService.isEmailIdRegistered(emailId)) {
+            errors.put("emailId", "Account already exist with given emailId");
         }
         return errors;
     }

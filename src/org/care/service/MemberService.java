@@ -44,4 +44,10 @@ public class MemberService {
 
         return memberDAO.delete(userId);
     }
+
+    public static boolean isEmailIdRegistered(String emailId) {
+        MemberDAO memberDAO = MyApplicationContext.getFactory(MemberDAO.class);
+        int userId = memberDAO.getByEmailId(emailId);
+        return userId>0;
+    }
 }

@@ -158,4 +158,27 @@ public class MemberDAO<T extends Member> implements DAO<T> {
         }
         return resultMap;
     }
+
+    public int getByEmailId(String emailId) {
+        Connection myConn = MyApplicationContext.getJdbcConnection();
+        int userId = -1;
+        String sql = "select id from member where email=?";
+
+        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
+            myStmt.setString(1, emailId);
+            try (ResultSet myRs = myStmt.executeQuery()) {
+                if (myRs.next()) {
+                    userId = myRs.getInt("id");
+                } else {
+                    throw new SQLException("Could not find member with given email. ");
+                }
+            }
+
+        } catch (Exception e) {
+            Logger logger = Logger.getLogger(MemberDAO.class.getName());
+            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
+                    "email " + e);
+        }
+        return userId;
+    }
 }

@@ -35,12 +35,15 @@ public class LoginServlet extends HttpServlet {
 
             HttpSession session = req.getSession();
             RequestDispatcher requestDispatcher;
+
             if (userId > 0 && status == Member.Status.ACTIVE) {
                 session.setAttribute("UserId", userId);
                 session.setAttribute("MemberType", mType);
+
                 if (mType == Member.MemberType.SITTER) {
                     requestDispatcher = req.getRequestDispatcher("/sitter/home");
                     requestDispatcher.forward(req, resp);
+
                 } else {
                     requestDispatcher = req.getRequestDispatcher("/seeker/home");
                     requestDispatcher.forward(req, resp);
