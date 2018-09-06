@@ -1,3 +1,5 @@
+drop database homejobmarketplace;
+
 CREATE DATABASE `homejobmarketplace` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 use `homejobmarketplace`;
@@ -42,8 +44,8 @@ CREATE TABLE `job` (
   `id` int(32) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(256) NOT NULL,
   `posted_by` int(32) unsigned NOT NULL,
-  `start_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `end_date` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `start_date` datetime NOT NULL,
+  `end_date` datetime NOT NULL,
   `pay_per_hour` decimal(10,0) unsigned NOT NULL,
   `status` enum('ACTIVE','INACTIVE') NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
