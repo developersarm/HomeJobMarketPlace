@@ -28,6 +28,18 @@
         <!--<dispatcher>INCLUDE</dispatcher>-->
         <!--<dispatcher>REQUEST</dispatcher>-->
     </filter-mapping>
+
+    <filter>
+        <filter-name>roleFilter</filter-name>
+        <filter-class>org.care.filters.RoleFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>roleFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <!--<dispatcher>INCLUDE</dispatcher>-->
+        <!--<dispatcher>REQUEST</dispatcher>-->
+    </filter-mapping>
     
     <servlet>
         <servlet-name>welcomeServlet</servlet-name>

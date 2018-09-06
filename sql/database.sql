@@ -1,12 +1,14 @@
 CREATE DATABASE `homejobmarketplace` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
+use `homejobmarketplace`;
+
 CREATE TABLE `member` (
   `id` int(32) unsigned NOT NULL AUTO_INCREMENT,
   `first_name` varchar(32) NOT NULL,
   `last_name` varchar(32) DEFAULT NULL,
   `phone_no` varchar(10) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `password` varchar(45) NOT NULL,
+  `password` BLOB NOT NULL,
   `type` enum('SEEKER','SITTER') NOT NULL,
   `address` varchar(250) NOT NULL,
   `pincode` int(32) unsigned NOT NULL,

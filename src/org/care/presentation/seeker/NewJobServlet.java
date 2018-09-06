@@ -1,7 +1,9 @@
 package org.care.presentation.seeker;
 
+import org.care.context.MyApplicationContext;
 import org.care.dto.JobPostFormDTO;
 import org.care.service.SeekerService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -34,11 +36,9 @@ public class NewJobServlet extends HttpServlet {
         if (jobPostFormDTO.validate()) {
             boolean isPosted = SeekerService.postJob(jobPostFormDTO);
             if (isPosted) {
-                req.setAttribute("msg", "Job posted successfully!");
-                req.getRequestDispatcher("/seeker/home").forward(req,resp);
+                resp.sendRedirect(CommonUtil.getRedirectURL("/seeker/home?success=true"));
             } else {
-                req.setAttribute("error", "Failed to post the job!");
-                req.getRequestDispatcher("/seeker/home").forward(req,resp);
+                resp.sendRedirect(CommonUtil.getRedirectURL("/seeker/home?success=false"));
             }
         } else {
             req.setAttribute("jobData", jobPostFormDTO);

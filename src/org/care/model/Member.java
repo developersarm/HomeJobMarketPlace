@@ -1,5 +1,7 @@
 package org.care.model;
 
+import org.care.utils.CommonUtil;
+
 public class Member {
     private Status status;
     private int id;
@@ -32,7 +34,7 @@ public class Member {
         this.lastName = lastName;
         this.phoneNo = phoneNo;
         this.emailId = emailId;
-        this.password = password;
+        setPassword(password);
         this.type = type;
         this.address = address;
         this.pincode = pincode;
@@ -45,7 +47,7 @@ public class Member {
         this.lastName = lastName;
         this.phoneNo = phoneNo;
         this.emailId = emailId;
-        this.password = password;
+        setPassword(password);
         this.type = type;
         this.address = address;
         this.pincode = pincode;
@@ -103,7 +105,7 @@ public class Member {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = CommonUtil.getHashedPassword(password);
     }
 
     public String getAddress() {

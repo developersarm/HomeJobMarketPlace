@@ -312,8 +312,8 @@ public class JobApplicationDAO implements DAO<JobApplication> {
     public List<Map<String, Object>> getAllByJobId(int jobId) {
         List<Map<String, Object>> resultList = new LinkedList<>();
         Connection myConn = MyApplicationContext.getJdbcConnection();
-        String sql = "Select a.id, first_name, a.status, expected_pay from member m, job_application a " +
-                "where a.id = m.id and job_id = ?";
+        String sql = "Select a.id, first_name, a.status, expected_pay from member m, job_application a "
+            + "where a.member_id = m.id and job_id = ?";
         try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
             myStmt.setInt(1, jobId);
             try (ResultSet myRs = myStmt.executeQuery()) {

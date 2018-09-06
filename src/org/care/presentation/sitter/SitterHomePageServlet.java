@@ -1,5 +1,6 @@
 package org.care.presentation.sitter;
 
+import org.care.context.MyApplicationContext;
 import org.care.dto.SitterAppliedJobDTO;
 import org.care.service.SitterService;
 
@@ -16,7 +17,14 @@ public class SitterHomePageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("entered get");
+        HttpSession session = req.getSession();
+
+        List<SitterAppliedJobDTO> sitterJobList;
+        sitterJobList = SitterService.getAppliedJobsList(MyApplicationContext.get().getMember().getId());
+        req.setAttribute("JobsList", sitterJobList);
+
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/sitter/home.jsp");
+        requestDispatcher.forward(req, resp);
     }
 
     @Override
