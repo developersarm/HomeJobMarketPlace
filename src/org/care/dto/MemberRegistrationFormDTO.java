@@ -98,47 +98,43 @@ public class MemberRegistrationFormDTO {
     }
 
     public boolean validate() {
-        Map<String, String> tempErrors = new HashMap<>();
-        tempErrors = validateFirstName(tempErrors);
-        tempErrors = validateLastName(tempErrors);
-        tempErrors = validatePhoneNo(tempErrors);
-        tempErrors = validateEmailId(tempErrors);
-        tempErrors = validatePassword(tempErrors);
-        tempErrors = validateType(tempErrors);
-        tempErrors = validateAddress(tempErrors);
-        tempErrors = validatePincode(tempErrors);
-        this.errors = tempErrors;
-        return tempErrors.isEmpty();
+        this.errors = new HashMap<>();
+        validateFirstName();
+        validateLastName();
+        validatePhoneNo();
+        validateEmailId();
+        validatePassword();
+        validateType();
+        validateAddress();
+        validatePincode();
+        return this.errors.isEmpty();
     }
 
-    private Map<String, String> validateFirstName(Map<String, String> errors) {
+    private void validateFirstName() {
         if (firstName.isEmpty()) {
             errors.put("firstName", "First Name can't be empty!");
         } else if (!firstName.matches("^[\\p{L}]+$")) {
             errors.put("firstName", "First name can only have characters");
         }
-        return errors;
     }
 
-    private Map<String, String> validateLastName(Map<String, String> errors) {
+    private void validateLastName() {
         if (lastName.isEmpty()) {
             errors.put("lastName", "Last Name can't be empty!");
         } else if (!lastName.matches("^[\\p{L}]+$")) {
             errors.put("lastName", "Last Name can only have characters");
         }
-        return errors;
     }
 
-    private Map<String, String> validatePhoneNo(Map<String, String> errors) {
+    private void validatePhoneNo() {
         if (phoneNo.isEmpty()) {
             errors.put("phoneNo", "Phone no. can't be empty!");
         } else if (!phoneNo.matches("^[0-9]{10}$")) {
             errors.put("phoneNo", "Phone no. should be of 10 digits only.");
         }
-        return errors;
     }
 
-    private Map<String, String> validateEmailId(Map<String, String> errors) {
+    private void validateEmailId() {
         if (emailId.isEmpty()) {
             errors.put("emailId", "Email id can't be empty!");
         } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+.)+[a-z]{2,5}$")) {
@@ -146,38 +142,33 @@ public class MemberRegistrationFormDTO {
         } else if (MemberService.isEmailIdRegistered(emailId)) {
             errors.put("emailId", "Account already exist with given emailId");
         }
-        return errors;
     }
 
-    private Map<String, String> validatePassword(Map<String, String> errors) {
+    private void validatePassword() {
         if (password.isEmpty()) {
             errors.put("password", "Password field can't be empty!");
         } else if (!password.matches("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$")) {
             errors.put("password", "Password should contain atleast one number, one uppercase, one lowercase, one symbol and no space.");
         }
-        return errors;
     }
 
-    private Map<String, String> validateType(Map<String, String> errors) {
+    private void validateType() {
         if (type.isEmpty()) {
             errors.put("memberType", "Session not set. Go to homepage.");
         }
-        return errors;
     }
 
-    private Map<String, String> validateAddress(Map<String, String> errors) {
+    private void validateAddress() {
         if (address.isEmpty()) {
             errors.put("address", "Address can't be empty!");
         }
-        return errors;
     }
 
-    private Map<String, String> validatePincode(Map<String, String> errors) {
+    private void validatePincode() {
         if (pincode.isEmpty()) {
             errors.put("pincode", "Pincode can't be empty!");
         } else if (!pincode.matches("^[0-9]{6}$")) {
             errors.put("pincode", "Pincode should be of 6 digit only.");
         }
-        return errors;
     }
 }

@@ -23,6 +23,7 @@ public class ConnectionSessionFilter implements Filter {
         } catch (Exception e) {
             Logger logger = Logger.getLogger(ConnectionSessionFilter.class.getName());
             logger.log(Level.SEVERE, "Exception generated in the fiter chain! " + e);
+            servletRequest.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(servletRequest, servletResponse);
         }
         MyApplicationContext.destroy();
     }

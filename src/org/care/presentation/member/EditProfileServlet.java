@@ -26,21 +26,27 @@ public class EditProfileServlet extends HttpServlet {
         String phoneNo = req.getParameter("phoneno");
         String emailId = req.getParameter("emailid");
         String address = req.getParameter("address");
-        int pincode = Integer.parseInt(req.getParameter("pincode"));
+        String pincode = req.getParameter("pincode");
 
         Member.MemberType memberType = (Member.MemberType) req.getSession().getAttribute("MemberType");
-        ProfileDTO profileData;
+        ProfileDTO profileData = null;
+
         if (memberType == Member.MemberType.SITTER) {
-            int experience = Integer.parseInt(req.getParameter("experience"));
-            profileData = new SitterProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode, experience);
+            String experience = req.getParameter("experience");
+            profileData = new SitterProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode,
+                    experience);
+
         } else if (memberType == Member.MemberType.SEEKER) {
-            int totalChildren = Integer.parseInt(req.getParameter("totalchildren"));
+            String totalChildren = req.getParameter("totalchildren");
             String spouseName = req.getParameter("spousename");
-            profileData = new SeekerProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode, totalChildren, spouseName);
+            profileData = new SeekerProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode,
+                    totalChildren, spouseName);
+
         } else {
-            //todo: write something else in here
-            profileData = null;
+            req.setAttribute("error", "Please login first!");
+            req.getRequestDispatcher("/HomeJobMarketplace").forward(req,resp);
         }
+
         req.setAttribute("ProfileData", profileData);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/member/editprofile.jsp");
         requestDispatcher.forward(req, resp);

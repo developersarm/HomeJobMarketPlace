@@ -27,6 +27,7 @@ public class LoginFormDTO {
 
     public boolean validate() {
         errors = new HashMap<>();
+
         if (emailId.isEmpty()) {
             errors.put("emailId", "Can't be empty");
         } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+.)+[a-z]{2,5}$")) {

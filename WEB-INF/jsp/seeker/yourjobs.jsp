@@ -18,6 +18,18 @@
             </div>
         </div>
 
+        <c:if test="${not empty requestScope.msg}">
+            <div class="alert alert-success">
+              ${requestScope.msg}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert alert-danger">
+              ${requestScope.error}
+            </div>
+        </c:if>
+
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -46,8 +58,10 @@
 
                         <tr>
                             <td> ${tempJob.title} </td>
-                            <td> <fmt:formatDate value="${tempJob.startDate}" pattern="dd-MM-yyyy" /> </td>
-                            <td> <fmt:formatDate value="${tempJob.endDate}" pattern="dd-MM-yyyy" /> </td>
+                            <td> <fmt:parseDate pattern="yyyy-MM-dd" value="${tempJob.startDate}" var="parsedStartDate" />
+                                 <fmt:formatDate value="${parsedStartDate}" pattern="dd-MM-yyyy" /> </td>
+                            <td> <fmt:parseDate pattern="yyyy-MM-dd" value="${tempJob.endDate}" var="parsedEndDate" />
+                                 <fmt:formatDate value="${parsedEndDate}" pattern="dd-MM-yyyy" /> </td>
                             <td> ${tempJob.status} </td>
                             <td>
                                 <a href="${editLink}">Edit</a>

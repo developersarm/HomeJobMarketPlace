@@ -56,8 +56,8 @@ public class SitterService {
         String phoneNo = sitter.getPhoneNo();
         String emailId = sitter.getEmailId();
         String address = sitter.getAddress();
-        int pincode = sitter.getPincode();
-        int experience = sitter.getExperience();
+        String pincode = String.valueOf(sitter.getPincode());
+        String experience = String.valueOf(sitter.getExperience());
         return new SitterProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode, experience);
     }
 
@@ -69,8 +69,8 @@ public class SitterService {
         sitter.setPhoneNo(sitterProfileDTO.getPhoneNo());
         sitter.setEmailId(sitterProfileDTO.getEmailId());
         sitter.setAddress(sitterProfileDTO.getAddress());
-        sitter.setPincode(sitterProfileDTO.getPincode());
-        sitter.setExperience(sitterProfileDTO.getExperience());
+        sitter.setPincode(Integer.parseInt(sitterProfileDTO.getPincode()));
+        sitter.setExperience(Integer.parseInt(sitterProfileDTO.getExperience()));
 
         sitterDAO.update(sitter);
     }
@@ -91,11 +91,11 @@ public class SitterService {
         return sitterNAJobDTOS;
     }
 
-    public static boolean applyJob(JobApplicationDTO jobApplicationDTO) {
+    public static boolean applyJob(JobApplicationForm jobApplicationForm) {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
-        int userId = jobApplicationDTO.getUserId();
-        int jobId = jobApplicationDTO.getJobId();
-        double expectedPay = jobApplicationDTO.getExpectedPay();
+        int userId = jobApplicationForm.getUserId();
+        int jobId = Integer.parseInt(jobApplicationForm.getJobId());
+        double expectedPay = Double.parseDouble(jobApplicationForm.getExpectedPay());
         JobApplication jobApplication = new JobApplication(-1, jobId, userId, expectedPay);
         jobApplicationDAO.create(jobApplication);
 

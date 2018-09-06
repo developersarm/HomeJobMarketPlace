@@ -4,20 +4,20 @@ import org.care.context.MyApplicationContext;
 import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.SeekerDAO;
-import org.care.dto.SeekerJobApplicationDTO;
-import org.care.dto.SeekerJobDTO;
-import org.care.dto.SeekerProfileDTO;
-import org.care.dto.SeekerRegistrationFormDTO;
+import org.care.dto.*;
 import org.care.model.Job;
 import org.care.model.JobApplication;
-import org.care.model.Member;
 import org.care.model.Seeker;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SeekerService {
 
@@ -28,7 +28,6 @@ public class SeekerService {
         String phoneNo = seekerFormData.getPhoneNo();
         String emailId = seekerFormData.getEmailId();
         String password = seekerFormData.getPassword();
-        Member.MemberType memberType = Member.MemberType.valueOf(seekerFormData.getType());
         String address = seekerFormData.getAddress();
         int pincode = Integer.parseInt(seekerFormData.getPincode());
         int totalChildren = Integer.parseInt(seekerFormData.getTotalChildren());
@@ -53,9 +52,24 @@ public class SeekerService {
         return jobApplicationDAO.get(userId, status);
     }
 
-    public static void postJob(Job job) {
-        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
-        jobDAO.create(job);
+    public static boolean postJob(JobPostFormDTO jobPostFormDTO) {
+        try {
+            JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+            String title = jobPostFormDTO.getTitle();
+            int postedBy = jobPostFormDTO.getPostedBy();
+            Date sDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobPostFormDTO.getStartDate());
+            Timestamp startDate = new Timestamp(sDate.getTime());
+            Date eDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobPostFormDTO.getEndDate());
+            Timestamp endDate = new Timestamp(eDate.getTime());
+            Double payPerHour = Double.parseDouble(jobPostFormDTO.getPayPerHour());
+            Job job = new Job(title, postedBy, startDate, endDate, payPerHour);
+            jobDAO.create(job);
+            return true;
+        } catch (ParseException e) {
+            Logger logger = Logger.getLogger(SeekerService.class.getName());
+            logger.log(Level.SEVERE, "Cannot convert html date to java date format. ");
+            return false;
+        }
     }
 
     public static SeekerProfileDTO getProfile(int userId) {
@@ -67,8 +81,8 @@ public class SeekerService {
         String phoneNo = seeker.getPhoneNo();
         String emailId = seeker.getEmailId();
         String address = seeker.getAddress();
-        int pincode = seeker.getPincode();
-        int totalChildren = seeker.getTotalChildren();
+        String pincode = String.valueOf(seeker.getPincode());
+        String totalChildren = String.valueOf(seeker.getTotalChildren());
         String spouseName = seeker.getSpouseName();
 
         return new SeekerProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode, totalChildren, spouseName);
@@ -81,11 +95,11 @@ public class SeekerService {
         jobsList = jobDAO.getJobsPostedBy(userId);
         for (Job tempJob :
                 jobsList) {
-            int id = tempJob.getId();
+            String id = String.valueOf(tempJob.getId());
             String title = tempJob.getTitle();
             Job.Status status = tempJob.getStatus();
-            Date startDate = tempJob.getStartDate();
-            Date endDate = tempJob.getEndDate();
+            String startDate = String.valueOf(tempJob.getStartDate());
+            String endDate = String.valueOf(tempJob.getEndDate());
             seekerJobDTOS.add(new SeekerJobDTO(id, title, status, startDate, endDate));
         }
         return seekerJobDTOS;
@@ -99,8 +113,8 @@ public class SeekerService {
         seeker.setPhoneNo(seekerProfileDTO.getPhoneNo());
         seeker.setEmailId(seekerProfileDTO.getEmailId());
         seeker.setAddress(seekerProfileDTO.getAddress());
-        seeker.setPincode(seekerProfileDTO.getPincode());
-        seeker.setTotalChildren(seekerProfileDTO.getTotalChildren());
+        seeker.setPincode(Integer.parseInt(seekerProfileDTO.getPincode()));
+        seeker.setTotalChildren(Integer.parseInt(seekerProfileDTO.getTotalChildren()));
         seeker.setSpouseName(seekerProfileDTO.getSpouseName());
 
         seekerDAO.update(seeker);
@@ -109,26 +123,34 @@ public class SeekerService {
     public static SeekerJobDTO getJob(int jobId) {
         JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
         Job job = jobDAO.get(jobId);
-        int id = job.getId();
+        String id = String.valueOf(job.getId());
         String title = job.getTitle();
         Job.Status status = job.getStatus();
-        Date startDate = job.getStartDate();
-        Date endDate = job.getEndDate();
-        double payPerHour = job.getPayPerHour();
+        String startDate = new SimpleDateFormat("yyyy-MM-dd").format(job.getStartDate());
+        String endDate = new SimpleDateFormat("yyyy-MM-dd").format(job.getEndDate());
+        String payPerHour = String.valueOf(job.getPayPerHour());
         return new SeekerJobDTO(id, title, status, startDate, endDate, payPerHour);
     }
 
     public static boolean updateJob(int userId, SeekerJobDTO jobDTO) {
-        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
-        int id = jobDTO.getId();
-        String title = jobDTO.getTitle();
-        Date startDate = jobDTO.getStartDate();
-        Timestamp startDateTS = new Timestamp(startDate.getTime());
-        Date endDate = jobDTO.getEndDate();
-        Timestamp endDateTS = new Timestamp(endDate.getTime());
-        double payPerHour = jobDTO.getPayPerHour();
-        jobDAO.update(new Job(id, title, userId, startDateTS, endDateTS, payPerHour));
-        return true;
+        try {
+            JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+            int id = Integer.parseInt(jobDTO.getId());
+            String title = jobDTO.getTitle();
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobDTO.getStartDate());
+            Timestamp startDateTS = new Timestamp(startDate.getTime());
+            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobDTO.getEndDate());
+            Timestamp endDateTS = new Timestamp(endDate.getTime());
+            double payPerHour = Double.parseDouble(jobDTO.getPayPerHour());
+
+            jobDAO.update(new Job(id, title, userId, startDateTS, endDateTS, payPerHour));
+            return true;
+
+        } catch (ParseException e) {
+            Logger logger = Logger.getLogger(SeekerService.class.getName());
+            logger.log(Level.SEVERE, "Cannot convert html date to java date format. ");
+            return false;
+        }
     }
 
     public static boolean deleteJob(int jobId) {

@@ -20,22 +20,43 @@
         <form action="/HomeJobMarketplace/seeker/edit-job" method="post">
             <input type="hidden" name="jobid" value="${requestScope.Job.id}" />
             <div class="form-group">
-            <label for="title">Title:</label>
-            <input type="text" class="form-control" name="title" id="title" value="${requestScope.Job.title}" />
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" name="title" id="title" value="${requestScope.Job.title}" />
+                <c:if test="${not empty Job.errors['title']}">
+                    <div class="alert alert-danger">
+                        ${Job.errors['title']}
+                    </div>
+                </c:if>
             </div>
+
             <div class="form-group">
-            <label for="sdate">Start Date:</label>
-            <fmt:formatDate var="fmtStartDate" value="${requestScope.Job.startDate}" pattern="MM-dd-yyyy"/>
-            <input type="date" class="form-control" id="sdate" name="startdate" value="${fmtStartDate}" />
+                <label for="sdate">Start Date:</label>
+                <input type="date" class="form-control" id="sdate" name="startdate" value="${requestScope.Job.startDate}" />
+                <c:if test="${not empty Job.errors['startDate']}">
+                    <div class="alert alert-danger">
+                        ${Job.errors['startDate']}
+                    </div>
+                </c:if>
             </div>
+
             <div class="form-group">
-            <label for="edate">End Date:</label>
-            <fmt:formatDate var="fmtEndDate" value="${requestScope.Job.endDate}" pattern="dd/MM/yyyy"/>
-            <input type="date" class="form-control" id="edate" name="enddate" value="${fmtEndDate}" />
+                <label for="edate">End Date:</label>
+                <input type="date" class="form-control" id="edate" name="enddate" value="${requestScope.Job.endDate}" />
+                <c:if test="${not empty Job.errors['endDate']}">
+                    <div class="alert alert-danger">
+                        ${Job.errors['endDate']}
+                    </div>
+                </c:if>
             </div>
+
             <div class="form-group">
-            <label for="payperhr">Pay Per Hour:</label>
-            <input type="number" step="any" class="form-control" id="payperhr" name="payperhour" value="${requestScope.Job.payPerHour}" />
+                <label for="payperhr">Pay Per Hour:</label>
+                <input type="number" step="any" class="form-control" id="payperhr" name="payperhour" value="${requestScope.Job.payPerHour}" />
+                <c:if test="${not empty Job.errors['payPerHour']}">
+                    <div class="alert alert-danger">
+                        ${Job.errors['payPerHour']}
+                    </div>
+                </c:if>
             </div>
             <div style="text-align:center">
                 <input type="submit" class="btn btn-default" value="Save"/>

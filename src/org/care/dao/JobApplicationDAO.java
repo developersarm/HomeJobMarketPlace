@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 public class JobApplicationDAO implements DAO<JobApplication> {
 
+
     @Override
     public void create(JobApplication obj) {
         Connection myConn = MyApplicationContext.getJdbcConnection();

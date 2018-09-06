@@ -20,21 +20,43 @@
         <form action="/HomeJobMarketplace/seeker/new-job" method="post">
             <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" class="form-control" name="title" id="title">
+            <input type="text" class="form-control" name="title" id="title" value="${jobData.title}">
+            <c:if test="${not empty jobData.errors['title']}">
+                <div class="alert alert-danger">
+                    ${jobData.errors['title']}
+                </div>
+            </c:if>
             </div>
             <div class="form-group">
             <label for="sdate">Start Date:</label>
-            <input type="date" class="form-control" id="sdate" name="startdate">
+            <input type="date" class="form-control" id="sdate" name="startdate" value="${jobData.startDate}">
+            <c:if test="${not empty jobData.errors['startDate']}">
+                <div class="alert alert-danger">
+                    ${jobData.errors['startDate']}
+                </div>
+            </c:if>
             </div>
             <div class="form-group">
             <label for="edate">End Date:</label>
-            <input type="date" class="form-control" id="edate" name="enddate">
+            <input type="date" class="form-control" id="edate" name="enddate" value="${jobData.endDate}">
+            <c:if test="${not empty jobData.errors['endDate']}">
+                <div class="alert alert-danger">
+                    ${jobData.errors['endDate']}
+                </div>
+            </c:if>
             </div>
             <div class="form-group">
             <label for="payperhr">Pay Per Hour:</label>
-            <input type="number" step="any" class="form-control" id="payperhr" name="payperhour">
+            <input type="number" step="any" class="form-control" id="payperhr" name="payperhour" value="${jobData.payPerHour}">
+            <c:if test="${not empty jobData.errors['payPerHour']}">
+                <div class="alert alert-danger">
+                    ${jobData.errors['payPerHour']}
+                </div>
+            </c:if>
             </div>
-            <input type="submit" class="btn btn-default" value="PostJob"/>
+            <div style="text-align:center">
+                <input type="submit" class="btn btn-default" value="PostJob"/>
+            </div>
         </form>
     </div>
 </body>

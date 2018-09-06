@@ -22,7 +22,12 @@
 
             <div class="form-group">
                 <label for="expPay">Expected Pay:</label>
-                <input type="number" class="form-control" name="expectedpay" id="expPay" step="any">
+                <input type="number" class="form-control" name="expectedpay" id="expPay" step="any" value="${jobApplication.expectedPay}">
+                <c:if test="${not empty jobApplication.errors['expectedPay']}">
+                    <div class="alert alert-danger">
+                        ${jobApplication.errors['expectedPay']}
+                    </div>
+                </c:if>
             </div>
 
             <div style="text-align:center">

@@ -17,32 +17,25 @@ public class SeekerRegistrationFormDTO extends MemberRegistrationFormDTO {
     @Override
     public boolean validate() {
         super.validate();
-        Map<String, String> errors = super.errors;
-        errors = validateTotalChildren(errors);
-        errors = validateSpouseName(errors);
-        super.errors = errors;
-        if (errors.isEmpty()) {
-            return true;
-        }
-        return false;
+        validateTotalChildren();
+        validateSpouseName();
+        return errors.isEmpty();
     }
 
-    private Map<String, String> validateTotalChildren(Map<String, String> errors) {
+    private void validateTotalChildren() {
         if (totalChildren.isEmpty()) {
             errors.put("totalChildren", "Can't be empty!");
         } else if (!totalChildren.matches("^0$|^[1-9][0-9]*$")) {
-            errors.put("totalChildren", "No zeros before any number allowed!");
+            errors.put("totalChildren", "only numbers allowed with no preceding zeros!");
         }
-        return errors;
     }
 
-    private Map<String, String> validateSpouseName(Map<String, String> errors) {
+    private void validateSpouseName() {
         if (spouseName.isEmpty()) {
             errors.put("spouseName", "Can't be empty!");
         } else if (!spouseName.matches("^[\\p{L}]+$")) {
             errors.put("spouseName", "Only characters allowed!");
         }
-        return errors;
     }
 
     public String getTotalChildren() {

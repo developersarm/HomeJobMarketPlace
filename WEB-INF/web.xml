@@ -69,16 +69,6 @@
         <url-pattern>/visitor/reset-password</url-pattern>
     </servlet-mapping>
 
-    <!--<servlet>-->
-        <!--<servlet-name>homePageServlet</servlet-name>-->
-        <!--<servlet-class>org.care.presentation.member.HomePageServlet</servlet-class>-->
-    <!--</servlet>-->
-
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>homePageServlet</servlet-name>-->
-        <!--<url-pattern>/member/home</url-pattern>-->
-    <!--</servlet-mapping>-->
-
     <servlet>
         <servlet-name>seekerHomePageServlet</servlet-name>
         <servlet-class>org.care.presentation.seeker.SeekerHomePageServlet</servlet-class>

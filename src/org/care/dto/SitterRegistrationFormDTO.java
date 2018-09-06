@@ -1,7 +1,5 @@
 package org.care.dto;
 
-import java.util.Map;
-
 public class SitterRegistrationFormDTO extends MemberRegistrationFormDTO {
     private String experience;
 
@@ -23,16 +21,11 @@ public class SitterRegistrationFormDTO extends MemberRegistrationFormDTO {
     @Override
     public boolean validate() {
         super.validate();
-        Map<String, String> errors = super.errors;
-        errors = validateExperience(errors);
-        super.errors = errors;
-        if (errors.isEmpty()) {
-            return true;
-        }
-        return false;
+        validateExperience();
+        return errors.isEmpty();
     }
 
-    private Map<String, String> validateExperience(Map<String, String> errors) {
+    private void validateExperience() {
         if (experience.isEmpty()) {
             errors.put("experience", "Can't be empty");
         } else if (!experience.matches("^[0-9]{1,4}$")) {
@@ -40,6 +33,5 @@ public class SitterRegistrationFormDTO extends MemberRegistrationFormDTO {
         } else if (Integer.parseInt(experience) > 120) {
             errors.put("experience", "experience can't be greater than 120");
         }
-        return errors;
     }
 }

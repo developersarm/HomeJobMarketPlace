@@ -17,6 +17,18 @@
             </div>
         </div>
 
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert alert-danger">
+              ${requestScope.error}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty requestScope.msg}">
+            <div class="alert alert-success">
+              ${requestScope.msg}
+            </div>
+        </c:if>
+
         <a href="/HomeJobMarketplace/seeker/new-job">Post a new job</a> </br>
         <a href="/HomeJobMarketplace/member/profile">View profile</a> </br>
         <a href="/HomeJobMarketplace/seeker/list-job">View posted jobs</a> </br>

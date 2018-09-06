@@ -10,11 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class EditJobServlet extends HttpServlet {
     @Override
@@ -28,16 +23,16 @@ public class EditJobServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            //todo: correct date error in jsp
-            HttpSession session = req.getSession();
-            int userId = (int) session.getAttribute("UserId");
-            int jobId = Integer.parseInt(req.getParameter("jobid"));
-            String title = req.getParameter("title");
-            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startdate"));
-            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("enddate"));
-            Double payPerHour = Double.valueOf(req.getParameter("payperhour"));
-            SeekerJobDTO jobDTO = new SeekerJobDTO(jobId, title, startDate, endDate, payPerHour);
+        HttpSession session = req.getSession();
+        int userId = (int) session.getAttribute("UserId");
+        String jobId = req.getParameter("jobid");
+        String title = req.getParameter("title");
+        String startDate = req.getParameter("startdate");
+        String endDate = req.getParameter("enddate");
+        String payPerHour = req.getParameter("payperhour");
+        SeekerJobDTO jobDTO = new SeekerJobDTO(jobId, title, startDate, endDate, payPerHour);
+
+        if (jobDTO.validate()) {
             boolean isUpdated = SeekerService.updateJob(userId, jobDTO);
 
             if (isUpdated) {
@@ -45,10 +40,11 @@ public class EditJobServlet extends HttpServlet {
             } else {
                 req.setAttribute("error", "Updation failed");
             }
-            resp.sendRedirect("/HomeJobMarketplace/seeker/list-job");
-        } catch (ParseException e) {
-            Logger logger = Logger.getLogger(EditJobServlet.class.getName());
-            logger.log(Level.SEVERE, "Cannot convert html date into java date format");
+            req.getRequestDispatcher("/HomeJobMarketplace/seeker/list-job").forward(req, resp);
+        } else {
+            req.setAttribute("Job", jobDTO);
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/jsp/seeker/editjob.jsp");
+            dispatcher.forward(req, resp);
         }
     }
 }

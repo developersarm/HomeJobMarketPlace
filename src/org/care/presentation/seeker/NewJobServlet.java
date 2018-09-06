@@ -1,6 +1,6 @@
 package org.care.presentation.seeker;
 
-import org.care.model.Job;
+import org.care.dto.JobPostFormDTO;
 import org.care.service.SeekerService;
 
 import javax.servlet.RequestDispatcher;
@@ -10,12 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class NewJobServlet extends HttpServlet {
 
@@ -27,26 +21,28 @@ public class NewJobServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            HttpSession session = req.getSession();
-            int userId = (int) session.getAttribute("UserId");
-            String title = req.getParameter("title");
-            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("startdate"));
-            Timestamp startDateTS = new Timestamp(startDate.getTime());
-            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(req.getParameter("enddate"));
-            Timestamp endDateTS = new Timestamp(endDate.getTime());
-            Double payPerHour = Double.valueOf(req.getParameter("payperhour"));
-            //todo: use dto in here
-            Job job = new Job(title, userId, startDateTS, endDateTS, payPerHour);
-            SeekerService.postJob(job);
-        } catch (ParseException e) {
-            Logger logger = Logger.getLogger(NewJobServlet.class.getName());
-            logger.log(Level.SEVERE, "Cannot convert html date into java date format");
+        HttpSession session = req.getSession();
+        int userId = (int) session.getAttribute("UserId");
+
+        String title = req.getParameter("title");
+        String startDate = req.getParameter("startdate");
+        String endDate = req.getParameter("enddate");
+        String payPerHour = req.getParameter("payperhour");
+
+        JobPostFormDTO jobPostFormDTO = new JobPostFormDTO(title, userId, startDate, endDate, payPerHour);
+
+        if (jobPostFormDTO.validate()) {
+            boolean isPosted = SeekerService.postJob(jobPostFormDTO);
+            if (isPosted) {
+                req.setAttribute("msg", "Job posted successfully!");
+                req.getRequestDispatcher("/seeker/home").forward(req,resp);
+            } else {
+                req.setAttribute("error", "Failed to post the job!");
+                req.getRequestDispatcher("/seeker/home").forward(req,resp);
+            }
+        } else {
+            req.setAttribute("jobData", jobPostFormDTO);
+            req.getRequestDispatcher("/WEB-INF/jsp/seeker/newjob.jsp").forward(req,resp);
         }
-
-        //todo: Generate error message on unsuccessful registration
-
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/seeker/home");
-        requestDispatcher.forward(req, resp);
     }
 }

@@ -1,6 +1,5 @@
 package org.care.dto;
 
-import org.care.model.Job;
 import org.care.utils.JobUtil;
 
 import java.text.ParseException;
@@ -11,46 +10,24 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SeekerJobDTO {
-    private String id;
+public class JobPostFormDTO {
     private String title;
-    private Job.Status status;
+    private int postedBy;
     private String startDate;
     private String endDate;
     private String payPerHour;
-    private Map<String, String> errors;
+    protected Map<String, String> errors;
 
-    public SeekerJobDTO(String id, String title, Job.Status status, String startDate, String endDate) {
-        this.id = id;
+    public JobPostFormDTO(String title, int postedBy, String startDate, String endDate, String payPerHour) {
         this.title = title;
-        this.status = status;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public SeekerJobDTO(String id, String title, String startDate, String endDate, String payPerHour) {
-        this.id = id;
-        this.title = title;
+        this.postedBy = postedBy;
         this.startDate = startDate;
         this.endDate = endDate;
         this.payPerHour = payPerHour;
     }
 
-    public SeekerJobDTO(String id, String title, Job.Status status, String startDate, String endDate, String payPerHour) {
-        this.id = id;
-        this.title = title;
-        this.status = status;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.payPerHour = payPerHour;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public Map<String, String> getErrors() {
+        return errors;
     }
 
     public String getTitle() {
@@ -61,12 +38,12 @@ public class SeekerJobDTO {
         this.title = title;
     }
 
-    public Job.Status getStatus() {
-        return status;
+    public int getPostedBy() {
+        return postedBy;
     }
 
-    public void setStatus(Job.Status status) {
-        this.status = status;
+    public void setPostedBy(int postedBy) {
+        this.postedBy = postedBy;
     }
 
     public String getStartDate() {
@@ -81,10 +58,6 @@ public class SeekerJobDTO {
         return endDate;
     }
 
-    public Map<String, String> getErrors() {
-        return errors;
-    }
-
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
@@ -97,22 +70,13 @@ public class SeekerJobDTO {
         this.payPerHour = payPerHour;
     }
 
-    public boolean validate () {
+    public boolean validate() {
         errors = new HashMap<>();
-        validateJobId();
         validateTitle();
         validateStartDate();
         validateEndDate();
         validatePayPerHour();
         return errors.isEmpty();
-    }
-
-    private void validateJobId() {
-        if (id == null) {
-            errors.put("id", "Go back to homepage!");
-        } else if (id.isEmpty()) {
-            errors.put("id", "Go back to homepage!");
-        }
     }
 
     private void validateTitle() {
@@ -170,4 +134,5 @@ public class SeekerJobDTO {
             errors.put("payPerHour", "no. can't be negative!");
         }
     }
+
 }

@@ -18,6 +18,7 @@ public class ResetPasswordServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        //todo: give implementation for forget password
         resp.getWriter().print("this is resetpassword");
 //        RequestDispatcher rd = req.getRequestDispatcher("/jsp/visitor/resetpassword.jsp");
 //        rd.include(req, resp);
