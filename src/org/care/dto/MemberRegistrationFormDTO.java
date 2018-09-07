@@ -137,7 +137,7 @@ public class MemberRegistrationFormDTO {
     private void validateEmailId() {
         if (emailId.isEmpty()) {
             errors.put("emailId", "Email id can't be empty!");
-        } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+.)+[a-z]{2,5}$")) {
+        } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\\.)+[a-z]{2,5}$")) {
             errors.put("emailId", "Incorrect email format");
         } else if (MemberService.isEmailIdRegistered(emailId)) {
             errors.put("emailId", "Account already exist with given emailId");

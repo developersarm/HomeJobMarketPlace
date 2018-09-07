@@ -130,9 +130,6 @@ public class MemberDAO<T extends Member> implements DAO<T> {
     }
 
     public Map<String, Object> get(String email, String password) {
-        /*
-        Todo's:password should be hashed
-         */
         Connection myConn = MyApplicationContext.getJdbcConnection();
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("UserId", -1);
@@ -153,8 +150,8 @@ public class MemberDAO<T extends Member> implements DAO<T> {
 
         } catch (Exception e) {
             Logger logger = Logger.getLogger(MemberDAO.class.getName());
-            logger.log(Level.SEVERE, "exception while performing retrieve operation using " +
-                    "email and password" + e);
+            logger.log(Level.INFO, "exception while performing retrieve operation using " +
+                    "email and password: " + e);
         }
         return resultMap;
     }
