@@ -71,7 +71,7 @@
           username="root"
           password="admin"
           driverClassName="com.mysql.jdbc.Driver"
-          url="jdbc:mysql://localhost:3306/homejobmarketplace"/>
+          url="jdbc:mysql://localhost:3306/homejobmarketplace?useSSL=false"/>
   </GlobalNamingResources>
 
   <!-- A "Service" is a collection of one or more "Connectors" that share
@@ -165,7 +165,7 @@
                prefix="localhost_access_log." suffix=".txt"
                pattern="%h %l %u %t &quot;%r&quot; %s %b" />
 			   
-		<Context path="/HomeJobMarketplace" docBase="D:\abhay\HomeJobMarketPlace" reloadable="true">
+		<Context path="/HomeJobMarketplace" docBase="C:\Work\apache-tomcat-7.0.90\webapps\HomeJobMarketplace" reloadable="true">
 			<ResourceLink name="jdbc/HomeJobDB"
                 global="jdbc/HomeJobDB"
                 auth="Container"

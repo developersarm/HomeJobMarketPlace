@@ -20,8 +20,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(MyApplicationContext.get().getMember() != null) {
-            Member member = (Member) MyApplicationContext.get().getMember();
-            RequestDispatcher requestDispatcher;
+            Member member = MyApplicationContext.get().getMember();
 
             if(member.getType() == Member.MemberType.SEEKER) {
                 resp.sendRedirect(MyApplicationContext.get().getAppURI() + "/seeker/home");

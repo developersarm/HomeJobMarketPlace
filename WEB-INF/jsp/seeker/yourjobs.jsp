@@ -64,16 +64,27 @@
                                  <fmt:formatDate value="${parsedEndDate}" pattern="dd-MM-yyyy" /> </td>
                             <td> ${tempJob.status} </td>
                             <td>
-                                <a href="${editLink}">Edit</a>
-                                        |
-                                <a href="${deleteLink}" onclick="if(!(confirm('Sure you want to delete this job?'))) return false">Delete</a>
-                                        |
-                                <a href="${listAppLink}">Show Applications</a>
+                               <c:choose>
+                                   <c:when test="${tempJob.status == 'ACTIVE'}">
+                                       <a href="${editLink}">Edit</a>
+                                               |
+                                       <a href="${deleteLink}" onclick="if(!(confirm('Sure you want to delete this job?'))) return false">Delete</a>
+                                               |
+                                       <a href="${listAppLink}">Show Applications</a>
+                                   </c:when>
+                                   <c:otherwise>
+
+                                   </c:otherwise>
+                               </c:choose>
                             </td>
                         </tr>
                     </c:forEach>
                 </tbody>
             </table>
+        </div>
+        </br></br>
+        <div style="text-align:center">
+            <a href="/HomeJobMarketplace/" class="btn btn-primary" role="button" >Home</a>
         </div>
     </div>
 </body>

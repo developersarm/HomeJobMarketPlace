@@ -2,6 +2,7 @@ package org.care.presentation.seeker;
 
 import org.care.model.JobApplication;
 import org.care.service.SeekerService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,36 +18,22 @@ public class SeekerHomePageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Logger.getLogger(SeekerHomePageServlet.class.getName()).info("Get called in Home page");
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
-
-        List<JobApplication> jobApplications;
-        jobApplications = SeekerService.getJobApplications(userId, JobApplication.Status.ACTIVE);
-        req.setAttribute("JobApplications", jobApplications);
 
         String success = req.getParameter("success");
         if(success != null) {
             if(success.equalsIgnoreCase("true")) {
-                req.setAttribute("msg", "Job posted successfully!");
+                req.setAttribute("msg", "Operation Successful!");
             } else if (success.equalsIgnoreCase("false")) {
-                req.setAttribute("error", "Failed to post the job!");
+                req.setAttribute("error", "Operation Failed!");
             }
         }
+
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/seeker/home.jsp");
         requestDispatcher.forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
-
-        List<JobApplication> jobApplications;
-        jobApplications = SeekerService.getJobApplications(userId, JobApplication.Status.ACTIVE);
-        req.setAttribute("JobApplications", jobApplications);
-
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/seeker/home.jsp");
-        requestDispatcher.forward(req, resp);
+        resp.sendRedirect(CommonUtil.getRedirectURL(""));
     }
 }

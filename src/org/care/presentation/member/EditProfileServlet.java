@@ -1,5 +1,6 @@
 package org.care.presentation.member;
 
+import org.care.context.MyApplicationContext;
 import org.care.dto.ProfileDTO;
 import org.care.dto.SeekerProfileDTO;
 import org.care.dto.SitterProfileDTO;
@@ -8,6 +9,7 @@ import org.care.model.Seeker;
 import org.care.model.Sitter;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,7 +30,7 @@ public class EditProfileServlet extends HttpServlet {
         String address = req.getParameter("address");
         String pincode = req.getParameter("pincode");
 
-        Member.MemberType memberType = (Member.MemberType) req.getSession().getAttribute("MemberType");
+        Member.MemberType memberType = MyApplicationContext.get().getMember().getType();
         ProfileDTO profileData = null;
 
         if (memberType == Member.MemberType.SITTER) {
@@ -43,8 +45,7 @@ public class EditProfileServlet extends HttpServlet {
                     totalChildren, spouseName);
 
         } else {
-            req.setAttribute("error", "Please login first!");
-            req.getRequestDispatcher("/HomeJobMarketplace").forward(req,resp);
+            resp.sendRedirect(CommonUtil.getRedirectURL("?success=false"));
         }
 
         req.setAttribute("ProfileData", profileData);
@@ -54,6 +55,6 @@ public class EditProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("Get of edit profile servlet called");
+        resp.sendRedirect(CommonUtil.getRedirectURL(""));
     }
 }

@@ -164,7 +164,7 @@ public class SeekerJobDTO {
     private void validatePayPerHour() {
         if (payPerHour.isEmpty()) {
             errors.put("payPerHour", "Can't be empty");
-        } else if(payPerHour.matches("^([0-9]+)$|^([0-9]+\\.[0-9]+)$")) {
+        } else if(!payPerHour.matches("^([0-9]+)$|^([0-9]+\\.[0-9]+)$")) {
             errors.put("payPerHour", "Can only contain one decimal!");
         } else if(!(Double.parseDouble(payPerHour) >= 0) ) {
             errors.put("payPerHour", "no. can't be negative!");

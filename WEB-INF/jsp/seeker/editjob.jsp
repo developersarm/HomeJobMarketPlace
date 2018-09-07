@@ -60,6 +60,7 @@
             </div>
             <div style="text-align:center">
                 <input type="submit" class="btn btn-default" value="Save"/>
+                <a href="/HomeJobMarketplace/" class="btn btn-primary" role="button">Home</a>
             </div>
         </form>
     </div>

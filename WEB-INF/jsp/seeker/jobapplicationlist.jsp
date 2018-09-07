@@ -38,6 +38,10 @@
                 </tbody>
             </table>
         </div>
+        </br></br>
+        <div style="text-align:center">
+            <a href="/HomeJobMarketplace/" class="btn btn-primary" role="button" >Home</a>
+        </div>
     </div>
 </body>
 </html>

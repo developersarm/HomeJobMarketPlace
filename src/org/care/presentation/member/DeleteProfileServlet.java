@@ -1,6 +1,8 @@
 package org.care.presentation.member;
 
+import org.care.context.MyApplicationContext;
 import org.care.service.MemberService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,13 +17,12 @@ public class DeleteProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
+        int userId = MyApplicationContext.get().getMember().getId();
         boolean isDeleted = MemberService.deleteUser(userId);
 
         if (isDeleted) {
             session.invalidate();
-            req.setAttribute("msg", "Account deactivated succefully!");
-            req.getRequestDispatcher("/HomeJobMarketplace").forward(req,resp);
+            resp.sendRedirect(CommonUtil.getRedirectURL("?success=false"));
         } else {
             req.setAttribute("error", "Can't delete profile");
             RequestDispatcher requestDispatcher = req.getRequestDispatcher("/member/profile");
@@ -31,6 +32,6 @@ public class DeleteProfileServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("put of delete profile servlet");
+        resp.sendRedirect(CommonUtil.getRedirectURL(""));
     }
 }

@@ -75,6 +75,10 @@
                 <a href="/HomeJobMarketplace/member/delete-profile" class="btn btn-danger" role="button" onclick="if(!(confirm('Sure you want to delete this application?'))) return false">Delete Profile</a>
             </div>
         </form>
+        </br></br>
+        <div style="text-align:center">
+            <a href="/HomeJobMarketplace/" class="btn btn-primary" role="button" >Home</a>
+        </div>
     </div>
 </body>
 </html>

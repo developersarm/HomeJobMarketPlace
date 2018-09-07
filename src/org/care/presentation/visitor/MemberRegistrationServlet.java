@@ -20,6 +20,7 @@ public class MemberRegistrationServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         req.getRequestDispatcher("/WEB-INF/jsp/visitor/register.jsp").forward(req, resp);
     }
 
@@ -38,27 +39,33 @@ public class MemberRegistrationServlet extends HttpServlet {
         String pincode = req.getParameter("pincode");
 
         if (memberType == Member.MemberType.SITTER) {
+
             String experience = req.getParameter("experience");
             SitterRegistrationFormDTO sFormData = new SitterRegistrationFormDTO(firstName, lastName, phoneNo, emailId,
                     password, memberType.toString(), address, pincode, experience);
+
             if (sFormData.validate()) {
                 SitterService.register(sFormData);
                 req.setAttribute("msg", "Registered Successfully!");
                 req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp").forward(req, resp);
+
             } else {
                 req.setAttribute("errors", sFormData.getErrors());
                 req.setAttribute("formData", sFormData);
                 req.getRequestDispatcher("/WEB-INF/jsp/visitor/register.jsp").forward(req, resp);
             }
+
         } else if (memberType == Member.MemberType.SEEKER) {
             String totalChildren = req.getParameter("totalchildren");
             String spouseName = req.getParameter("spousename");
             SeekerRegistrationFormDTO sFormData = new SeekerRegistrationFormDTO(firstName, lastName, phoneNo, emailId,
                     password, memberType.toString(), address, pincode, totalChildren, spouseName);
+
             if (sFormData.validate()) {
                 SeekerService.register(sFormData);
                 req.setAttribute("msg", "Registered Successfully!");
                 req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp").forward(req, resp);
+
             } else {
                 req.setAttribute("errors", sFormData.getErrors());
                 req.setAttribute("formData", sFormData);

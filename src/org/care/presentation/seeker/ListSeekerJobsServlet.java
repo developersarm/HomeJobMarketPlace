@@ -1,7 +1,9 @@
 package org.care.presentation.seeker;
 
+import org.care.context.MyApplicationContext;
 import org.care.dto.SeekerJobDTO;
 import org.care.service.SeekerService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,8 +18,17 @@ public class ListSeekerJobsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
+        int userId = MyApplicationContext.get().getMember().getId();
+
+        String success = req.getParameter("success");
+        if(success != null) {
+            if(success.equalsIgnoreCase("true")) {
+                req.setAttribute("msg", "Operation Successful!");
+            } else if (success.equalsIgnoreCase("false")) {
+                req.setAttribute("error", "Operation Failed!");
+            }
+        }
+
         List<SeekerJobDTO> seekerJobDTOS = SeekerService.getJobsList(userId);
         req.setAttribute("JobsList", seekerJobDTOS);
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/seeker/yourjobs.jsp");
@@ -26,6 +37,6 @@ public class ListSeekerJobsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.sendRedirect(CommonUtil.getRedirectURL(""));
     }
 }

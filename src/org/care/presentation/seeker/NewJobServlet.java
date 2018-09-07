@@ -23,8 +23,7 @@ public class NewJobServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
+        int userId = MyApplicationContext.get().getMember().getId();
 
         String title = req.getParameter("title");
         String startDate = req.getParameter("startdate");

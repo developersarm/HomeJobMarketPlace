@@ -1,9 +1,11 @@
 package org.care.presentation.member;
 
+import org.care.context.MyApplicationContext;
 import org.care.dto.ProfileDTO;
 import org.care.model.Member;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,9 +19,9 @@ public class ViewProfileServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
-        Member.MemberType memberType = (Member.MemberType) session.getAttribute("MemberType");
+        int userId = MyApplicationContext.get().getMember().getId();
+        Member.MemberType memberType = MyApplicationContext.get().getMember().getType();
+
         ProfileDTO profileData = null;
         if (memberType == Member.MemberType.SEEKER) {
             profileData = SeekerService.getProfile(userId);
@@ -36,6 +38,6 @@ public class ViewProfileServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("entered post");
+        resp.sendRedirect(CommonUtil.getRedirectURL("/member/profile"));
     }
 }

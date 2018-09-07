@@ -132,16 +132,6 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>searchMemberServlet</servlet-name>
-        <servlet-class>org.care.presentation.member.MemberSearchServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>searchMemberServlet</servlet-name>
-        <url-pattern>/member/search</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <servlet-name>listSeekerJobsServlet</servlet-name>
         <servlet-class>org.care.presentation.seeker.ListSeekerJobsServlet</servlet-class>
     </servlet>

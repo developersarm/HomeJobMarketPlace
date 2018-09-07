@@ -1,5 +1,6 @@
 package org.care.service;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import org.care.context.MyApplicationContext;
 import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
@@ -142,5 +143,28 @@ public class SitterService {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
         isDeleted = jobApplicationDAO.delete(jobAppId);
         return isDeleted;
+    }
+
+    public static boolean isJobInNAJobsList(int jobId, int userId) {
+        List<SitterNAJobDTO> sitterNAJobDTOList = getNAJobsList(userId);
+        for (SitterNAJobDTO tempJob :
+                sitterNAJobDTOList) {
+            if (tempJob.getJobId() == jobId) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int getUserIdforJobAppId(int jobAppId) {
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        JobApplication jobApplication = jobApplicationDAO.get((Integer) jobAppId);
+        return jobApplication.getMemberId();
+    }
+
+    public static double getJobAppExpPay(int jobAppId) {
+        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+        JobApplication jobApplication = jobApplicationDAO.get((Integer) jobAppId);
+        return jobApplication.getExpectedPay();
     }
 }

@@ -114,6 +114,10 @@
                 <input type="submit" class="btn btn-default" value="Save"/>
             </div>
         </form>
+        </br></br>
+        <div style="text-align:center">
+            <a href="/HomeJobMarketplace/" class="btn btn-primary" role="button" >Home</a>
+        </div>
     </div>
 </body>
 </html>

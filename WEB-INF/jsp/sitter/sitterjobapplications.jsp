@@ -18,6 +18,18 @@
             </div>
         </div>
 
+        <c:if test="${not empty requestScope.error}">
+            <div class="alert alert-danger">
+              ${requestScope.error}
+            </div>
+        </c:if>
+
+        <c:if test="${not empty requestScope.msg}">
+            <div class="alert alert-success">
+              ${requestScope.msg}
+            </div>
+        </c:if>
+
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -54,7 +66,7 @@
                                     <a href="${deleteLink}" onclick="if(!(confirm('Sure you want to delete this application?'))) return false">Delete</a>
                                 </c:when>
                                 <c:otherwise>
-                                    Edit | Delete
+
                                 </c:otherwise>
                             </c:choose>
                             </td>
@@ -62,6 +74,10 @@
                     </c:forEach>
                 </tbody>
             </table>
+        </div>
+        </br></br>
+        <div style="text-align:center">
+            <a href="/HomeJobMarketplace/" class="btn btn-primary" role="button" >Home</a>
         </div>
     </div>
 </body>

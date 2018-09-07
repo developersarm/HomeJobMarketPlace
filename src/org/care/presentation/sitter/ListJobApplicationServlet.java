@@ -1,7 +1,9 @@
 package org.care.presentation.sitter;
 
+import org.care.context.MyApplicationContext;
 import org.care.dto.SitterJobApplicationDTO;
 import org.care.service.SitterService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,8 +17,16 @@ import java.util.List;
 public class ListJobApplicationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
+        int userId = MyApplicationContext.get().getMember().getId();
+
+        String success = req.getParameter("success");
+        if(success != null) {
+            if(success.equalsIgnoreCase("true")) {
+                req.setAttribute("msg", "Operation Successful!");
+            } else if (success.equalsIgnoreCase("false")) {
+                req.setAttribute("error", "Operation Failed!");
+            }
+        }
 
         List<SitterJobApplicationDTO> sitterJobApplicationDTOS = SitterService.getJobApplications(userId);
         req.setAttribute("jobApplications", sitterJobApplicationDTOS);
@@ -26,6 +36,6 @@ public class ListJobApplicationServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("post of ListSeekerJobApplicationServlet called!");
+        resp.sendRedirect(CommonUtil.getRedirectURL(""));
     }
 }

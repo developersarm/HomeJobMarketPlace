@@ -1,10 +1,12 @@
 package org.care.presentation.member;
 
+import org.care.context.MyApplicationContext;
 import org.care.dto.SeekerProfileDTO;
 import org.care.dto.SitterProfileDTO;
 import org.care.model.Member;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,14 +18,13 @@ import java.io.IOException;
 public class SaveProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
+        resp.sendRedirect(CommonUtil.getRedirectURL(""));
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
-        Member.MemberType memberType = (Member.MemberType) session.getAttribute("MemberType");
+        int userId = MyApplicationContext.get().getMember().getId();
+        Member.MemberType memberType = MyApplicationContext.get().getMember().getType();
 
         String firstName = req.getParameter("firstname");
         String lastName = req.getParameter("lastname");
@@ -39,7 +40,7 @@ public class SaveProfileServlet extends HttpServlet {
 
             if (sitterProfileData.validate()) {
                 SitterService.updateProfile(userId, sitterProfileData);
-                req.getRequestDispatcher("/sitter/home").forward(req, resp);
+                resp.sendRedirect(CommonUtil.getRedirectURL("/sitter/home?success=true"));
             } else {
                 req.setAttribute("ProfileData", sitterProfileData);
                 req.getRequestDispatcher("/WEB-INF/jsp/member/editprofile.jsp").forward(req,resp);
@@ -53,15 +54,14 @@ public class SaveProfileServlet extends HttpServlet {
 
             if (seekerProfileData.validate()) {
                 SeekerService.updateProfile(userId, seekerProfileData);
-                req.getRequestDispatcher("/seeker/home").forward(req, resp);
+                resp.sendRedirect(CommonUtil.getRedirectURL("/seeker/home?success=true"));
             } else {
                 req.setAttribute("ProfileData", seekerProfileData);
                 req.getRequestDispatcher("/WEB-INF/jsp/member/editprofile.jsp").forward(req,resp);
             }
 
         } else {
-            req.setAttribute("error", "Please login first!");
-            req.getRequestDispatcher("/HomeJobMarketplace").forward(req,resp);
+            resp.sendRedirect(CommonUtil.getRedirectURL(""));
         }
     }
 }

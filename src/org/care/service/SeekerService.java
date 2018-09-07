@@ -186,4 +186,10 @@ public class SeekerService {
         Job job = jobDAO.get(jobId);
         return job.getTitle();
     }
+
+    public static int getUserIdforJobId(int jobId) {
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        Job job = jobDAO.get(jobId);
+        return job.getPostedBy();
+    }
 }

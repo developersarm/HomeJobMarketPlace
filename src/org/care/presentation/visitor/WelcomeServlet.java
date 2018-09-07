@@ -1,6 +1,7 @@
 package org.care.presentation.visitor;
 
 import org.care.model.Member;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,12 +31,10 @@ public class WelcomeServlet extends HttpServlet {
         session.setAttribute("MemberType", mType);
 
         resp.sendRedirect("/HomeJobMarketplace/visitor/login");
-//        RequestDispatcher rd = req.getRequestDispatcher("/visitor/login");
-//        rd.forward(req,resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        System.out.println("Post method in Welcome called!");
+        resp.sendRedirect(CommonUtil.getRedirectURL(""));
     }
 }

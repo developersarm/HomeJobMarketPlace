@@ -1,7 +1,9 @@
 package org.care.presentation.sitter;
 
+import org.care.context.MyApplicationContext;
 import org.care.dto.SitterNAJobDTO;
 import org.care.service.SitterService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,8 +18,7 @@ public class ListSitterJobsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
+        int userId = MyApplicationContext.get().getMember().getId();
         List<SitterNAJobDTO> sitterNAJobDTOS = SitterService.getNAJobsList(userId);
 
         req.setAttribute("JobsList", sitterNAJobDTOS);
@@ -27,6 +28,6 @@ public class ListSitterJobsServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("post method of " + ListSitterJobsServlet.class.getName() + " called!");
+        resp.sendRedirect(CommonUtil.getRedirectURL(""));
     }
 }

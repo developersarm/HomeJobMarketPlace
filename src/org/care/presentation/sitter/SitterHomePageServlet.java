@@ -3,6 +3,7 @@ package org.care.presentation.sitter;
 import org.care.context.MyApplicationContext;
 import org.care.dto.SitterAppliedJobDTO;
 import org.care.service.SitterService;
+import org.care.utils.CommonUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,11 +18,15 @@ public class SitterHomePageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
 
-        List<SitterAppliedJobDTO> sitterJobList;
-        sitterJobList = SitterService.getAppliedJobsList(MyApplicationContext.get().getMember().getId());
-        req.setAttribute("JobsList", sitterJobList);
+        String success = req.getParameter("success");
+        if(success != null) {
+            if(success.equalsIgnoreCase("true")) {
+                req.setAttribute("msg", "Operation Successful!");
+            } else if (success.equalsIgnoreCase("false")) {
+                req.setAttribute("error", "Operation Failed!");
+            }
+        }
 
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/sitter/home.jsp");
         requestDispatcher.forward(req, resp);
@@ -29,14 +34,6 @@ public class SitterHomePageServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        HttpSession session = req.getSession();
-        int userId = (int) session.getAttribute("UserId");
-
-        List<SitterAppliedJobDTO> sitterJobList;
-        sitterJobList = SitterService.getAppliedJobsList(userId);
-        req.setAttribute("JobsList", sitterJobList);
-
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/sitter/home.jsp");
-        requestDispatcher.forward(req, resp);
+        resp.sendRedirect(CommonUtil.getRedirectURL("/sitter/home"));
     }
 }
