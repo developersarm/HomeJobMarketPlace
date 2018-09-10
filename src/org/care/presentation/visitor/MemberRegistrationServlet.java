@@ -72,5 +72,6 @@ public class MemberRegistrationServlet extends HttpServlet {
                 req.getRequestDispatcher("/WEB-INF/jsp/visitor/register.jsp").forward(req, resp);
             }
         }
+
     }
 }
