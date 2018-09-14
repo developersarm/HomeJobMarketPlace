@@ -1,0 +1,35 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.care.model.Job" table="job">
+
+        <id name="id" type="int" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="title" type="string" column="title"/>
+
+        <many-to-one name="seeker" class="org.care.model.Seeker" 
+                     column="posted_by" not-null="true"/>
+
+        <property name="startDate" type="timestamp" column="start_date"/>
+        <property name="endDate" type="timestamp" column="end_date"/>
+        <property name="payPerHour" type="double" column="pay_per_hour"/>
+        <property name="status" column="status">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">org.care.model.Job$Status</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+
+        <set name="jobAppSet">
+            <key column="job_id" not-null="true"/>
+            <one-to-many class="org.care.model.JobApplication"/>
+        </set>
+
+    </class>
+
+</hibernate-mapping>

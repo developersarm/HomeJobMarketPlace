@@ -1,0 +1,60 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+
+    <class name="org.care.model.Member" table="member">
+
+        <id name="id" type="int" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="firstName" type="string" column="first_name"/>
+        <property name="lastName" type="string" column="last_name"/>
+        <property name="phoneNo" type="string" column="phone_no"/>
+        <property name="emailId" type="string" column="email"/>
+        <property name="password" type="blob" column="password"/>
+        <property name="type" column="type">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">org.care.model.Member$MemberType</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+        <property name="address" type="string" column="string"/>
+        <property name="pincode" type="int" column="pincode"/>
+        <property name="status" column="status">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">org.care.model.Member$Status</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+
+
+        <joined-subclass name="org.care.model.Seeker" table="seeker">
+            <key column="seeker_id"/>
+            <property name="totalChildren" type="int" column="total_children"/>
+            <property name="spouseName" type="string" column="spouse_name"/>
+
+            <set name="jobSet">
+                <key column="posted_by" not-null="true"/>
+                <one-to-many class="org.care.model.Job"/>
+            </set>
+
+        </joined-subclass>
+
+
+        <joined-subclass name="org.care.model.Sitter" table="sitter">
+            <key column="sitter_id"/>
+            <property name="experience" type="int" column="experience"/>
+
+            <set name="jobAppSet">
+                <key column="member_id" not-null="true"/>
+                <one-to-many class="org.care.model.JobApplication"/>
+            </set>
+
+        </joined-subclass>
+
+    </class>
+
+</hibernate-mapping>

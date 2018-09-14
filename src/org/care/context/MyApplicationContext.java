@@ -1,27 +1,25 @@
 package org.care.context;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.sql.DataSource;
-
 import org.care.dao.DAO;
 import org.care.model.Member;
 import org.care.service.MemberService;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+
+import javax.servlet.http.HttpServletRequest;
+import java.sql.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MyApplicationContext {
 
-    private static DataSource dataSource;
-    private Connection jdbcConnection;
     private static ThreadLocal<MyApplicationContext> appContextThreadLocal = new ThreadLocal<>();
     private static DAOFactory daoFactory = new DAOFactory();
+    private static SessionFactory sessionFactory;
     private HttpServletRequest httpRequest;
+    private Session hibSession;
 
     private MyApplicationContext() {
     }
@@ -30,16 +28,14 @@ public class MyApplicationContext {
         return appContextThreadLocal.get();
     }
 
-    public static void initContext()
-        throws ClassNotFoundException, SQLException, NamingException {
-        Context initCtx = new InitialContext();
-        Context envCtx = (Context) initCtx.lookup("java:comp/env");
-        // Look up our data source
-        dataSource = (DataSource) envCtx.lookup("jdbc/HomeJobDB");
+    public static void initContext() throws HibernateException {
+        Configuration cfg = new Configuration();
+        cfg.configure("config/hibernate.cfg.xml");
+        sessionFactory = cfg.buildSessionFactory();
     }
 
-    public static void destroyContext() throws SQLException{
-        // doing nothing for now
+    public static void destroyContext() throws HibernateException {
+        sessionFactory.close();
     }
 
     public static void create(HttpServletRequest httpServletRequest) {
@@ -49,12 +45,13 @@ public class MyApplicationContext {
         MyApplicationContext myContext = new MyApplicationContext();
         appContextThreadLocal.set(myContext);
         myContext.httpRequest = httpServletRequest;
+
         try {
-            myContext.jdbcConnection = dataSource.getConnection();
-        } catch (SQLException e) {
+            myContext.hibSession = sessionFactory.openSession();
+        } catch (HibernateException e) {
             Logger.getLogger(MyApplicationContext.class.getName())
-                .log(Level.SEVERE, "Failed to open JDBC connection", e);
-            throw new RuntimeException("Failed to open JDBC connection", e);
+                    .log(Level.SEVERE, "Failed to open hibernate session", e);
+            throw new RuntimeException("Failed to hibernate session", e);
         }
     }
 
@@ -64,11 +61,11 @@ public class MyApplicationContext {
             throw new IllegalStateException("Thread local application context is already destroyed!");
         }
         try {
-            myApplicationContext.jdbcConnection.close();
+            myApplicationContext.hibSession.close();
         } catch (Exception e) {
             Logger.getLogger(MyApplicationContext.class.getName())
-                .log(Level.SEVERE, "Failed to close JDBC connection", e);
-            throw new RuntimeException("Failed to close JDBC connection", e);
+                    .log(Level.SEVERE, "Failed to close hibernate session", e);
+            throw new RuntimeException("Failed to close hibernate session", e);
         }
         appContextThreadLocal.remove();
     }
@@ -78,13 +75,14 @@ public class MyApplicationContext {
         return daoFactory.getDAO(clazz);
     }
 
-    public static Connection getJdbcConnection() {
-        return get().getJDBCConnection();
+    public static Session getHibSession() {
+        return get().getHibernateSession();
     }
 
-    public Connection getJDBCConnection() {
-        return jdbcConnection;
+    private Session getHibernateSession() {
+        return hibSession;
     }
+
 
     public Member getMember() {
         Integer memberId = (Integer) httpRequest.getSession().getAttribute("UserId");

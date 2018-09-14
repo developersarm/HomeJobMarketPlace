@@ -6,6 +6,8 @@ public class JobApplication {
     private int memberId;
     private double expectedPay;
     private Status status;
+    private Job job;
+    private Sitter sitter;
 
     public JobApplication(int id, int jobId, int memberId, double expectedPay) {
         this.id = id;
@@ -21,6 +23,22 @@ public class JobApplication {
         this.memberId = memberId;
         this.expectedPay = expectedPay;
         this.status = status;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
+    }
+
+    public Sitter getSitter() {
+        return sitter;
+    }
+
+    public void setSitter(Sitter sitter) {
+        this.sitter = sitter;
     }
 
     public int getId() {

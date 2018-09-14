@@ -2,6 +2,8 @@ package org.care.dao;
 
 import org.care.context.MyApplicationContext;
 import org.care.model.JobApplication;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.io.Serializable;
 import java.sql.*;
@@ -17,75 +19,37 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
     @Override
     public void create(JobApplication obj) {
-        Connection myConn = MyApplicationContext.getJdbcConnection();
-        String sql = "insert into job_application "
-                + "(job_id, member_id, expected_pay)"
-                + "values(?,?,?)";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            myStmt.setInt(1, obj.getJobId());
-            myStmt.setInt(2, obj.getMemberId());
-            myStmt.setDouble(3, obj.getExpectedPay());
-            int affectedRows = myStmt.executeUpdate();
+        Session session = MyApplicationContext.getHibSession();
+        Transaction transaction = session.beginTransaction();
 
-            if (affectedRows == 0) {
-                throw new SQLException("Creating user failed, no rows affected.");
-            }
+        session.save(obj);
 
-            try (ResultSet generatedKeys = myStmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    obj.setId(generatedKeys.getInt(1));
-                } else {
-                    throw new SQLException("Job Application creation failed, no ID obtained.");
-                }
-            }
-        } catch (SQLException e) {
-            Logger logger = Logger.getLogger(JobApplicationDAO.class.getName());
-            logger.log(Level.SEVERE, "exception while performing insert operation: " + e);
-        }
+        transaction.commit();
     }
 
     @Override
     public void update(JobApplication obj) {
-        Connection myConn = MyApplicationContext.getJdbcConnection();
-        String sql = "UPDATE job_application "
-                + "SET expected_pay=? "
-                + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
-            myStmt.setDouble(1, obj.getExpectedPay());
-            myStmt.setInt(2, obj.getId());
-            int affectedRows = myStmt.executeUpdate();
+        Session session = MyApplicationContext.getHibSession();
+        Transaction transaction = session.beginTransaction();
 
-            if (affectedRows == 0) {
-                throw new SQLException("Updating job application failed, no rows affected.");
-            }
-        } catch (SQLException e) {
-            Logger logger = Logger.getLogger(MemberDAO.class.getName());
-            logger.log(Level.SEVERE, "exception while performing update operation: " + e);
-        }
+        session.update(obj);
+
+        transaction.commit();
     }
 
     @Override
     public boolean delete(Serializable id) {
-        boolean isDeleted = false;
+        Session session = MyApplicationContext.getHibSession();
+        Transaction transaction = session.beginTransaction();
 
-        Connection myConn = MyApplicationContext.getJdbcConnection();
-        String sql = "UPDATE job_application "
-                + "SET status='INACTIVE' "
-                + "WHERE id=?";
-        try (PreparedStatement myStmt = myConn.prepareStatement(sql)) {
-            myStmt.setInt(1, (Integer) id);
-            int affectedRows = myStmt.executeUpdate();
+        JobApplication jobApp = session.get(JobApplication.class, id);
+        jobApp.setStatus(JobApplication.Status.INACTIVE);
 
-            if (affectedRows == 0) {
-                throw new SQLException("Deleting job application failed, no rows affected.");
-            }
+        session.update(jobApp);
 
-            isDeleted = true;
-        } catch (SQLException e) {
-            Logger logger = Logger.getLogger(MemberDAO.class.getName());
-            logger.log(Level.SEVERE, "exception while performing delete operation: " + e);
-        }
-        return isDeleted;
+        transaction.commit();
+
+        return true;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package org.care.model;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Job {
     private int id;
@@ -10,6 +12,8 @@ public class Job {
     private Timestamp endDate;
     private double payPerHour;
     private Status status;
+    private Seeker seeker;
+    private Set<JobApplication> jobAppSet = new HashSet<>();
 
     public Job(int id, String title, Timestamp startDate, Timestamp endDate, double payPerHour) {
         this.id = id;
@@ -42,6 +46,22 @@ public class Job {
         this.endDate = endDate;
         this.payPerHour = payPerHour;
         this.status = status;
+    }
+
+    public Seeker getSeeker() {
+        return seeker;
+    }
+
+    public void setSeeker(Seeker seeker) {
+        this.seeker = seeker;
+    }
+
+    public Set<JobApplication> getJobAppSet() {
+        return jobAppSet;
+    }
+
+    public void setJobAppSet(Set<JobApplication> jobAppSet) {
+        this.jobAppSet = jobAppSet;
     }
 
     public int getId() {
