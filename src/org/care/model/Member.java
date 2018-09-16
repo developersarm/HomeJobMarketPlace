@@ -3,7 +3,6 @@ package org.care.model;
 import org.care.utils.CommonUtil;
 
 public class Member {
-    private Status status;
     private int id;
     private String firstName;
     private String lastName;
@@ -11,6 +10,7 @@ public class Member {
     private String emailId;
     private String password;
     private MemberType type;
+    private Status status;
     private String address;
     private int pincode;
 

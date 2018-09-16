@@ -64,7 +64,7 @@ public class LoginServlet extends HttpServlet {
             } else {
                 req.setAttribute("error", "Invalid Username/password");
                 requestDispatcher = req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp");
-                requestDispatcher.include(req, resp);
+                requestDispatcher.forward(req, resp);
             }
         } else {
             req.setAttribute("formData", loginFormDTO);

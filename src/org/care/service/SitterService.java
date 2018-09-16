@@ -1,6 +1,5 @@
 package org.care.service;
 
-import com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource;
 import org.care.context.MyApplicationContext;
 import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
@@ -11,7 +10,6 @@ import org.care.model.JobApplication;
 import org.care.model.Member;
 import org.care.model.Sitter;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,21 +30,6 @@ public class SitterService {
         int experience = Integer.parseInt(sitterFormData.getExperience());
         Sitter sitter = new Sitter(firstName, lastName, phoneNo, emailId, password, memberType, address, pincode, experience);
         sitterDAO.create(sitter);
-    }
-
-    public static List<SitterAppliedJobDTO> getAppliedJobsList(int userId) {
-        JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
-        List<Map<String, Object>> sitterJobsList = jobApplicationDAO.getSitterJobsList(userId);
-        List<SitterAppliedJobDTO> sitterAppliedJobDTO = new LinkedList<>();
-
-        for (Map<String, Object> tempMap :
-                sitterJobsList) {
-            String title = (String) tempMap.get("title");
-            Timestamp startDate = (Timestamp) tempMap.get("startDate");
-            Double expectedPay = (Double) tempMap.get("expectedPay");
-            sitterAppliedJobDTO.add(new SitterAppliedJobDTO(title, startDate, expectedPay));
-        }
-        return sitterAppliedJobDTO;
     }
 
     public static SitterProfileDTO getProfile(int userId) {
@@ -78,15 +61,15 @@ public class SitterService {
 
     public static List<SitterNAJobDTO> getNAJobsList(int userId) {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
-        List<Map<String, Object>> sitterNAJobsList = jobApplicationDAO.getSitterNAJobsList(userId);
+        List<Job> sitterNAJobsList = jobApplicationDAO.getSitterNAJobsList(userId);
         List<SitterNAJobDTO> sitterNAJobDTOS = new LinkedList<>();
 
-        for (Map<String, Object> tempMap :
+        for (Job tempJob :
                 sitterNAJobsList) {
-            int jobId = (int) tempMap.get("jobId");
-            String title = (String) tempMap.get("title");
-            Date startDate = (Timestamp) tempMap.get("startDate");
-            Double payPerHour = (Double) tempMap.get("payPerHour");
+            int jobId = tempJob.getId();
+            String title = tempJob.getTitle();
+            Date startDate = tempJob.getStartDate();
+            Double payPerHour = tempJob.getPayPerHour();
             sitterNAJobDTOS.add(new SitterNAJobDTO(jobId, title, payPerHour, startDate));
         }
         return sitterNAJobDTOS;
@@ -94,10 +77,17 @@ public class SitterService {
 
     public static boolean applyJob(JobApplicationForm jobApplicationForm) {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
+
         int userId = jobApplicationForm.getUserId();
+        SitterDAO sitterDAO = MyApplicationContext.getFactory(SitterDAO.class);
+        Sitter sitter = sitterDAO.get(userId);
+
         int jobId = Integer.parseInt(jobApplicationForm.getJobId());
+        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
+        Job job = jobDAO.get(jobId);
+
         double expectedPay = Double.parseDouble(jobApplicationForm.getExpectedPay());
-        JobApplication jobApplication = new JobApplication(-1, jobId, userId, expectedPay);
+        JobApplication jobApplication = new JobApplication(-1, job, sitter, expectedPay);
         jobApplicationDAO.create(jobApplication);
 
         return jobApplication.getId() > 0;
@@ -132,10 +122,8 @@ public class SitterService {
 
     public static String getJobApplicationTitle(int jobAppId) {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
-        JobApplication jobApplication = jobApplicationDAO.get((Integer) jobAppId);
-        JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
-        Job job = jobDAO.get(jobApplication.getJobId());
-        return job.getTitle();
+        JobApplication jobApplication = jobApplicationDAO.get(jobAppId);
+        return jobApplication.getJob().getTitle();
     }
 
     public static boolean deleteJobApplication(int jobAppId) {
@@ -158,13 +146,13 @@ public class SitterService {
 
     public static int getUserIdforJobAppId(int jobAppId) {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
-        JobApplication jobApplication = jobApplicationDAO.get((Integer) jobAppId);
-        return jobApplication.getMemberId();
+        JobApplication jobApplication = jobApplicationDAO.get(jobAppId);
+        return jobApplication.getSitter().getId();
     }
 
     public static double getJobAppExpPay(int jobAppId) {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
-        JobApplication jobApplication = jobApplicationDAO.get((Integer) jobAppId);
+        JobApplication jobApplication = jobApplicationDAO.get(jobAppId);
         return jobApplication.getExpectedPay();
     }
 }

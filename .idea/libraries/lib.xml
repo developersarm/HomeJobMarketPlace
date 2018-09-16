@@ -4,7 +4,10 @@
       <root url="file://$PROJECT_DIR$/WEB-INF/lib" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ideaLibSources/hibernate-jpa-2.1-api-1.0.0.Final-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.ideaLibSources/hibernate-core-5.2.11.Final-sources.jar!/" />
+    </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/WEB-INF/lib" recursive="false" />
   </library>
 </component>
