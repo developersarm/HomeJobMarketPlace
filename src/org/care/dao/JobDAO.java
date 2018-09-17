@@ -2,9 +2,12 @@ package org.care.dao;
 
 import org.care.context.MyApplicationContext;
 import org.care.model.Job;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -87,13 +90,17 @@ public class JobDAO implements DAO<Job> {
         try {
             Session session = MyApplicationContext.getHibSession();
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Job> criteria = builder.createQuery(Job.class);
-            Root<Job> root = criteria.from(Job.class);
-            criteria.select(root).where(builder.equal(root.get("seeker.memberId"), userId));
+            Criteria criteria = session.createCriteria(Job.class);
+            Criterion criterion = Restrictions.eq("seeker.memberId", userId);
+            criteria.add(criterion);
+            jobs = criteria.list();
 
-            Query<Job> query = session.createQuery(criteria);
-            jobs = query.getResultList();
+//            CriteriaBuilder builder = session.getCriteriaBuilder();
+//            CriteriaQuery<Job> criteria = builder.createQuery(Job.class);
+//            Root<Job> root = criteria.from(Job.class);
+//            criteria.select(root).where(builder.equal(root.get("seeker.memberId"), userId));
+//            Query<Job> query = session.createQuery(criteria);
+//            jobs = query.getResultList();
 
         } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't retrieve job specific to seeker: " + e);

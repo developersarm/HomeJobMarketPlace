@@ -14,7 +14,7 @@
         <property name="lastName" type="string" column="last_name"/>
         <property name="phoneNo" type="string" column="phone_no"/>
         <property name="emailId" type="string" column="email"/>
-        <property name="password" column="password"/>
+        <property name="password" column="password" access="field"/>
 
         <!--todo: add discriminator-->
         <property name="type" column="type">
@@ -38,7 +38,7 @@
             <property name="totalChildren" type="int" column="total_children"/>
             <property name="spouseName" type="string" column="spouse_name"/>
 
-            <set name="jobSet">
+            <set name="jobSet" inverse="true" >
                 <key column="posted_by" not-null="true"/>
                 <one-to-many class="org.care.model.Job"/>
             </set>
@@ -50,7 +50,7 @@
             <key column="sitter_id"/>
             <property name="experience" type="int" column="experience"/>
 
-            <set name="jobAppSet">
+            <set name="jobAppSet" inverse="true">
                 <key column="member_id" not-null="true"/>
                 <one-to-many class="org.care.model.JobApplication"/>
             </set>

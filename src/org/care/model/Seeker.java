@@ -8,6 +8,8 @@ public class Seeker extends Member {
     private String spouseName;
     private Set<Job> jobSet = new HashSet<>();
 
+    public Seeker() {}
+
     public Seeker(String firstName, String lastName, String phoneNo, String emailId, String password,
                   String address, int pincode, int totalChildren, String spouseName) {
         super(firstName, lastName, phoneNo, emailId, password, MemberType.SEEKER, address, pincode);

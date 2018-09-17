@@ -3,9 +3,12 @@ package org.care.dao;
 import org.care.context.MyApplicationContext;
 import org.care.model.Job;
 import org.care.model.JobApplication;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -93,17 +96,17 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-//            Criteria criteria = session.createCriteria(JobApplication.class);
-//            Criterion criterion = Restrictions.eq("sitter.id", userId);
-//            criteria.add(criterion);
-//            List<JobApplication> jobApplicationList = criteria.list();
+            Criteria criteria = session.createCriteria(JobApplication.class);
+            Criterion criterion = Restrictions.eq("sitter.memberId", userId);
+            criteria.add(criterion);
+            List<JobApplication> jobApplicationList = criteria.list();
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
-            Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("sitter.memberId"), userId));
-            Query<JobApplication> query = session.createQuery(criteriaQuery);
-            List<JobApplication> jobApplicationList = query.getResultList();
+//            CriteriaBuilder builder = session.getCriteriaBuilder();
+//            CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
+//            Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
+//            criteriaQuery.select(root).where(builder.equal(root.get("sitter.memberId"), userId));
+//            Query<JobApplication> query = session.createQuery(criteriaQuery);
+//            List<JobApplication> jobApplicationList = query.getResultList();
 
             for (JobApplication tempJbApp :
                     jobApplicationList) {
@@ -155,17 +158,17 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-//            Criteria criteria = session.createCriteria(JobApplication.class);
-//            Criterion criterion = Restrictions.eq("sitter.id", userId);
-//            criteria.add(criterion);
-//            List<JobApplication> jobApplicationList = criteria.list();
+            Criteria criteria = session.createCriteria(JobApplication.class);
+            Criterion criterion = Restrictions.eq("sitter.memberId", userId);
+            criteria.add(criterion);
+            List<JobApplication> jobApplicationList = criteria.list();
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
-            Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("sitter.memberId"), userId));
-            Query<JobApplication> query = session.createQuery(criteriaQuery);
-            List<JobApplication> jobApplicationList = query.getResultList();
+//            CriteriaBuilder builder = session.getCriteriaBuilder();
+//            CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
+//            Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
+//            criteriaQuery.select(root).where(builder.equal(root.get("sitter.memberId"), userId));
+//            Query<JobApplication> query = session.createQuery(criteriaQuery);
+//            List<JobApplication> jobApplicationList = query.getResultList();
 
             for (JobApplication tempJbApp :
                     jobApplicationList) {
@@ -180,7 +183,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
             transaction.commit();
         } catch (Exception e) {
-            Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't get job application specific " +
+            Logger.getLogger(JobApplicationDAO.class.getName()).info("Can't get job application specific " +
                     "to particular sitter: " + e);
         }
 
@@ -235,17 +238,17 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-//            Criteria criteria = session.createCriteria(JobApplication.class);
-//            Criterion criterion = Restrictions.eq("job.id", jobId);
-//            criteria.add(criterion);
-//            List<JobApplication> jobApplicationList = criteria.list();
+            Criteria criteria = session.createCriteria(JobApplication.class);
+            Criterion criterion = Restrictions.eq("job.jobId", jobId);
+            criteria.add(criterion);
+            List<JobApplication> jobApplicationList = criteria.list();
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
-            Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("job.jobId"), jobId));
-            Query<JobApplication> query = session.createQuery(criteriaQuery);
-            List<JobApplication> jobApplicationList = query.getResultList();
+//            CriteriaBuilder builder = session.getCriteriaBuilder();
+//            CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
+//            Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
+//            criteriaQuery.select(root).where(builder.equal(root.get("job.jobId"), jobId));
+//            Query<JobApplication> query = session.createQuery(criteriaQuery);
+//            List<JobApplication> jobApplicationList = query.getResultList();
 
             for (JobApplication tempJbApp :
                     jobApplicationList) {

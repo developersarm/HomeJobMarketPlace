@@ -12,8 +12,8 @@
         </id>
         <property name="title" type="string" column="title"/>
 
-        <many-to-one name="seeker" class="org.care.model.Seeker" 
-                     column="posted_by" not-null="true" insert="false" update="false"/>
+        <many-to-one name="seeker" class="org.care.model.Seeker"
+                     column="posted_by" not-null="true" />
 
         <property name="startDate" type="timestamp" column="start_date"/>
         <property name="endDate" type="timestamp" column="end_date"/>
@@ -25,7 +25,7 @@
             </type>
         </property>
 
-        <set name="jobAppSet">
+        <set name="jobAppSet" inverse="true">
             <key column="job_id" not-null="true"/>
             <one-to-many class="org.care.model.JobApplication"/>
         </set>

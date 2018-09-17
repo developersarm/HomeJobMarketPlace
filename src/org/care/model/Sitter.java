@@ -7,6 +7,8 @@ public class Sitter extends Member {
     private int experience;
     private Set<JobApplication> jobAppSet = new HashSet<>();
 
+    public Sitter() {}
+
     public Sitter(String firstName, String lastName, String phoneNo, String emailId, String password, String address,
                   int pincode, int experience) {
         super(firstName, lastName, phoneNo, emailId, password, MemberType.SITTER, address, pincode);

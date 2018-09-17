@@ -2,19 +2,19 @@ package org.care.model;
 
 import org.care.utils.CommonUtil;
 
-import java.sql.Blob;
-
 public class Member {
     private int memberId;
     private String firstName;
     private String lastName;
     private String phoneNo;
     private String emailId;
-    private byte[] password;
+    private String password;
     private MemberType type;
     private Status status;
     private String address;
     private int pincode;
+
+    public Member () {}
 
     public Member(Member member) {
         this.memberId = member.memberId;
@@ -102,17 +102,12 @@ public class Member {
         this.emailId = emailId;
     }
 
-    public byte[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(byte[] password) {
-        this.password = password;
-    }
-
     public void setPassword(String password) {
-        String hashedPass = CommonUtil.getHashedPassword(password);
-        this.password = hashedPass.getBytes();
+        this.password = CommonUtil.getHashedPassword(password);
     }
 
     public String getAddress() {
