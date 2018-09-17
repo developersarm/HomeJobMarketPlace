@@ -27,7 +27,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             session.save(obj);
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't insert member: " + e);
         }
     }
@@ -41,7 +41,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             session.update(obj);
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't update member: " + e);
         }
     }
@@ -61,7 +61,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             transaction.commit();
             isDeleted = true;
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't delete member: " + e);
         }
         return isDeleted;
@@ -74,7 +74,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             Session session = MyApplicationContext.getHibSession();
             member = session.get(Member.class, id);
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't retrieve member: " + e);
         }
 
@@ -98,12 +98,13 @@ public class MemberDAO<T extends Member> implements DAO<T> {
             Query<Member> query = session.createQuery(criteria);
             Member member = query.getSingleResult();
 
-            resultMap.put("UserId", member.getId());
+            resultMap.put("UserId", member.getMemberId());
             resultMap.put("Status", member.getStatus());
             resultMap.put("MemberType", member.getType());
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).info("Can't retrieve login info: " + e);
+            resultMap.put("UserId", -1);
         }
 
         return resultMap;
@@ -123,9 +124,9 @@ public class MemberDAO<T extends Member> implements DAO<T> {
 
             Query<Member> query = session.createQuery(criteria);
             Member member = query.getSingleResult();
-            userId = member.getId();
+            userId = member.getMemberId();
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).info("Can't retrieve login info: " + e);
         }
 

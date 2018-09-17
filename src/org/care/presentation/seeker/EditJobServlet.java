@@ -15,7 +15,7 @@ import java.io.IOException;
 public class EditJobServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = MyApplicationContext.get().getMember().getId();
+        int userId = MyApplicationContext.get().getMember().getMemberId();
 
         String jobIdRaw = req.getParameter("JobId");
         if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
@@ -37,7 +37,7 @@ public class EditJobServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = MyApplicationContext.get().getMember().getId();
+        int userId = MyApplicationContext.get().getMember().getMemberId();
 
         String jobId = req.getParameter("jobid");
         String title = req.getParameter("title");

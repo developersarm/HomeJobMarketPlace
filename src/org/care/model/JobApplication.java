@@ -1,7 +1,7 @@
 package org.care.model;
 
 public class JobApplication {
-    private int id;
+    private int jobAppId;
 //    private int jobId;
 //    private int memberId;
     private double expectedPay;
@@ -9,16 +9,16 @@ public class JobApplication {
     private Job job;
     private Sitter sitter;
 
-    public JobApplication(int id, Job job, Sitter sitter, double expectedPay) {
-        this.id = id;
+    public JobApplication(int jobAppId, Job job, Sitter sitter, double expectedPay) {
+        this.jobAppId = jobAppId;
         this.job = job;
         this.sitter = sitter;
         this.expectedPay = expectedPay;
         this.status = Status.ACTIVE;
     }
 
-    public JobApplication(int id, Job job, Sitter sitter, double expectedPay, Status status) {
-        this.id = id;
+    public JobApplication(int jobAppId, Job job, Sitter sitter, double expectedPay, Status status) {
+        this.jobAppId = jobAppId;
         this.job = job;
         this.sitter = sitter;
         this.expectedPay = expectedPay;
@@ -41,12 +41,12 @@ public class JobApplication {
         this.sitter = sitter;
     }
 
-    public int getId() {
-        return id;
+    public int getJobAppId() {
+        return jobAppId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setJobAppId(int jobAppId) {
+        this.jobAppId = jobAppId;
     }
 
 //    public int getJobId() {

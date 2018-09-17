@@ -11,10 +11,10 @@ CREATE TABLE `member` (
   `phone_no` varchar(10) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` BLOB NOT NULL,
-  `type` enum('SEEKER','SITTER') NOT NULL,
+  `type` enum("SEEKER","SITTER") NOT NULL,
   `address` varchar(250) NOT NULL,
   `pincode` int(32) unsigned NOT NULL,
-  `status` enum('ACTIVE','INACTIVE') NOT NULL,
+  `status` enum("ACTIVE","INACTIVE") NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -46,21 +46,21 @@ CREATE TABLE `job` (
   `posted_by` int(32) unsigned NOT NULL,
   `start_date` datetime NOT NULL,
   `end_date` datetime NOT NULL,
-  `pay_per_hour` decimal(10,0) unsigned NOT NULL,
-  `status` enum('ACTIVE','INACTIVE') NOT NULL,
+  `pay_per_hour` double unsigned NOT NULL,
+  `status` enum("ACTIVE","INACTIVE") NOT NULL,
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `posted_by_idx` (`posted_by`),
-  CONSTRAINT `posted_by` FOREIGN KEY (`posted_by`) REFERENCES `member` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `posted_by` FOREIGN KEY (`posted_by`) REFERENCES `seeker` (`seeker_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1 COMMENT='Information about job';
 
 CREATE TABLE `job_application` (
   `id` int(32) unsigned NOT NULL AUTO_INCREMENT,
   `job_id` int(32) unsigned NOT NULL,
   `member_id` int(32) unsigned NOT NULL,
-  `expected_pay` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
-  `status` enum('ACTIVE','INACTIVE') NOT NULL DEFAULT 'ACTIVE',
+  `expected_pay` double unsigned NOT NULL DEFAULT '0',
+  `status` enum("ACTIVE","INACTIVE") NOT NULL DEFAULT "ACTIVE",
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`),
@@ -68,5 +68,5 @@ CREATE TABLE `job_application` (
   KEY `job_id_idx` (`job_id`),
   KEY `member_id_idx` (`member_id`),
   CONSTRAINT `job_id` FOREIGN KEY (`job_id`) REFERENCES `job` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `member_id` FOREIGN KEY (`member_id`) REFERENCES `member` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `member_id` FOREIGN KEY (`member_id`) REFERENCES `sitter` (`sitter_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1 COMMENT='Information about applications';

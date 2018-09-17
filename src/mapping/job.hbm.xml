@@ -7,13 +7,13 @@
 
     <class name="org.care.model.Job" table="job">
 
-        <id name="id" type="int" column="id">
+        <id name="jobId" type="int" column="id">
             <generator class="identity"/>
         </id>
         <property name="title" type="string" column="title"/>
 
         <many-to-one name="seeker" class="org.care.model.Seeker" 
-                     column="posted_by" not-null="true"/>
+                     column="posted_by" not-null="true" insert="false" update="false"/>
 
         <property name="startDate" type="timestamp" column="start_date"/>
         <property name="endDate" type="timestamp" column="end_date"/>

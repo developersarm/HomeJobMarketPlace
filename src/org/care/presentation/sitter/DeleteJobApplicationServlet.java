@@ -13,7 +13,7 @@ import java.io.IOException;
 public class DeleteJobApplicationServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int userId = MyApplicationContext.get().getMember().getId();
+        int userId = MyApplicationContext.get().getMember().getMemberId();
 
         String jobAppIdRaw = req.getParameter("JobApplicationId");
         if (jobAppIdRaw != null && !jobAppIdRaw.isEmpty() && jobAppIdRaw.matches("^[0-9]+$")) {

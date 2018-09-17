@@ -21,7 +21,7 @@ public class SitterDAO extends MemberDAO<Sitter> {
 
             transaction.commit();
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(SitterDAO.class.getName()).severe("Can't insert sitter: " + e);
         }
     }
@@ -36,7 +36,7 @@ public class SitterDAO extends MemberDAO<Sitter> {
 
             transaction.commit();
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(SitterDAO.class.getName()).severe("Can't update sitter: " + e);
         }
     }
@@ -54,7 +54,7 @@ public class SitterDAO extends MemberDAO<Sitter> {
             Session session = MyApplicationContext.getHibSession();
             sitter = session.get(Sitter.class, id);
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(SitterDAO.class.getName()).info("Can't retrieve sitter: " + e);
         }
         return sitter;

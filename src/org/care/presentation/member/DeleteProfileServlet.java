@@ -17,7 +17,7 @@ public class DeleteProfileServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
-        int userId = MyApplicationContext.get().getMember().getId();
+        int userId = MyApplicationContext.get().getMember().getMemberId();
         boolean isDeleted = MemberService.deleteUser(userId);
 
         if (isDeleted) {

@@ -33,9 +33,9 @@ public class MemberService {
             List<Job> jobList = jobDAO.getJobsPostedBy(userId);
             for (Job tempJob :
                     jobList) {
-                int totalDeleted = jobApplicationDAO.deleteByJobId(tempJob.getId());
+                int totalDeleted = jobApplicationDAO.deleteByJobId(tempJob.getJobId());
                 if (totalDeleted >= 0) {
-                    jobDAO.delete(tempJob.getId());
+                    jobDAO.delete(tempJob.getJobId());
                 }
             }
         } else {

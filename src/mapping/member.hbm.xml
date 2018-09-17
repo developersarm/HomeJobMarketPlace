@@ -7,14 +7,14 @@
 
     <class name="org.care.model.Member" table="member">
 
-        <id name="id" type="int" column="id">
+        <id name="memberId" type="int" column="id">
             <generator class="identity"/>
         </id>
         <property name="firstName" type="string" column="first_name"/>
         <property name="lastName" type="string" column="last_name"/>
         <property name="phoneNo" type="string" column="phone_no"/>
         <property name="emailId" type="string" column="email"/>
-        <property name="password" type="blob" column="password"/>
+        <property name="password" column="password"/>
 
         <!--todo: add discriminator-->
         <property name="type" column="type">
@@ -23,7 +23,7 @@
                 <param name="useNamed">true</param>
             </type>
         </property>
-        <property name="address" type="string" column="string"/>
+        <property name="address" type="string" column="address"/>
         <property name="pincode" type="int" column="pincode"/>
         <property name="status" column="status">
             <type name="org.hibernate.type.EnumType">

@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Job {
-    private int id;
+    private int jobId;
     private String title;
     //    private int postedBy;
     private Timestamp startDate;
@@ -15,8 +15,8 @@ public class Job {
     private Seeker seeker;
     private Set<JobApplication> jobAppSet = new HashSet<>();
 
-//    public Job(int id, String title, Timestamp startDate, Timestamp endDate, double payPerHour) {
-//        this.id = id;
+//    public Job(int jobId, String title, Timestamp startDate, Timestamp endDate, double payPerHour) {
+//        this.jobId = jobId;
 //        this.title = title;
 //        this.postedBy = 0;
 //        this.startDate = startDate;
@@ -33,13 +33,13 @@ public class Job {
         this.status = Status.ACTIVE;
     }
 
-    public Job(int id, String title, Seeker seeker, Timestamp startDate, Timestamp endDate, double payPerHour) {
+    public Job(int jobId, String title, Seeker seeker, Timestamp startDate, Timestamp endDate, double payPerHour) {
         this(title, seeker, startDate, endDate, payPerHour);
-        this.id = id;
+        this.jobId = jobId;
     }
 
-    public Job(int id, String title, Seeker seeker, Timestamp startDate, Timestamp endDate, double payPerHour, Status status) {
-        this.id = id;
+    public Job(int jobId, String title, Seeker seeker, Timestamp startDate, Timestamp endDate, double payPerHour, Status status) {
+        this.jobId = jobId;
         this.title = title;
         this.seeker = seeker;
         this.startDate = startDate;
@@ -64,12 +64,12 @@ public class Job {
         this.jobAppSet = jobAppSet;
     }
 
-    public int getId() {
-        return id;
+    public int getJobId() {
+        return jobId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setJobId(int jobId) {
+        this.jobId = jobId;
     }
 
     public String getTitle() {

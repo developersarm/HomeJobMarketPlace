@@ -66,7 +66,7 @@ public class SitterService {
 
         for (Job tempJob :
                 sitterNAJobsList) {
-            int jobId = tempJob.getId();
+            int jobId = tempJob.getJobId();
             String title = tempJob.getTitle();
             Date startDate = tempJob.getStartDate();
             Double payPerHour = tempJob.getPayPerHour();
@@ -90,7 +90,7 @@ public class SitterService {
         JobApplication jobApplication = new JobApplication(-1, job, sitter, expectedPay);
         jobApplicationDAO.create(jobApplication);
 
-        return jobApplication.getId() > 0;
+        return jobApplication.getJobAppId() > 0;
     }
 
     public static String getJobTitle(int jobId) {
@@ -147,7 +147,7 @@ public class SitterService {
     public static int getUserIdforJobAppId(int jobAppId) {
         JobApplicationDAO jobApplicationDAO = MyApplicationContext.getFactory(JobApplicationDAO.class);
         JobApplication jobApplication = jobApplicationDAO.get(jobAppId);
-        return jobApplication.getSitter().getId();
+        return jobApplication.getSitter().getMemberId();
     }
 
     public static double getJobAppExpPay(int jobAppId) {

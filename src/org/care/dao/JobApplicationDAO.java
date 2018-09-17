@@ -30,7 +30,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             session.save(obj);
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't insert job application: " + e);
         }
     }
@@ -44,7 +44,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             session.update(obj);
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't update job application: " + e);
         }
     }
@@ -64,7 +64,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
             transaction.commit();
             isDeleted = true;
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't delete job application: " + e);
         }
 
@@ -79,7 +79,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             Session session = MyApplicationContext.getHibSession();
             jobApplication = session.get(JobApplication.class, id);
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't retrieve job application: " + e);
         }
 
@@ -101,7 +101,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
             Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("sitter.id"), userId));
+            criteriaQuery.select(root).where(builder.equal(root.get("sitter.memberId"), userId));
             Query<JobApplication> query = session.createQuery(criteriaQuery);
             List<JobApplication> jobApplicationList = query.getResultList();
 
@@ -115,7 +115,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             }
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't get job application specific " +
                     "to particular sitter: " + e);
         }
@@ -130,8 +130,8 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             Transaction transaction = session.beginTransaction();
 
             String hql = "from Job as job " +
-                    "where job.id not in ( " +
-                    "select jbApp.jobId from JobApplication as jbApp where jbApp.sitter.id = :userId " +
+                    "where job.jobId not in ( " +
+                    "select jbApp.job.jobId from JobApplication as jbApp where jbApp.sitter.memberId = :userId " +
                     ") and job.status = :status ";
 
             Query<Job> query = session.createQuery(hql, Job.class)
@@ -140,7 +140,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             jobs = query.list();
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't get jobs not applied by " +
                     "particular sitter: " + e);
 
@@ -163,14 +163,14 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
             Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("sitter.id"), userId));
+            criteriaQuery.select(root).where(builder.equal(root.get("sitter.memberId"), userId));
             Query<JobApplication> query = session.createQuery(criteriaQuery);
             List<JobApplication> jobApplicationList = query.getResultList();
 
             for (JobApplication tempJbApp :
                     jobApplicationList) {
                 Map<String, Object> tempMap = new HashMap<>();
-                tempMap.put("id", tempJbApp.getId());
+                tempMap.put("id", tempJbApp.getJobAppId());
                 tempMap.put("title", tempJbApp.getJob().getTitle());
                 tempMap.put("expectedPay", tempJbApp.getExpectedPay());
                 tempMap.put("payPerHour", tempJbApp.getJob().getPayPerHour());
@@ -179,7 +179,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             }
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't get job application specific " +
                     "to particular sitter: " + e);
         }
@@ -200,7 +200,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
             transaction.commit();
             isUpdated = true;
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't update job application: " + e);
         }
 
@@ -214,14 +214,14 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-            String hql = "update JobApplication jbApp set jbApp.status = :status where jbApp.job.id = :jobId ";
+            String hql = "update JobApplication jbApp set jbApp.status = :status where jbApp.job.jobId = :jobId ";
             totalDeletedApps = session.createQuery(hql)
                     .setParameter("status", JobApplication.Status.INACTIVE)
                     .setParameter("jobId", jobId)
                     .executeUpdate();
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't delete job application: " + e);
         }
 
@@ -243,14 +243,14 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<JobApplication> criteriaQuery = builder.createQuery(JobApplication.class);
             Root<JobApplication> root = criteriaQuery.from(JobApplication.class);
-            criteriaQuery.select(root).where(builder.equal(root.get("job.id"), jobId));
+            criteriaQuery.select(root).where(builder.equal(root.get("job.jobId"), jobId));
             Query<JobApplication> query = session.createQuery(criteriaQuery);
             List<JobApplication> jobApplicationList = query.getResultList();
 
             for (JobApplication tempJbApp :
                     jobApplicationList) {
                 Map<String, Object> tempMap = new HashMap<>();
-                tempMap.put("id", tempJbApp.getId());
+                tempMap.put("id", tempJbApp.getJobAppId());
                 tempMap.put("firstName", tempJbApp.getSitter().getFirstName());
                 tempMap.put("status", tempJbApp.getStatus());
                 tempMap.put("expectedPay", tempJbApp.getExpectedPay());
@@ -258,7 +258,7 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             }
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't get job application specific " +
                     "to particular job: " + e);
         }
@@ -271,14 +271,14 @@ public class JobApplicationDAO implements DAO<JobApplication> {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-            String hql = "update JobApplication jbApp set jbApp.status = :status where jbApp.sitter.id = :userId ";
+            String hql = "update JobApplication jbApp set jbApp.status = :status where jbApp.sitter.memberId = :userId ";
             session.createQuery(hql)
                     .setParameter("status", JobApplication.Status.INACTIVE)
                     .setParameter("userId", userId)
                     .executeUpdate();
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't delete job application: " + e);
         }
     }

@@ -83,7 +83,7 @@ public class SeekerService {
         jobsList = jobDAO.getJobsPostedBy(userId);
         for (Job tempJob :
                 jobsList) {
-            String id = String.valueOf(tempJob.getId());
+            String id = String.valueOf(tempJob.getJobId());
             String title = tempJob.getTitle();
             Job.Status status = tempJob.getStatus();
             String startDate = String.valueOf(tempJob.getStartDate());
@@ -111,7 +111,7 @@ public class SeekerService {
     public static SeekerJobDTO getJob(int jobId) {
         JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
         Job job = jobDAO.get(jobId);
-        String id = String.valueOf(job.getId());
+        String id = String.valueOf(job.getJobId());
         String title = job.getTitle();
         Job.Status status = job.getStatus();
         String startDate = new SimpleDateFormat("yyyy-MM-dd").format(job.getStartDate());
@@ -182,6 +182,6 @@ public class SeekerService {
     public static int getUserIdforJobId(int jobId) {
         JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
         Job job = jobDAO.get(jobId);
-        return job.getSeeker().getId();
+        return job.getSeeker().getMemberId();
     }
 }

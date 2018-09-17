@@ -27,7 +27,7 @@ public class JobDAO implements DAO<Job> {
 
             transaction.commit();
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't insert job: " + e);
         }
     }
@@ -41,7 +41,7 @@ public class JobDAO implements DAO<Job> {
             session.update(obj);
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't update job: " + e);
         }
     }
@@ -61,7 +61,7 @@ public class JobDAO implements DAO<Job> {
             transaction.commit();
             isDeleted = true;
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't delete job: " + e);
         }
         return isDeleted;
@@ -74,7 +74,7 @@ public class JobDAO implements DAO<Job> {
             Session session = MyApplicationContext.getHibSession();
             job = session.get(Job.class, id);
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't retrieve job: " + e);
         }
 
@@ -90,12 +90,12 @@ public class JobDAO implements DAO<Job> {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Job> criteria = builder.createQuery(Job.class);
             Root<Job> root = criteria.from(Job.class);
-            criteria.select(root).where(builder.equal(root.get("seeker.id"), userId));
+            criteria.select(root).where(builder.equal(root.get("seeker.memberId"), userId));
 
             Query<Job> query = session.createQuery(criteria);
             jobs = query.getResultList();
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't retrieve job specific to seeker: " + e);
 
         }

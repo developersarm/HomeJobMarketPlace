@@ -26,7 +26,7 @@ public class SeekerDAO extends MemberDAO<Seeker> {
             session.save(obj);
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(SeekerDAO.class.getName()).severe("Can't insert seeker: " + e);
         }
     }
@@ -40,7 +40,7 @@ public class SeekerDAO extends MemberDAO<Seeker> {
             session.update(obj);
 
             transaction.commit();
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(SeekerDAO.class.getName()).severe("Can't update seeker: " + e);
         }
     }
@@ -57,7 +57,7 @@ public class SeekerDAO extends MemberDAO<Seeker> {
             Session session = MyApplicationContext.getHibSession();
             seeker = session.get(Seeker.class, id);
 
-        } catch (HibernateException e) {
+        } catch (Exception e) {
             Logger.getLogger(SeekerDAO.class.getName()).severe("Can't retrieve seeker: " + e);
         }
 

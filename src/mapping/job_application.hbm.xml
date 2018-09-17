@@ -7,15 +7,15 @@
 
     <class name="org.care.model.JobApplication" table="job_application">
 
-        <id name="id" type="int" column="id">
+        <id name="jobAppId" type="int" column="id">
             <generator class="identity"/>
         </id>
 
         <many-to-one name="job" column="job_id"
-                     class="org.care.model.Job" not-null="true"/>
+                     class="org.care.model.Job" not-null="true" insert="false" update="false"/>
 
         <many-to-one name="sitter" column="member_id"
-                     class="org.care.model.Sitter" not-null="true"/>
+                     class="org.care.model.Sitter" not-null="true" insert="false" update="false"/>
 
         <property name="expectedPay" type="double" column="expected_pay"/>
         <property name="status" column="status">

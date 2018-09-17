@@ -22,6 +22,7 @@ public class ConnectionSessionFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws
         IOException, ServletException {
         MyApplicationContext.create((HttpServletRequest) servletRequest);
+
         try {
             filterChain.doFilter(servletRequest, servletResponse);
         } catch (Exception e) {
@@ -29,6 +30,7 @@ public class ConnectionSessionFilter implements Filter {
             logger.log(Level.SEVERE, "Exception generated in the fiter chain! ", e);
             servletRequest.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(servletRequest, servletResponse);
         }
+
         MyApplicationContext.destroy();
     }
 

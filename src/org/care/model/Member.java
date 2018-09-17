@@ -2,20 +2,22 @@ package org.care.model;
 
 import org.care.utils.CommonUtil;
 
+import java.sql.Blob;
+
 public class Member {
-    private int id;
+    private int memberId;
     private String firstName;
     private String lastName;
     private String phoneNo;
     private String emailId;
-    private String password;
+    private byte[] password;
     private MemberType type;
     private Status status;
     private String address;
     private int pincode;
 
     public Member(Member member) {
-        this.id = member.id;
+        this.memberId = member.memberId;
         this.firstName = member.firstName;
         this.lastName = member.lastName;
         this.phoneNo = member.phoneNo;
@@ -27,9 +29,9 @@ public class Member {
         this.status = member.status;
     }
 
-    public Member(int id, String firstName, String lastName, String phoneNo, String emailId, String password,
+    public Member(int memberId, String firstName, String lastName, String phoneNo, String emailId, String password,
                   MemberType type, String address, int pincode, Status status) {
-        this.id = id;
+        this.memberId = memberId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNo = phoneNo;
@@ -54,18 +56,18 @@ public class Member {
         this.status = Status.ACTIVE;
     }
 
-    public Member(int id, String firstName, String lastName, String phoneNo, String emailId, String password,
+    public Member(int memberId, String firstName, String lastName, String phoneNo, String emailId, String password,
                   MemberType type, String address, int pincode) {
         this(firstName, lastName, phoneNo, emailId, password, type, address, pincode);
-        this.id = id;
+        this.memberId = memberId;
     }
 
-    public int getId() {
-        return id;
+    public int getMemberId() {
+        return memberId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMemberId(int memberId) {
+        this.memberId = memberId;
     }
 
     public String getFirstName() {
@@ -100,12 +102,17 @@ public class Member {
         this.emailId = emailId;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
     public void setPassword(String password) {
-        this.password = CommonUtil.getHashedPassword(password);
+        String hashedPass = CommonUtil.getHashedPassword(password);
+        this.password = hashedPass.getBytes();
     }
 
     public String getAddress() {
