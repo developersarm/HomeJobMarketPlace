@@ -3,11 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="org.care.context.MyApplicationContext"%>
-<%
-if(MyApplicationContext.get().getMember() != null) {
-  request.getRequestDispatcher("/visitor/login").forward(request, response);
-}
-%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
@@ -19,10 +15,8 @@ if(MyApplicationContext.get().getMember() != null) {
 </head>
 <body>
     <div class="container mt-5 w-25">
-        <div id="wrapper">
-            <div id="header">
-                <h2 class="text-center mb-5">Home Job Marketplace</h2>
-            </div>
+        <div class="page-header">
+            <h2 class="text-center mb-5 font-weight-bold">Home Job Marketplace</h2>
         </div>
 
         <c:if test="${not empty requestScope.msg}">
@@ -37,59 +31,44 @@ if(MyApplicationContext.get().getMember() != null) {
             </div>
         </c:if>
 
-        <form action="/HomeJobMarketplace/visitor/login" method="post">
-            <c:if test="${not empty requestScope.error}">
-                <div class="alert alert-danger">
-                  ${requestScope.error}
-                </div>
-            </c:if>
-            <c:if test="${not empty requestScope.msg}">
-                <div class="alert alert-success">
-                  ${requestScope.msg}
-                </div>
-            </c:if>
+        <html:form action="visitor/login" method="post">
             <div class="form-group">
                 <label for="email">Email address:</label>
-                <input type="email" class="form-control" name="email"
-                    id="email" value="${formData.emailId}">
-                <c:if test="${not empty formData.errors['emailId']}">
-                    <div class="alert alert-danger">
-                        ${formData.errors["emailId"]}
-                    </div>
-                </c:if>
+                <html:text property="emailId" styleClass="form-control" styleId="email"/>
+                <html:errors property="emailId"/>
             </div>
             <div class="form-group">
                 <label for="pwd">Password:</label>
-                <input type="password" class="form-control" name="password" id="pwd">
-                <c:if test="${not empty formData.errors['password']}">
-                    <div class="alert alert-danger">
-                        ${formData.errors["password"]}
-                    </div>
-                </c:if>
+                <html:password property="password" styleClass="form-control" styleId="pwd"/>
+                <html:errors property="password"/>
             </div>
 
             <div style="text-align:center">
-                <input type="submit" class="btn btn-default" value="login"/>
+                <html:submit value="Login" styleClass="btn btn-default"/>
             </div>
-        </form>
+        </html:form>
+
         <div>
             <div style="text-align:center">
-                <a href="/HomeJobMarketplace/visitor/register">Register</a>
-                        &nbsp;&nbsp;&nbsp
-                <a href="/HomeJobMarketplace/visitor/reset-password">Reset Password</a>
+                <a href="/HomeJobMarketplace/visitor/reset-password">Forgot Password? Click here..</a>
             </div>
+
+            <h3 class="text-center mt-1">or</h3>
+
+            <div style="text-align:center">
+                First time? Choose your purpose..
+            </div>
+
         </div>
 
-       	<form action="/HomeJobMarketplace/visitor/welcome" method="get">
-       	    <div class="row" style="margin-top:5em">
-       	        <div class="col align-self-center" style="text-align:center">
-                    <button type="submit" class="btn btn-default" name="type" value="sitter">Apply for a Job</button>
-       	        </div>
-       	        <div class="col align-self-center" style="text-align:center">
-                    <button type="submit" class="btn btn-default" name="type" value="seeker">Post a Job</button>
-                </div>
-       	    </div>
-        </form>
+        <div class="row mt-2" >
+            <div class="col align-self-center" style="text-align:center">
+                <html:link action="visitor/register.do?type=sitter" styleClass="btn btn-dark">Apply for a Job</html:link>
+            </div>
+            <div class="col align-self-center" style="text-align:center">
+                <html:link action="visitor/register.do?type=seeker" styleClass="btn btn-dark">Post a Job</html:link>
+            </div>
+        </div>
     </div>
 </body>
 </html>

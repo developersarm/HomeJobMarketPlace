@@ -3,16 +3,11 @@ package org.care.dao;
 import org.care.context.MyApplicationContext;
 import org.care.model.Job;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.query.Query;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,18 +16,20 @@ import java.util.logging.Logger;
 public class JobDAO implements DAO<Job> {
 
     @Override
-    public void create(Job obj) {
+    public Integer create(Job obj) {
+        Integer id = null;
         try {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-            session.save(obj);
+            id = (Integer) session.save(obj);
 
             transaction.commit();
 
         } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't insert job: " + e);
         }
+        return id;
     }
 
     @Override

@@ -45,7 +45,7 @@ public class MemberRegistrationServlet extends HttpServlet {
                     password, memberType.toString(), address, pincode, experience);
 
             if (sFormData.validate()) {
-                SitterService.register(sFormData);
+//                SitterService.register(sFormData);
                 req.setAttribute("msg", "Registered Successfully!");
                 req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp").forward(req, resp);
 
@@ -62,7 +62,7 @@ public class MemberRegistrationServlet extends HttpServlet {
                     password, memberType.toString(), address, pincode, totalChildren, spouseName);
 
             if (sFormData.validate()) {
-                SeekerService.register(sFormData);
+//                SeekerService.register(sFormData);
                 req.setAttribute("msg", "Registered Successfully!");
                 req.getRequestDispatcher("/WEB-INF/jsp/visitor/login.jsp").forward(req, resp);
 

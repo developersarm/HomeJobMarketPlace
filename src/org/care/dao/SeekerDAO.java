@@ -18,17 +18,19 @@ import java.util.logging.Logger;
 public class SeekerDAO extends MemberDAO<Seeker> {
 
     @Override
-    public void create(Seeker obj) {
+    public Integer create(Seeker obj) {
+        Integer id = null;
         try {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-            session.save(obj);
+            id = (Integer) session.save(obj);
 
             transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(SeekerDAO.class.getName()).severe("Can't insert seeker: " + e);
         }
+        return id;
     }
 
     @Override

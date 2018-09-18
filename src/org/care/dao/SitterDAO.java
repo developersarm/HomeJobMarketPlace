@@ -12,18 +12,20 @@ import java.util.logging.Logger;
 public class SitterDAO extends MemberDAO<Sitter> {
 
     @Override
-    public void create(Sitter obj) {
+    public Integer create(Sitter obj) {
+        Integer id = null;
         try {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-            session.save(obj);
+            id = (Integer) session.save(obj);
 
             transaction.commit();
 
         } catch (Exception e) {
             Logger.getLogger(SitterDAO.class.getName()).severe("Can't insert sitter: " + e);
         }
+        return id;
     }
 
     @Override

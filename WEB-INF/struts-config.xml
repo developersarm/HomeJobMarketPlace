@@ -5,22 +5,70 @@
 <struts-config>
 
     <form-beans>
-        <!--<form-bean name="RF" type="beans.RegForm" />-->
-        <form-bean name="loginAction" type="org.care.form.LoginForm"/>
+
+        <form-bean name="loginForm" type="org.care.form.LoginForm"/>
+        <form-bean name="registerForm" type="org.care.form.RegistrationForm"/>
+        <form-bean name="profileForm" type="org.care.form.ProfileForm"/>
+        <form-bean name="jobForm" type="org.care.form.JobForm"/>
+
     </form-beans>
 
     <action-mappings>
 
-        <!--<action path="/reg" name="RF" input="/index.jsp" type="controller.RegController" scope="request" validate="true">-->
-            <!--<forward name="success" path="/success.jsp"/>-->
-            <!--<forward name="fail" path="/fail.jsp"/>-->
-        <!--</action>-->
+        <action path="/visitor/login" name="loginForm" validate="true" scope="request"
+                input="/WEB-INF/jsp/index.jsp" type="org.care.controller.visitor.LoginAction">
+            <forward name="seeker" path="/seeker/home.do" redirect="true"/>
+            <forward name="sitter" path="/sitter/home.do" redirect="true"/>
+            <forward name="failure" path="/"/>
+        </action>
 
-        <action path="/visitor/login" name="loginAction" input="/jsp/index.jsp" scope="request"
-                validate="true" type="org.care.controller.visitor.LoginAction">
-            <forward name="seeker" path="/jsp/seeker/home.jsp"/>
-            <forward name="sitter" path="/jsp/sitter/home.jsp"/>
-            <forward name="fail" path="/jsp/index.jsp"/>
+        <action path="/visitor/register" name="registerForm" validate="false" scope="request"
+                type="org.care.controller.visitor.RegisterTypeAction">
+            <forward name="registerPage" path="/WEB-INF/jsp/visitor/register.jsp"/>
+            <forward name="home" path="/"/>
+        </action>
+
+        <action path="/visitor/save" name="registerForm" validate="true" scope="request"
+                input="/WEB-INF/jsp/visitor/register.jsp" type="org.care.controller.visitor.MemberRegistrationAction">
+            <forward name="seeker" path="/seeker/home.do" redirect="true"/>
+            <forward name="sitter" path="/sitter/home.do" redirect="true"/>
+            <forward name="failure" path="/"/>
+        </action>
+
+        <action path="/seeker/home" forward="/WEB-INF/jsp/seeker/home.jsp"/>
+
+        <action path="/sitter/home" forward="/WEB-INF/jsp/sitter/home.jsp"/>
+
+        <action path="/member/profile" name="profileForm" validate="false" scope="request"
+                type="org.care.controller.member.ViewProfileAction">
+            <forward name="profilePage" path="/WEB-INF/jsp/member/profile.jsp"/>
+        </action>
+
+        <action path="/member/edit-profile" name="profileForm" validate="false" scope="request"
+                type="org.care.controller.member.EditProfileAction">
+            <forward name="profilePage" path="/WEB-INF/jsp/member/editprofile.jsp"/>
+        </action>
+
+        <action path="/member/save-profile" name="profileForm" validate="true" scope="request"
+                input="/WEB-INF/jsp/member/editprofile.jsp" type="org.care.controller.member.SaveProfileAction">
+            <forward name="success" path="/member/profile.do?success=true" redirect="true"/>
+        </action>
+
+        <action path="/member/delete-profile" type="org.care.controller.member.DeleteProfileAction">
+            <forward name="success" path="/" redirect="true"/>
+            <forward name="failure" path="/member/profile.do" />
+        </action>
+
+        <action path="/seeker/new-job" forward="/WEB-INF/jsp/seeker/newjob.jsp"/>
+
+        <action path="/seeker/save-job" name="jobForm" validate="true" scope="request"
+                input="/WEB-INF/jsp/seeker/new-job.jsp" type="org.care.controller.seeker.NewJobAction">
+            <forward name="success" path="/seeker/home.do?success=true" redirect="true"/>
+            <forward name="failure" path="seeker/home.do?success=false" redirect="false"/>
+        </action>
+
+        <action path="/seeker/list-job" type="org.care.controller.seeker.ListSeekerJobAction">
+            <forward name="listJobs" path="/WEB-INf/jsp/seeker/yourjobs.jsp"/>
         </action>
 
     </action-mappings>

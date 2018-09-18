@@ -19,17 +19,19 @@ import java.util.logging.Logger;
 public class MemberDAO<T extends Member> implements DAO<T> {
 
     @Override
-    public void create(T obj) {
+    public Integer create(T obj) {
+        Integer id = null;
         try {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-            session.save(obj);
+            id = (Integer) session.save(obj);
 
             transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't insert member: " + e);
         }
+        return id;
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.SeekerDAO;
 import org.care.dto.*;
+import org.care.form.RegistrationForm;
 import org.care.model.Job;
 import org.care.model.JobApplication;
 import org.care.model.Seeker;
@@ -21,19 +22,19 @@ import java.util.logging.Logger;
 
 public class SeekerService {
 
-    public static void register(SeekerRegistrationFormDTO seekerFormData) {
+    public static Integer register(RegistrationForm seekerForm) {
         SeekerDAO seekerDAO = MyApplicationContext.getFactory(SeekerDAO.class);
-        String firstName = seekerFormData.getFirstName();
-        String lastName = seekerFormData.getLastName();
-        String phoneNo = seekerFormData.getPhoneNo();
-        String emailId = seekerFormData.getEmailId();
-        String password = seekerFormData.getPassword();
-        String address = seekerFormData.getAddress();
-        int pincode = Integer.parseInt(seekerFormData.getPincode());
-        int totalChildren = Integer.parseInt(seekerFormData.getTotalChildren());
-        String spouseName = seekerFormData.getSpouseName();
+        String firstName = seekerForm.getFirstName();
+        String lastName = seekerForm.getLastName();
+        String phoneNo = seekerForm.getPhoneNo();
+        String emailId = seekerForm.getEmailId();
+        String password = seekerForm.getPassword();
+        String address = seekerForm.getAddress();
+        int pincode = Integer.parseInt(seekerForm.getPincode());
+        int totalChildren = Integer.parseInt(seekerForm.getTotalChildren());
+        String spouseName = seekerForm.getSpouseName();
         Seeker seeker = new Seeker(firstName, lastName, phoneNo, emailId, password, address, pincode, totalChildren, spouseName);
-        seekerDAO.create(seeker);
+        return seekerDAO.create(seeker);
     }
 
     public static boolean postJob(JobPostFormDTO jobPostFormDTO) {

@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public interface DAO<T> {
 
-    void create(T obj) throws SQLException;
+    Serializable create(T obj) throws SQLException;
 
     void update(T obj);
 

@@ -11,6 +11,8 @@ public class LoginForm extends ActionForm {
     private String emailId;
     private String password;
 
+    public LoginForm() {}
+
     public LoginForm(String emailId, String password) {
         this.emailId = emailId;
         this.password = password;

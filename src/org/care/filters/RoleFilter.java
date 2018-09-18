@@ -23,10 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.care.context.MyApplicationContext;
 import org.care.model.Member;
 
-/**
- * Created 9/6/2018 11:20 PM
- *
- */
 public class RoleFilter implements Filter {
 
   @Override public void init(FilterConfig filterConfig) throws ServletException {

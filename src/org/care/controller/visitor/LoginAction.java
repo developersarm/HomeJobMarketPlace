@@ -4,6 +4,7 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.care.context.MyApplicationContext;
 import org.care.dto.LoginDTO;
 import org.care.dto.LoginFormDTO;
 import org.care.form.LoginForm;
@@ -18,7 +19,8 @@ import javax.servlet.http.HttpSession;
 
 public class LoginAction extends Action {
     @Override
-    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward execute(ActionMapping mapping, ActionForm form,
+                                 HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         LoginForm loginForm = (LoginForm) form;
         String email = loginForm.getEmailId();
@@ -43,7 +45,7 @@ public class LoginAction extends Action {
             }
         } else {
             request.setAttribute("error", "Invalid Username/password");
-            return mapping.findForward("fail");
+            return mapping.findForward("failure");
         }
     }
 }

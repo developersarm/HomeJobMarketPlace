@@ -25,17 +25,19 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
 
     @Override
-    public void create(JobApplication obj) {
+    public Integer create(JobApplication obj) {
+        Integer id = null;
         try {
             Session session = MyApplicationContext.getHibSession();
             Transaction transaction = session.beginTransaction();
 
-            session.save(obj);
+            id = (Integer) session.save(obj);
 
             transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't insert job application: " + e);
         }
+        return id;
     }
 
     @Override

@@ -5,6 +5,7 @@ import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.SitterDAO;
 import org.care.dto.*;
+import org.care.form.RegistrationForm;
 import org.care.model.Job;
 import org.care.model.JobApplication;
 import org.care.model.Member;
@@ -17,19 +18,19 @@ import java.util.Map;
 
 public class SitterService {
 
-    public static void register(SitterRegistrationFormDTO sitterFormData) {
+    public static Integer register(RegistrationForm sitterForm) {
         SitterDAO sitterDAO = MyApplicationContext.getFactory(SitterDAO.class);
-        String firstName = sitterFormData.getFirstName();
-        String lastName = sitterFormData.getLastName();
-        String phoneNo = sitterFormData.getPhoneNo();
-        String emailId = sitterFormData.getEmailId();
-        String password = sitterFormData.getPassword();
-        Member.MemberType memberType = Member.MemberType.valueOf(sitterFormData.getType());
-        String address = sitterFormData.getAddress();
-        int pincode = Integer.parseInt(sitterFormData.getPincode());
-        int experience = Integer.parseInt(sitterFormData.getExperience());
+        String firstName = sitterForm.getFirstName();
+        String lastName = sitterForm.getLastName();
+        String phoneNo = sitterForm.getPhoneNo();
+        String emailId = sitterForm.getEmailId();
+        String password = sitterForm.getPassword();
+        Member.MemberType memberType = Member.MemberType.valueOf(sitterForm.getType());
+        String address = sitterForm.getAddress();
+        int pincode = Integer.parseInt(sitterForm.getPincode());
+        int experience = Integer.parseInt(sitterForm.getExperience());
         Sitter sitter = new Sitter(firstName, lastName, phoneNo, emailId, password, memberType, address, pincode, experience);
-        sitterDAO.create(sitter);
+        return sitterDAO.create(sitter);
     }
 
     public static SitterProfileDTO getProfile(int userId) {
