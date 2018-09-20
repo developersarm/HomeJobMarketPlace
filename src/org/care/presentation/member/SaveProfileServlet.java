@@ -38,7 +38,7 @@ public class SaveProfileServlet extends HttpServlet {
                     emailId, address, pincode, experience);
 
             if (sitterProfileData.validate()) {
-                SitterService.updateProfile(userId, sitterProfileData);
+//                SitterService.updateProfile(userId, sitterProfileData);
                 resp.sendRedirect(CommonUtil.getRedirectURL("/sitter/home?success=true"));
             } else {
                 req.setAttribute("ProfileData", sitterProfileData);
@@ -52,7 +52,7 @@ public class SaveProfileServlet extends HttpServlet {
                     emailId, address, pincode, totalChildren, spouseName);
 
             if (seekerProfileData.validate()) {
-                SeekerService.updateProfile(userId, seekerProfileData);
+//                SeekerService.updateProfile(userId, seekerProfileData);
                 resp.sendRedirect(CommonUtil.getRedirectURL("/seeker/home?success=true"));
             } else {
                 req.setAttribute("ProfileData", seekerProfileData);

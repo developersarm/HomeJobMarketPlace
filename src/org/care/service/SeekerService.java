@@ -5,6 +5,7 @@ import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.SeekerDAO;
 import org.care.dto.*;
+import org.care.form.ProfileForm;
 import org.care.form.RegistrationForm;
 import org.care.model.Job;
 import org.care.model.JobApplication;
@@ -94,17 +95,17 @@ public class SeekerService {
         return seekerJobDTOS;
     }
 
-    public static void updateProfile(int userId, SeekerProfileDTO seekerProfileDTO) {
+    public static void updateProfile(int userId, ProfileForm profileForm) {
         SeekerDAO seekerDAO = MyApplicationContext.getFactory(SeekerDAO.class);
         Seeker seeker = seekerDAO.get(userId);
-        seeker.setFirstName(seekerProfileDTO.getFirstName());
-        seeker.setLastName(seekerProfileDTO.getLastName());
-        seeker.setPhoneNo(seekerProfileDTO.getPhoneNo());
-        seeker.setEmailId(seekerProfileDTO.getEmailId());
-        seeker.setAddress(seekerProfileDTO.getAddress());
-        seeker.setPincode(Integer.parseInt(seekerProfileDTO.getPincode()));
-        seeker.setTotalChildren(Integer.parseInt(seekerProfileDTO.getTotalChildren()));
-        seeker.setSpouseName(seekerProfileDTO.getSpouseName());
+        seeker.setFirstName(profileForm.getFirstName());
+        seeker.setLastName(profileForm.getLastName());
+        seeker.setPhoneNo(profileForm.getPhoneNo());
+        seeker.setEmailId(profileForm.getEmailId());
+        seeker.setAddress(profileForm.getAddress());
+        seeker.setPincode(Integer.parseInt(profileForm.getPincode()));
+        seeker.setTotalChildren(Integer.parseInt(profileForm.getTotalChildren()));
+        seeker.setSpouseName(profileForm.getSpouseName());
 
         seekerDAO.update(seeker);
     }

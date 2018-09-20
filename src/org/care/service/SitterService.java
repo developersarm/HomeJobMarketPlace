@@ -5,6 +5,7 @@ import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.SitterDAO;
 import org.care.dto.*;
+import org.care.form.ProfileForm;
 import org.care.form.RegistrationForm;
 import org.care.model.Job;
 import org.care.model.JobApplication;
@@ -46,16 +47,16 @@ public class SitterService {
         return new SitterProfileDTO(firstName, lastName, phoneNo, emailId, address, pincode, experience);
     }
 
-    public static void updateProfile(int userId, SitterProfileDTO sitterProfileDTO) {
+    public static void updateProfile(int userId, ProfileForm profileForm) {
         SitterDAO sitterDAO = MyApplicationContext.getFactory(SitterDAO.class);
         Sitter sitter = sitterDAO.get(userId);
-        sitter.setFirstName(sitterProfileDTO.getFirstName());
-        sitter.setLastName(sitterProfileDTO.getLastName());
-        sitter.setPhoneNo(sitterProfileDTO.getPhoneNo());
-        sitter.setEmailId(sitterProfileDTO.getEmailId());
-        sitter.setAddress(sitterProfileDTO.getAddress());
-        sitter.setPincode(Integer.parseInt(sitterProfileDTO.getPincode()));
-        sitter.setExperience(Integer.parseInt(sitterProfileDTO.getExperience()));
+        sitter.setFirstName(profileForm.getFirstName());
+        sitter.setLastName(profileForm.getLastName());
+        sitter.setPhoneNo(profileForm.getPhoneNo());
+        sitter.setEmailId(profileForm.getEmailId());
+        sitter.setAddress(profileForm.getAddress());
+        sitter.setPincode(Integer.parseInt(profileForm.getPincode()));
+        sitter.setExperience(Integer.parseInt(profileForm.getExperience()));
 
         sitterDAO.update(sitter);
     }

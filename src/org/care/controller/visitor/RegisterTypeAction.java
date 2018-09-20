@@ -27,7 +27,7 @@ public class RegisterTypeAction extends Action {
             return mapping.findForward("registerPage");
         } else {
             request.setAttribute("error", "Please choose your purpose before registration");
-            return mapping.findForward("home");
+            return mapping.findForward("homepage");
         }
     }
 }

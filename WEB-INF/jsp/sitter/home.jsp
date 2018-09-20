@@ -1,3 +1,4 @@
+<%@taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -29,10 +30,10 @@
             </div>
         </c:if>
 
-        <a href="/HomeJobMarketplace/member/profile">View profile</a> </br>
-        <a href="/HomeJobMarketplace/sitter/list-job">Apply for a Job</a> </br>
-        <a href="/HomeJobMarketplace/sitter/list-job-application">View your applications</a> </br>
-        <a href="/HomeJobMarketplace/member/logout">Logout</a> </br>
+        <html:link action="member/profile.do">View profile</html:link> </br>
+        <html:link action="sitter/list-job.do">Apply for a Job</html:link> </br>
+        <html:link action="sitter/list-job-application.do">View your applications</html:link> </br>
+        <html:link action="member/logout.do">Logout</html:link> </br>
     </div>
 </body>
 </html>

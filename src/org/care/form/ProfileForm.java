@@ -1,27 +1,49 @@
+/*
+ * Copyright 2018 (c) Abhay
+ * Bangalore, India.
+ * All rights reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Abhay Yadav. ("Confidential Information").  You shall not disclose
+ * such Confidential Information and shall use it only in accordance with
+ * the terms of an agreement between you and Abhay.
+ */
 package org.care.form;
 
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.care.service.MemberService;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class RegistrationForm extends ActionForm {
+/**
+ * Created 9/20/2018 6:35 PM
+ *
+ * @author Abhay Yadav
+ */
+public class ProfileForm extends ActionForm {
     private String firstName;
     private String lastName;
     private String phoneNo;
     private String emailId;
-    private String password;
-    private String type;
     private String address;
     private String pincode;
+    private String type;
+    private String experience;
     private String totalChildren;
     private String spouseName;
-    private String experience;
 
-    public RegistrationForm() {}
+    public ProfileForm() {
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @Override
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
@@ -38,31 +60,17 @@ public class RegistrationForm extends ActionForm {
         } else if (!lastName.matches("^[\\p{L}]+$")) {
             errors.add("lastName", new ActionMessage("Member.LastName.NotValid"));
         }
-        
+
         if (phoneNo.isEmpty()) {
             errors.add("phoneNo", new ActionMessage("Member.PhoneNo.Empty"));
         } else if (!phoneNo.matches("^[0-9]{10}$")) {
             errors.add("phoneNo", new ActionMessage("Member.PhoneNo.NotValid"));
         }
 
-        if (emailId.isEmpty()) {
-            errors.add("emailId", new ActionMessage("Member.EmailId.Empty"));
-        } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\\.)+[a-z]{2,5}$")) {
-            errors.add("emailId", new ActionMessage("Member.EmailId.NotValid"));
-        } else if (MemberService.isEmailIdRegistered(emailId)) {
-            errors.add("emailId", new ActionMessage("Member.EmailId.Registered"));
-        }
-
-        if (password.isEmpty()) {
-            errors.add("password", new ActionMessage("Member.Password.Empty"));
-        } else if (!password.matches("^(?=.*\\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[^\\w\\d\\s:])([^\\s]){8,16}$")) {
-            errors.add("password", new ActionMessage("Member.Password.NotValid"));
-        }
-        
         if (address.isEmpty()) {
             errors.add("address", new ActionMessage("Member.Address.Empty"));
         }
-        
+
         if (pincode.isEmpty()) {
             errors.add("pincode", new ActionMessage("Member.Pincode.Empty"));
         } else if (!pincode.matches("^[0-9]{6}$")) {
@@ -77,7 +85,7 @@ public class RegistrationForm extends ActionForm {
             } else if (Integer.parseInt(experience) > 120) {
                 errors.add("experience", new ActionMessage("Sitter.Experience.UpperLimit"));
             }
-            
+
         } else if (type.equals("SEEKER")) {
             if (totalChildren.isEmpty()) {
                 errors.add("totalChildren", new ActionMessage("Seeker.TotalChildren.Empty"));
@@ -90,11 +98,11 @@ public class RegistrationForm extends ActionForm {
             } else if (!spouseName.matches("^[\\p{L}]+$")) {
                 errors.add("spouseName", new ActionMessage("Seeker.SpouseName.NotValid"));
             }
-            
+
         } else {
             errors.add("type", new ActionMessage("Member.Type.NotValid"));
         }
-        
+
         return errors;
     }
 
@@ -130,22 +138,6 @@ public class RegistrationForm extends ActionForm {
         this.emailId = emailId;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getAddress() {
         return address;
     }
@@ -162,6 +154,14 @@ public class RegistrationForm extends ActionForm {
         this.pincode = pincode;
     }
 
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
     public String getTotalChildren() {
         return totalChildren;
     }
@@ -176,13 +176,5 @@ public class RegistrationForm extends ActionForm {
 
     public void setSpouseName(String spouseName) {
         this.spouseName = spouseName;
-    }
-
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
     }
 }

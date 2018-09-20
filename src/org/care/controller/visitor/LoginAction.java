@@ -24,7 +24,7 @@ public class LoginAction extends Action {
 
         LoginForm loginForm = (LoginForm) form;
         String email = loginForm.getEmailId();
-        String password = loginForm.getPassword();
+        String password = CommonUtil.getHashedPassword(loginForm.getPassword());
 
         LoginDTO loginDTO = MemberService.authenticateUser(email, password);
         Member.MemberType mType = loginDTO.getmType();
