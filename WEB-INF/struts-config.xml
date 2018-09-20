@@ -66,10 +66,13 @@
             <forward name="failure" path="/member/profile.do" />
         </action>
 
-        <action path="/seeker/new-job" forward="/WEB-INF/jsp/seeker/newjob.jsp"/>
+        <action path="/seeker/new-job" name="jobForm" validate="false" scope="request"
+                type="org.care.controller.seeker.NewJobAction">
+            <forward name="newJobPage" path="/WEB-INF/jsp/seeker/newjob.jsp"/>
+        </action>
 
         <action path="/seeker/save-job" name="jobForm" validate="true" scope="request"
-                input="/WEB-INF/jsp/seeker/new-job.jsp" type="org.care.controller.seeker.NewJobAction">
+                input="/WEB-INF/jsp/seeker/newjob.jsp" type="org.care.controller.seeker.SaveJobAction">
             <forward name="success" path="/seeker/home.do?success=true" redirect="true"/>
             <forward name="failure" path="/seeker/home.do?success=false" redirect="true"/>
         </action>

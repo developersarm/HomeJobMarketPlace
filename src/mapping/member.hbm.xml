@@ -16,7 +16,6 @@
         <property name="emailId" type="string" column="email"/>
         <property name="password" column="password" access="field"/>
 
-        <!--todo: add discriminator-->
         <property name="type" column="type">
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">org.care.model.Member$MemberType</param>

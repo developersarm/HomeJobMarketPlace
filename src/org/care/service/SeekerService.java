@@ -5,11 +5,13 @@ import org.care.dao.JobApplicationDAO;
 import org.care.dao.JobDAO;
 import org.care.dao.SeekerDAO;
 import org.care.dto.*;
+import org.care.form.JobForm;
 import org.care.form.ProfileForm;
 import org.care.form.RegistrationForm;
 import org.care.model.Job;
 import org.care.model.JobApplication;
 import org.care.model.Seeker;
+import org.care.utils.CommonUtil;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -29,7 +31,7 @@ public class SeekerService {
         String lastName = seekerForm.getLastName();
         String phoneNo = seekerForm.getPhoneNo();
         String emailId = seekerForm.getEmailId();
-        String password = seekerForm.getPassword();
+        String password = CommonUtil.getHashedPassword(seekerForm.getPassword());
         String address = seekerForm.getAddress();
         int pincode = Integer.parseInt(seekerForm.getPincode());
         int totalChildren = Integer.parseInt(seekerForm.getTotalChildren());
@@ -38,20 +40,20 @@ public class SeekerService {
         return seekerDAO.create(seeker);
     }
 
-    public static boolean postJob(JobPostFormDTO jobPostFormDTO) {
+    public static boolean postJob(JobForm jobForm) {
         try {
             JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
-            String title = jobPostFormDTO.getTitle();
+            String title = jobForm.getTitle();
 
-            int postedBy = jobPostFormDTO.getPostedBy();
+            int postedBy = jobForm.getPostedBy();
             SeekerDAO seekerDAO = MyApplicationContext.getFactory(SeekerDAO.class);
             Seeker seeker = seekerDAO.get(postedBy);
 
-            Date sDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobPostFormDTO.getStartDate());
+            Date sDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobForm.getStartDate());
             Timestamp startDate = new Timestamp(sDate.getTime());
-            Date eDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobPostFormDTO.getEndDate());
+            Date eDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobForm.getEndDate());
             Timestamp endDate = new Timestamp(eDate.getTime());
-            Double payPerHour = Double.parseDouble(jobPostFormDTO.getPayPerHour());
+            Double payPerHour = Double.parseDouble(jobForm.getPayPerHour());
             Job job = new Job(title, seeker, startDate, endDate, payPerHour);
             jobDAO.create(job);
             return true;

@@ -32,7 +32,8 @@ public class NewJobServlet extends HttpServlet {
         JobPostFormDTO jobPostFormDTO = new JobPostFormDTO(title, userId, startDate, endDate, payPerHour);
 
         if (jobPostFormDTO.validate()) {
-            boolean isPosted = SeekerService.postJob(jobPostFormDTO);
+//            boolean isPosted = SeekerService.postJob(jobPostFormDTO);
+            boolean isPosted = false;
             if (isPosted) {
                 resp.sendRedirect(CommonUtil.getRedirectURL("/seeker/home?success=true"));
             } else {

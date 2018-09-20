@@ -11,6 +11,7 @@ import org.care.model.Job;
 import org.care.model.JobApplication;
 import org.care.model.Member;
 import org.care.model.Sitter;
+import org.care.utils.CommonUtil;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -25,7 +26,7 @@ public class SitterService {
         String lastName = sitterForm.getLastName();
         String phoneNo = sitterForm.getPhoneNo();
         String emailId = sitterForm.getEmailId();
-        String password = sitterForm.getPassword();
+        String password = CommonUtil.getHashedPassword(sitterForm.getPassword());
         Member.MemberType memberType = Member.MemberType.valueOf(sitterForm.getType());
         String address = sitterForm.getAddress();
         int pincode = Integer.parseInt(sitterForm.getPincode());
