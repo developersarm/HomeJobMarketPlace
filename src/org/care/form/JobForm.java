@@ -14,7 +14,6 @@ import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
-import org.care.dto.JobPostFormDTO;
 import org.care.utils.JobUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -70,7 +69,7 @@ public class JobForm extends ActionForm {
                     errors.add("startDate", new ActionMessage("Job.StartDate.LowerLimit"));
                 }
             } catch (ParseException e) {
-                Logger logger = Logger.getLogger(JobPostFormDTO.class.getName());
+                Logger logger = Logger.getLogger(JobForm.class.getName());
                 logger.log(Level.SEVERE, "Cannot convert html date into java date format");
             }
         }
@@ -87,7 +86,7 @@ public class JobForm extends ActionForm {
                     errors.add("endDate", new ActionMessage("Job.EndDate.LowerLimit"));
                 }
             } catch (ParseException e) {
-                Logger logger = Logger.getLogger(JobPostFormDTO.class.getName());
+                Logger logger = Logger.getLogger(JobForm.class.getName());
                 logger.log(Level.SEVERE, "Cannot convert html date into java date format");
             }
         }

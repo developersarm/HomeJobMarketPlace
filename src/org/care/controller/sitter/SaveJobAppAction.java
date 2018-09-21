@@ -11,6 +11,15 @@
 package org.care.controller.sitter;
 
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.care.context.MyApplicationContext;
+import org.care.form.JobAppForm;
+import org.care.service.SitterService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created 9/20/2018 6:44 PM
@@ -18,5 +27,16 @@ import org.apache.struts.action.Action;
  * @author Abhay Yadav
  */
 public class SaveJobAppAction extends Action {
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int userId = MyApplicationContext.get().getMember().getMemberId();
+        JobAppForm jobAppForm = (JobAppForm) form;
+        jobAppForm.setUserId(userId);
 
+        boolean isApplied = SitterService.applyJob(jobAppForm);
+        if (isApplied) {
+            return mapping.findForward("success");
+        }
+        return mapping.findForward("failure");
+    }
 }

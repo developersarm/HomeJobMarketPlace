@@ -6,15 +6,15 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Job Application List</title>
+    <title>Home Job Marketplace</title>
     <link type="text/css" rel="stylesheet" href="/HomeJobMarketplace/css/bootstrap.css">
     <script src="/HomeJobMarketplace/js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="container mt-5 w-50">
+    <div class="container mt-5" style="max-width: 500px">
         <div id="wrapper">
             <div id="header">
-                <h2 class="text-center mb-5">Job: ${jobTitle}</h2>
+                <h2 class="text-center mb-5">Apply for Job</h2>
             </div>
         </div>
 
@@ -22,17 +22,27 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Applicant Name</th>
-                        <th>Application Status</th>
-                        <th>Expected Pay</th>
+                        <th>Title</th>
+                        <th>Pay per Hour</th>
+                        <th>Start Date</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach var="tempJobApplication" items="${jobApplications}">
+                    <c:forEach var="tempJob" items="${JobsList}">
+
+                        <c:url var="tempLink" value="/sitter/apply-job.do">
+                            <c:param name="command" value="APPLY"/>
+                            <c:param name="JobId" value="${tempJob.jobId}"/>
+                        </c:url>
+
                         <tr>
-                            <td> ${tempJobApplication.sitterName} </td>
-                            <td> ${tempJobApplication.status} </td>
-                            <td> ${tempJobApplication.expectedPay} </td>
+                            <td> ${tempJob.title} </td>
+                            <td> ${tempJob.payPerHour} </td>
+                            <td> <fmt:formatDate value="${tempJob.startDate}" pattern="dd-MM-yyyy" /> </td>
+                            <td>
+                                <a href="${tempLink}">Apply</a>
+                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>

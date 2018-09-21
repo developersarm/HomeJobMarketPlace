@@ -32,7 +32,7 @@
 
         <html:link action="member/profile.do">View profile</html:link> </br>
         <html:link action="sitter/list-job.do">Apply for a Job</html:link> </br>
-        <html:link action="sitter/list-job-application.do">View your applications</html:link> </br>
+        <html:link action="sitter/list-job-app.do">View your applications</html:link> </br>
         <html:link action="member/logout.do">Logout</html:link> </br>
     </div>
 </body>

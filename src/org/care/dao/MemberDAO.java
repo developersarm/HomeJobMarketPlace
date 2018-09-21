@@ -2,7 +2,6 @@ package org.care.dao;
 
 import org.care.context.MyApplicationContext;
 import org.care.model.Member;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;

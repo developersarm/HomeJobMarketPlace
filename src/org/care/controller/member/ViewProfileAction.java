@@ -23,7 +23,6 @@ import org.care.model.Member;
 import org.care.service.SeekerService;
 import org.care.service.SitterService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -42,8 +41,8 @@ public class ViewProfileAction extends Action {
         ProfileForm profileForm = (ProfileForm) form;
 
         String success = request.getParameter("success");
-        if(success != null) {
-            if(success.equalsIgnoreCase("true")) {
+        if (success != null) {
+            if (success.equalsIgnoreCase("true")) {
                 request.setAttribute("msg", "Operation Successful!");
             } else if (success.equalsIgnoreCase("false")) {
                 request.setAttribute("error", "Operation Failed!");

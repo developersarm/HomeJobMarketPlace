@@ -11,7 +11,7 @@
     <script src="/HomeJobMarketplace/js/bootstrap.js"></script>
 </head>
 <body>
-    <div class="container mt-5 w-50">
+    <div class="container mt-5 w-75">
         <div id="wrapper">
             <div id="header">
                 <h2 class="text-center mb-5">Your Applcations</h2>
@@ -44,12 +44,12 @@
                 <tbody>
                     <c:forEach var="tempJobApplication" items="${jobApplications}">
 
-                        <c:url var="editLink" value="/sitter/edit-job-application">
+                        <c:url var="editLink" value="/sitter/edit-job-app.do">
                             <c:param name="JobApplicationId" value="${tempJobApplication.id}"/>
                             <c:param name="ExpectedPay" value="${tempJobApplication.expectedPay}"/>
                         </c:url>
 
-                        <c:url var="deleteLink" value="/sitter/delete-job-application">
+                        <c:url var="deleteLink" value="/sitter/delete-job-app.do">
                             <c:param name="JobApplicationId" value="${tempJobApplication.id}"/>
                         </c:url>
 

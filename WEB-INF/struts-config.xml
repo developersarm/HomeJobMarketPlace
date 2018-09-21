@@ -111,7 +111,8 @@
             <forward name="listJobPage" path="/WEB-INF/jsp/sitter/listjobs.jsp"/>
         </action>
 
-        <action path="/sitter/apply-job" type="org.care.controller.sitter.ApplyJobAction">
+        <action path="/sitter/apply-job" name="jobAppForm" validate="false" scope="request"
+                type="org.care.controller.sitter.ApplyJobAction">
             <forward name="applyJobPage" path="/WEB-INF/jsp/sitter/applyjob.jsp"/>
             <forward name="failure" path="/sitter/list-job.do?success=false" redirect="true"/>
         </action>
