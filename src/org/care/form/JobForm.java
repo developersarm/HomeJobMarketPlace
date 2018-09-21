@@ -30,11 +30,23 @@ import java.util.logging.Logger;
  * @author Abhay Yadav
  */
 public class JobForm extends ActionForm {
+    private String id;
     private String title;
     private int postedBy;
     private String startDate;
     private String endDate;
     private String payPerHour;
+
+    public JobForm() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     @Override
     public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
@@ -43,11 +55,11 @@ public class JobForm extends ActionForm {
         if (title.isEmpty()) {
             errors.add("title", new ActionMessage("Job.Title.Empty"));
 
-        } else if(JobUtil.checkForBadWords(title)) {
+        } else if (JobUtil.checkForBadWords(title)) {
             errors.add("title", new ActionMessage("Job.Title.BadWords"));
         }
 
-        if (startDate == null){
+        if (startDate == null) {
             errors.add("startDate", new ActionMessage("Job.StartDate.Empty"));
         } else if (startDate.isEmpty()) {
             errors.add("startDate", new ActionMessage("Job.StartDate.Empty"));
@@ -82,16 +94,14 @@ public class JobForm extends ActionForm {
 
         if (payPerHour.isEmpty()) {
             errors.add("payPerHour", new ActionMessage("Job.PayPerHour.Empty"));
-        } else if(!payPerHour.matches("^([0-9]+)$|^([0-9]+\\.[0-9]+)$")) {
+        } else if (!payPerHour.matches("^([0-9]+)$|^([0-9]+\\.[0-9]+)$")) {
             errors.add("payPerHour", new ActionMessage("Job.PayPerHour.NotValid"));
-        } else if(!(Double.parseDouble(payPerHour) >= 0) ) {
+        } else if (!(Double.parseDouble(payPerHour) >= 0)) {
             errors.add("payPerHour", new ActionMessage("Job.PayPerHour.Negative"));
         }
-        
+
         return errors;
     }
-
-    public JobForm() {}
 
     public String getTitle() {
         return title;

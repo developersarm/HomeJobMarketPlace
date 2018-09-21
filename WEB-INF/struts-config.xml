@@ -84,6 +84,7 @@
         <action path="/seeker/edit-job" name="jobForm" validate="false" scope="request"
                 type="org.care.controller.seeker.EditJobAction">
             <forward name="editJobPage" path="/WEB-INF/jsp/seeker/editjob.jsp"/>
+            <forward name="failure" path="/seeker/list-job?success=false" redirect="true"/>
         </action>
 
         <action path="/seeker/update-job" name="jobForm" validate="true" scope="request"

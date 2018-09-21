@@ -11,6 +11,15 @@
 package org.care.controller.seeker;
 
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.care.context.MyApplicationContext;
+import org.care.form.JobForm;
+import org.care.service.SeekerService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created 9/20/2018 6:42 PM
@@ -18,5 +27,29 @@ import org.apache.struts.action.Action;
  * @author Abhay Yadav
  */
 public class UpdateJobAction extends Action {
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int userId = MyApplicationContext.get().getMember().getMemberId();
 
+        JobForm jobForm = (JobForm) form;
+        String jobIdRaw = jobForm.getId();
+
+        if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
+            int jobId = Integer.parseInt(jobIdRaw);
+
+            if (userId == SeekerService.getUserIdforJobId(jobId)) {
+                boolean isUpdated = SeekerService.updateJob(userId, jobForm);
+
+                if (isUpdated) {
+                    return mapping.findForward("success");
+                } else {
+                    return mapping.findForward("failure");
+                }
+            } else {
+                return mapping.findForward("failure");
+            }
+        } else {
+            return mapping.findForward("failure");
+        }
+    }
 }

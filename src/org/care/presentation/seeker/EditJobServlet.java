@@ -47,7 +47,8 @@ public class EditJobServlet extends HttpServlet {
         SeekerJobDTO jobDTO = new SeekerJobDTO(jobId, title, startDate, endDate, payPerHour);
 
         if (jobDTO.validate()) {
-            boolean isUpdated = SeekerService.updateJob(userId, jobDTO);
+            boolean isUpdated = true;
+//            SeekerService.updateJob(userId, jobDTO);
 
             if (isUpdated) {
                 resp.sendRedirect(CommonUtil.getRedirectURL("/seeker/list-job?success=true"));

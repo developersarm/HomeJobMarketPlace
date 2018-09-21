@@ -124,22 +124,26 @@ public class SeekerService {
         return new SeekerJobDTO(id, title, status, startDate, endDate, payPerHour);
     }
 
-    public static boolean updateJob(int userId, SeekerJobDTO jobDTO) {
+    public static boolean updateJob(int userId, JobForm jobForm) {
         try {
             JobDAO jobDAO = MyApplicationContext.getFactory(JobDAO.class);
-            int id = Integer.parseInt(jobDTO.getId());
+            int id = Integer.parseInt(jobForm.getId());
+            Job job = jobDAO.get(id);
 
             SeekerDAO seekerDAO = MyApplicationContext.getFactory(SeekerDAO.class);
-            Seeker seeker = seekerDAO.get(userId);
+            job.setSeeker(seekerDAO.get(userId));
 
-            String title = jobDTO.getTitle();
-            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobDTO.getStartDate());
-            Timestamp startDateTS = new Timestamp(startDate.getTime());
-            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobDTO.getEndDate());
-            Timestamp endDateTS = new Timestamp(endDate.getTime());
-            double payPerHour = Double.parseDouble(jobDTO.getPayPerHour());
+            job.setTitle(jobForm.getTitle());
 
-            jobDAO.update(new Job(id, title, seeker, startDateTS, endDateTS, payPerHour));
+            Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobForm.getStartDate());
+            job.setStartDate(new Timestamp(startDate.getTime()));
+
+            Date endDate = new SimpleDateFormat("yyyy-MM-dd").parse(jobForm.getEndDate());
+            job.setEndDate(new Timestamp(endDate.getTime()));
+
+            job.setPayPerHour(Double.parseDouble(jobForm.getPayPerHour()));
+
+            jobDAO.update(job);
             return true;
 
         } catch (ParseException e) {

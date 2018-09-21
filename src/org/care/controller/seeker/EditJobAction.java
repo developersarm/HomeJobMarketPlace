@@ -11,6 +11,18 @@
 package org.care.controller.seeker;
 
 import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.care.context.MyApplicationContext;
+import org.care.dto.SeekerJobDTO;
+import org.care.form.JobForm;
+import org.care.service.SeekerService;
+import org.care.utils.CommonUtil;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created 9/20/2018 6:41 PM
@@ -18,5 +30,31 @@ import org.apache.struts.action.Action;
  * @author Abhay Yadav
  */
 public class EditJobAction extends Action {
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        int userId = MyApplicationContext.get().getMember().getMemberId();
 
+        String jobIdRaw = request.getParameter("JobId");
+        if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
+            int jobId = Integer.parseInt(jobIdRaw);
+
+            if (userId == SeekerService.getUserIdforJobId(jobId)) {
+                SeekerJobDTO seekerJobDTO = SeekerService.getJob(jobId);
+
+                JobForm jobForm = (JobForm) form;
+                jobForm.setId(seekerJobDTO.getId());
+                jobForm.setTitle(seekerJobDTO.getTitle());
+                jobForm.setStartDate(seekerJobDTO.getStartDate());
+                jobForm.setEndDate(seekerJobDTO.getEndDate());
+                jobForm.setPayPerHour(seekerJobDTO.getPayPerHour());
+                jobForm.setPostedBy(userId);
+                return mapping.findForward("editJobPage");
+
+            } else {
+                return mapping.findForward("failure");
+            }
+        } else {
+            return mapping.findForward("failure");
+        }
+    }
 }
