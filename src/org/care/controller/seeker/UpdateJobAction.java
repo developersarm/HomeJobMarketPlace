@@ -17,9 +17,11 @@ import org.apache.struts.action.ActionMapping;
 import org.care.context.MyApplicationContext;
 import org.care.form.JobForm;
 import org.care.service.SeekerService;
+import org.care.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.rmi.server.ServerCloneException;
 
 /**
  * Created 9/20/2018 6:42 PM
@@ -34,22 +36,21 @@ public class UpdateJobAction extends Action {
         JobForm jobForm = (JobForm) form;
         String jobIdRaw = jobForm.getId();
 
-        if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
-            int jobId = Integer.parseInt(jobIdRaw);
+        try {
+            if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
+                int jobId = Integer.parseInt(jobIdRaw);
 
-            if (userId == SeekerService.getUserIdforJobId(jobId)) {
-                boolean isUpdated = SeekerService.updateJob(userId, jobForm);
+                if (userId == SeekerService.getUserIdforJobId(jobId)) {
+                    SeekerService.updateJob(userId, jobForm);
 
-                if (isUpdated) {
                     return mapping.findForward("success");
-                } else {
-                    return mapping.findForward("failure");
                 }
-            } else {
-                return mapping.findForward("failure");
             }
-        } else {
+        } catch (ServiceException e) {
             return mapping.findForward("failure");
         }
+
+        return mapping.findForward("failure");
     }
 }
+

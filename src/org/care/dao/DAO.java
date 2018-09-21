@@ -5,11 +5,11 @@ import java.sql.SQLException;
 
 public interface DAO<T> {
 
-    Serializable create(T obj) throws SQLException;
+    Serializable create(T obj) throws DAOException;
 
-    void update(T obj);
+    void update(T obj) throws DAOException;
 
-    boolean delete(Serializable id);
+    void delete(Serializable id) throws DAOException;
 
-    T get(Serializable id);
+    T get(Serializable id) throws DAOException;
 }

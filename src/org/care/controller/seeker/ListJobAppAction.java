@@ -17,9 +17,8 @@ import org.apache.struts.action.ActionMapping;
 import org.care.context.MyApplicationContext;
 import org.care.dto.SeekerJobApplicationDTO;
 import org.care.service.SeekerService;
-import org.care.utils.CommonUtil;
+import org.care.service.ServiceException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -32,21 +31,24 @@ import java.util.List;
 public class ListJobAppAction extends Action {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int userId = MyApplicationContext.get().getMember().getMemberId();
+        try {
+            int userId = MyApplicationContext.get().getMember().getMemberId();
+            String jobIdRaw = request.getParameter("JobId");
+            if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
+                int jobId = Integer.parseInt(jobIdRaw);
 
-        String jobIdRaw = request.getParameter("JobId");
-        if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
-            int jobId = Integer.parseInt(jobIdRaw);
+                if (userId == SeekerService.getUserIdforJobId(jobId)) {
 
-            if (userId == SeekerService.getUserIdforJobId(jobId)) {
+                    String jobTitle = SeekerService.getJobTitle(jobId);
+                    List<SeekerJobApplicationDTO> seekerJobAppDTOS = SeekerService.getJobApplicationsByJobId(jobId);
+                    request.setAttribute("jobApplications", seekerJobAppDTOS);
+                    request.setAttribute("jobTitle", jobTitle);
 
-                String jobTitle = SeekerService.getJobTitle(jobId);
-                List<SeekerJobApplicationDTO> seekerJobAppDTOS = SeekerService.getJobApplicationsByJobId(jobId);
-                request.setAttribute("jobApplications", seekerJobAppDTOS);
-                request.setAttribute("jobTitle", jobTitle);
-
-                return mapping.findForward("jobAppListPage");
+                    return mapping.findForward("jobAppListPage");
+                }
             }
+        } catch (ServiceException e) {
+            return mapping.findForward("failure");
         }
         return mapping.findForward("failure");
     }

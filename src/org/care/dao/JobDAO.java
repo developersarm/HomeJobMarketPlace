@@ -4,85 +4,71 @@ import org.care.context.MyApplicationContext;
 import org.care.model.Job;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
 public class JobDAO implements DAO<Job> {
 
     @Override
-    public Integer create(Job obj) {
-        Integer id = null;
+    public Integer create(Job obj) throws DAOException {
+        Integer id;
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             id = (Integer) session.save(obj);
-
-            transaction.commit();
 
         } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't insert job: " + e);
+            throw new DAOException();
         }
         return id;
     }
 
     @Override
-    public void update(Job obj) {
+    public void update(Job obj) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             session.update(obj);
-
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't update job: " + e);
+            throw new DAOException();
         }
     }
 
     @Override
-    public boolean delete(Serializable id) {
-        boolean isDeleted = false;
-
+    public void delete(Serializable id) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             Job job = session.get(Job.class, id);
             job.setStatus(Job.Status.INACTIVE);
             session.update(job);
 
-            transaction.commit();
-            isDeleted = true;
-
         } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't delete job: " + e);
+            throw new DAOException();
         }
-        return isDeleted;
     }
 
     @Override
-    public Job get(Serializable id) {
-        Job job = null;
+    public Job get(Serializable id) throws DAOException {
+        Job job;
         try {
             Session session = MyApplicationContext.getHibSession();
             job = session.get(Job.class, id);
 
         } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't retrieve job: " + e);
+            throw new DAOException();
         }
 
         return job;
     }
 
-    public List<Job> getJobsPostedBy(int userId) {
-        List<Job> jobs = new LinkedList<>();
+    public List<Job> getJobsPostedBy(int userId) throws DAOException {
+        List<Job> jobs;
 
         try {
             Session session = MyApplicationContext.getHibSession();
@@ -101,7 +87,7 @@ public class JobDAO implements DAO<Job> {
 
         } catch (Exception e) {
             Logger.getLogger(JobDAO.class.getName()).severe("Can't retrieve job specific to seeker: " + e);
-
+            throw new DAOException();
         }
 
         return jobs;

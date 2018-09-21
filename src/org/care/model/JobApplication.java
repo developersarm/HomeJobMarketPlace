@@ -7,7 +7,8 @@ public class JobApplication {
     private Job job;
     private Sitter sitter;
 
-    public JobApplication() {}
+    public JobApplication() {
+    }
 
     public JobApplication(int jobAppId, Job job, Sitter sitter, double expectedPay) {
         this.jobAppId = jobAppId;
@@ -23,6 +24,13 @@ public class JobApplication {
         this.sitter = sitter;
         this.expectedPay = expectedPay;
         this.status = status;
+    }
+
+    public JobApplication(Job job, Sitter sitter, double expectedPay) {
+        this.expectedPay = expectedPay;
+        this.job = job;
+        this.sitter = sitter;
+        this.status = Status.ACTIVE;
     }
 
     public Job getJob() {

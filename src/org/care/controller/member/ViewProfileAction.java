@@ -21,6 +21,7 @@ import org.care.dto.SitterProfileDTO;
 import org.care.form.ProfileForm;
 import org.care.model.Member;
 import org.care.service.SeekerService;
+import org.care.service.ServiceException;
 import org.care.service.SitterService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,29 +50,33 @@ public class ViewProfileAction extends Action {
             }
         }
 
-        if (memberType == Member.MemberType.SEEKER) {
-            profileDTO = SeekerService.getProfile(userId);
-            profileForm.setFirstName(profileDTO.getFirstName());
-            profileForm.setLastName(profileDTO.getLastName());
-            profileForm.setPhoneNo(profileDTO.getPhoneNo());
-            profileForm.setEmailId(profileDTO.getEmailId());
-            profileForm.setAddress(profileDTO.getAddress());
-            profileForm.setPincode(profileDTO.getPincode());
-            profileForm.setType(Member.MemberType.SEEKER.toString());
-            profileForm.setTotalChildren(((SeekerProfileDTO) profileDTO).getTotalChildren());
-            profileForm.setSpouseName(((SeekerProfileDTO) profileDTO).getSpouseName());
+        try {
+            if (memberType == Member.MemberType.SEEKER) {
+                profileDTO = SeekerService.getProfile(userId);
+                profileForm.setFirstName(profileDTO.getFirstName());
+                profileForm.setLastName(profileDTO.getLastName());
+                profileForm.setPhoneNo(profileDTO.getPhoneNo());
+                profileForm.setEmailId(profileDTO.getEmailId());
+                profileForm.setAddress(profileDTO.getAddress());
+                profileForm.setPincode(profileDTO.getPincode());
+                profileForm.setType(Member.MemberType.SEEKER.toString());
+                profileForm.setTotalChildren(((SeekerProfileDTO) profileDTO).getTotalChildren());
+                profileForm.setSpouseName(((SeekerProfileDTO) profileDTO).getSpouseName());
 
-        } else if (memberType == Member.MemberType.SITTER) {
-            profileDTO = SitterService.getProfile(userId);
-            profileForm.setFirstName(profileDTO.getFirstName());
-            profileForm.setLastName(profileDTO.getLastName());
-            profileForm.setPhoneNo(profileDTO.getPhoneNo());
-            profileForm.setEmailId(profileDTO.getEmailId());
-            profileForm.setAddress(profileDTO.getAddress());
-            profileForm.setPincode(profileDTO.getPincode());
-            profileForm.setType(Member.MemberType.SITTER.toString());
-            profileForm.setExperience(((SitterProfileDTO) profileDTO).getExperience());
-        } else {
+            } else if (memberType == Member.MemberType.SITTER) {
+                profileDTO = SitterService.getProfile(userId);
+                profileForm.setFirstName(profileDTO.getFirstName());
+                profileForm.setLastName(profileDTO.getLastName());
+                profileForm.setPhoneNo(profileDTO.getPhoneNo());
+                profileForm.setEmailId(profileDTO.getEmailId());
+                profileForm.setAddress(profileDTO.getAddress());
+                profileForm.setPincode(profileDTO.getPincode());
+                profileForm.setType(Member.MemberType.SITTER.toString());
+                profileForm.setExperience(((SitterProfileDTO) profileDTO).getExperience());
+            } else {
+                return mapping.findForward("failure");
+            }
+        } catch (ServiceException e) {
             return mapping.findForward("failure");
         }
         return mapping.findForward("profilePage");

@@ -16,6 +16,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.care.context.MyApplicationContext;
 import org.care.dto.SitterJobApplicationDTO;
+import org.care.service.ServiceException;
 import org.care.service.SitterService;
 
 import javax.servlet.RequestDispatcher;
@@ -41,9 +42,12 @@ public class ListJobAppAction extends Action {
                 request.setAttribute("error", "Operation Failed!");
             }
         }
-
-        List<SitterJobApplicationDTO> sitterJobApplicationDTOS = SitterService.getJobApplications(userId);
-        request.setAttribute("jobApplications", sitterJobApplicationDTOS);
-        return mapping.findForward("listJobAppPage");
+        try {
+            List<SitterJobApplicationDTO> sitterJobApplicationDTOS = SitterService.getJobApplications(userId);
+            request.setAttribute("jobApplications", sitterJobApplicationDTOS);
+            return mapping.findForward("listJobAppPage");
+        } catch (ServiceException e) {
+            return mapping.findForward("failure");
+        }
     }
 }

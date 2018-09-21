@@ -7,6 +7,7 @@ import org.apache.struts.action.ActionMapping;
 import org.care.context.MyApplicationContext;
 import org.care.form.JobForm;
 import org.care.service.SeekerService;
+import org.care.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,10 +20,10 @@ public class SaveJobAction extends Action {
         JobForm jobForm = (JobForm) form;
         jobForm.setPostedBy(userId);
 
-        boolean isPosted = SeekerService.postJob(jobForm);
-        if (isPosted) {
+        try {
+            SeekerService.postJob(jobForm);
             return mapping.findForward("success");
-        } else {
+        } catch (ServiceException e) {
             return mapping.findForward("failure");
         }
     }

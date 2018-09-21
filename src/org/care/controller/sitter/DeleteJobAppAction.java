@@ -15,8 +15,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.care.context.MyApplicationContext;
+import org.care.service.ServiceException;
 import org.care.service.SitterService;
-import org.care.utils.CommonUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,14 +34,13 @@ public class DeleteJobAppAction extends Action {
         String jobAppIdRaw = request.getParameter("JobApplicationId");
         if (jobAppIdRaw != null && !jobAppIdRaw.isEmpty() && jobAppIdRaw.matches("^[0-9]+$")) {
             int jobAppId = Integer.parseInt(jobAppIdRaw);
-
-            if (userId == SitterService.getUserIdforJobAppId(jobAppId)) {
-                boolean isDeleted = false;
-                isDeleted = SitterService.deleteJobApplication(jobAppId);
-
-                if (isDeleted) {
+            try {
+                if (userId == SitterService.getUserIdforJobAppId(jobAppId)) {
+                    SitterService.deleteJobApplication(jobAppId);
                     return mapping.findForward("success");
                 }
+            } catch (ServiceException e) {
+                return mapping.findForward("failure");
             }
         }
         return mapping.findForward("failure");

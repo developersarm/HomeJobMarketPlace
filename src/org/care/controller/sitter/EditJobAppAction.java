@@ -17,6 +17,7 @@ import org.apache.struts.action.ActionMapping;
 import org.care.context.MyApplicationContext;
 import org.care.form.JobAppForm;
 import org.care.model.JobApplication;
+import org.care.service.ServiceException;
 import org.care.service.SitterService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,17 +37,20 @@ public class EditJobAppAction extends Action {
         String jobAppIdRaw = request.getParameter("JobApplicationId");
         if (jobAppIdRaw != null && !jobAppIdRaw.isEmpty() && jobAppIdRaw.matches("^[0-9]+$")) {
             int jobAppId = Integer.parseInt(jobAppIdRaw);
+            try {
+                if (userId == SitterService.getUserIdforJobAppId(jobAppId)) {
 
-            if (userId == SitterService.getUserIdforJobAppId(jobAppId)) {
+                    JobAppForm jobAppForm = (JobAppForm) form;
+                    jobAppForm.setJobAppId(jobAppIdRaw);
+                    JobApplication jobApplication = SitterService.getJobApplication(jobAppId);
+                    jobAppForm.setJobId(String.valueOf(jobApplication.getJob().getJobId()));
+                    jobAppForm.setExpectedPay(String.valueOf(jobApplication.getExpectedPay()));
+                    jobAppForm.setJobTitle(jobApplication.getJob().getTitle());
 
-                JobAppForm jobAppForm = (JobAppForm) form;
-                jobAppForm.setJobAppId(jobAppIdRaw);
-                JobApplication jobApplication = SitterService.getJobApplication(jobAppId);
-                jobAppForm.setJobId(String.valueOf(jobApplication.getJob().getJobId()));
-                jobAppForm.setExpectedPay(String.valueOf(jobApplication.getExpectedPay()));
-                jobAppForm.setJobTitle(jobApplication.getJob().getTitle());
-
-                return mapping.findForward("editJobAppPage");
+                    return mapping.findForward("editJobAppPage");
+                }
+            } catch (ServiceException e) {
+                return mapping.findForward("failure");
             }
         }
         return mapping.findForward("failure");

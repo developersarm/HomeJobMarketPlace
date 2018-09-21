@@ -3,13 +3,13 @@ package org.care.context;
 import org.care.dao.DAO;
 import org.care.model.Member;
 import org.care.service.MemberService;
+import org.care.service.ServiceException;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import javax.servlet.http.HttpServletRequest;
-import java.sql.Connection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,7 +87,12 @@ public class MyApplicationContext {
     public Member getMember() {
         Integer memberId = (Integer) httpRequest.getSession().getAttribute("UserId");
         if (memberId != null) {
-            return MemberService.getMemberForId(memberId);
+            try {
+                return MemberService.getMemberForId(memberId);
+            } catch (ServiceException e) {
+                Logger.getLogger(MyApplicationContext.class.getName())
+                        .log(Level.SEVERE, "Failed to get member", e);
+            }
         }
         return null;
     }

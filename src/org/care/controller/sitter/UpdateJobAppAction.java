@@ -15,8 +15,8 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.care.form.JobAppForm;
+import org.care.service.ServiceException;
 import org.care.service.SitterService;
-import org.care.utils.CommonUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,12 +33,11 @@ public class UpdateJobAppAction extends Action {
         JobAppForm jobAppForm = (JobAppForm) form;
         int jobAppId = Integer.parseInt(jobAppForm.getJobAppId());
         double expectedPay = Double.parseDouble(jobAppForm.getExpectedPay());
-
-        boolean isUpdated = SitterService.updateJobApplication(jobAppId, expectedPay);
-
-        if (isUpdated) {
+        try {
+            SitterService.updateJobApplication(jobAppId, expectedPay);
             return mapping.findForward("success");
+        } catch (ServiceException e) {
+            return mapping.findForward("failure");
         }
-        return mapping.findForward("failure");
     }
 }

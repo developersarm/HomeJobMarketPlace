@@ -1,6 +1,7 @@
 package org.care.dto;
 
 import org.care.service.MemberService;
+import org.care.service.ServiceException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -110,7 +111,7 @@ public class ProfileDTO {
         }
     }
 
-    private void validateEmailId() {
+    private void validateEmailId() throws ServiceException {
         if (emailId.isEmpty()) {
             errors.put("emailId", "Email id can't be empty!");
         } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+.)+[a-z]{2,5}$")) {

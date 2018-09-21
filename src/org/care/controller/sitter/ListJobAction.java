@@ -16,9 +16,9 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.care.context.MyApplicationContext;
 import org.care.dto.SitterNAJobDTO;
+import org.care.service.ServiceException;
 import org.care.service.SitterService;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -31,10 +31,14 @@ import java.util.List;
 public class ListJobAction extends Action {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int userId = MyApplicationContext.get().getMember().getMemberId();
-        List<SitterNAJobDTO> sitterNAJobDTOS = SitterService.getNAJobsList(userId);
+        try {
+            int userId = MyApplicationContext.get().getMember().getMemberId();
+            List<SitterNAJobDTO> sitterNAJobDTOS = SitterService.getNAJobsList(userId);
 
-        request.setAttribute("JobsList", sitterNAJobDTOS);
-        return mapping.findForward("listJobPage");
+            request.setAttribute("JobsList", sitterNAJobDTOS);
+            return mapping.findForward("listJobPage");
+        } catch (ServiceException e) {
+            return mapping.findForward("failure");
+        }
     }
 }

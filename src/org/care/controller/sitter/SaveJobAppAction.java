@@ -16,6 +16,7 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.care.context.MyApplicationContext;
 import org.care.form.JobAppForm;
+import org.care.service.ServiceException;
 import org.care.service.SitterService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,10 +34,11 @@ public class SaveJobAppAction extends Action {
         JobAppForm jobAppForm = (JobAppForm) form;
         jobAppForm.setUserId(userId);
 
-        boolean isApplied = SitterService.applyJob(jobAppForm);
-        if (isApplied) {
+        try {
+            SitterService.applyJob(jobAppForm);
             return mapping.findForward("success");
+        } catch (ServiceException e) {
+            return mapping.findForward("failure");
         }
-        return mapping.findForward("failure");
     }
 }

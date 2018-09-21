@@ -7,8 +7,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Home</title>
-    <link type="text/css" rel="stylesheet" href="/HomeJobMarketplace/css/bootstrap.css">
-    <script src="/HomeJobMarketplace/js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="../css/bootstrap.css">
+    <script src="../js/bootstrap.js"></script>
 </head>
 <body>
     <div class="container mt-5 w-25">

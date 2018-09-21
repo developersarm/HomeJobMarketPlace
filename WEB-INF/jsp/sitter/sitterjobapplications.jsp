@@ -46,7 +46,6 @@
 
                         <c:url var="editLink" value="/sitter/edit-job-app.do">
                             <c:param name="JobApplicationId" value="${tempJobApplication.id}"/>
-                            <c:param name="ExpectedPay" value="${tempJobApplication.expectedPay}"/>
                         </c:url>
 
                         <c:url var="deleteLink" value="/sitter/delete-job-app.do">

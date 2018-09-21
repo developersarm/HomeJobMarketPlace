@@ -2,7 +2,6 @@ package org.care.dao;
 
 import org.care.context.MyApplicationContext;
 import org.care.model.Sitter;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -12,45 +11,39 @@ import java.util.logging.Logger;
 public class SitterDAO extends MemberDAO<Sitter> {
 
     @Override
-    public Integer create(Sitter obj) {
-        Integer id = null;
+    public Integer create(Sitter obj) throws DAOException {
+        Integer id;
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             id = (Integer) session.save(obj);
-
-            transaction.commit();
 
         } catch (Exception e) {
             Logger.getLogger(SitterDAO.class.getName()).severe("Can't insert sitter: " + e);
+            throw new DAOException();
         }
         return id;
     }
 
     @Override
-    public void update(Sitter obj) {
+    public void update(Sitter obj) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             session.update(obj);
-
-            transaction.commit();
 
         } catch (Exception e) {
             Logger.getLogger(SitterDAO.class.getName()).severe("Can't update sitter: " + e);
+            throw new DAOException();
         }
     }
 
     @Override
-    public boolean delete(Serializable id) {
-        return super.delete(id);
+    public void delete(Serializable id) throws DAOException {
+        super.delete(id);
     }
 
     @Override
-    public Sitter get(Serializable id) {
-        Sitter sitter = null;
+    public Sitter get(Serializable id) throws DAOException {
+        Sitter sitter;
 
         try {
             Session session = MyApplicationContext.getHibSession();
@@ -58,6 +51,7 @@ public class SitterDAO extends MemberDAO<Sitter> {
 
         } catch (Exception e) {
             Logger.getLogger(SitterDAO.class.getName()).info("Can't retrieve sitter: " + e);
+            throw new DAOException();
         }
         return sitter;
     }

@@ -18,9 +18,8 @@ import org.care.context.MyApplicationContext;
 import org.care.dto.SeekerJobDTO;
 import org.care.form.JobForm;
 import org.care.service.SeekerService;
-import org.care.utils.CommonUtil;
+import org.care.service.ServiceException;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -32,29 +31,29 @@ import javax.servlet.http.HttpServletResponse;
 public class EditJobAction extends Action {
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        int userId = MyApplicationContext.get().getMember().getMemberId();
+        try {
+            int userId = MyApplicationContext.get().getMember().getMemberId();
 
-        String jobIdRaw = request.getParameter("JobId");
-        if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
-            int jobId = Integer.parseInt(jobIdRaw);
+            String jobIdRaw = request.getParameter("JobId");
+            if (jobIdRaw != null && !jobIdRaw.isEmpty() && jobIdRaw.matches("^[0-9]+$")) {
+                int jobId = Integer.parseInt(jobIdRaw);
 
-            if (userId == SeekerService.getUserIdforJobId(jobId)) {
-                SeekerJobDTO seekerJobDTO = SeekerService.getJob(jobId);
+                if (userId == SeekerService.getUserIdforJobId(jobId)) {
+                    SeekerJobDTO seekerJobDTO = SeekerService.getJob(jobId);
 
-                JobForm jobForm = (JobForm) form;
-                jobForm.setId(seekerJobDTO.getId());
-                jobForm.setTitle(seekerJobDTO.getTitle());
-                jobForm.setStartDate(seekerJobDTO.getStartDate());
-                jobForm.setEndDate(seekerJobDTO.getEndDate());
-                jobForm.setPayPerHour(seekerJobDTO.getPayPerHour());
-                jobForm.setPostedBy(userId);
-                return mapping.findForward("editJobPage");
-
-            } else {
-                return mapping.findForward("failure");
+                    JobForm jobForm = (JobForm) form;
+                    jobForm.setId(seekerJobDTO.getId());
+                    jobForm.setTitle(seekerJobDTO.getTitle());
+                    jobForm.setStartDate(seekerJobDTO.getStartDate());
+                    jobForm.setEndDate(seekerJobDTO.getEndDate());
+                    jobForm.setPayPerHour(seekerJobDTO.getPayPerHour());
+                    jobForm.setPostedBy(userId);
+                    return mapping.findForward("editJobPage");
+                }
             }
-        } else {
+        } catch (ServiceException e) {
             return mapping.findForward("failure");
         }
+        return mapping.findForward("failure");
     }
 }

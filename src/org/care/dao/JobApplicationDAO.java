@@ -4,16 +4,12 @@ import org.care.context.MyApplicationContext;
 import org.care.model.Job;
 import org.care.model.JobApplication;
 import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -25,60 +21,49 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
 
     @Override
-    public Integer create(JobApplication obj) {
-        Integer id = null;
+    public Integer create(JobApplication obj) throws DAOException {
+        Integer id;
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             id = (Integer) session.save(obj);
 
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't insert job application: " + e);
+            throw new DAOException();
         }
         return id;
     }
 
     @Override
-    public void update(JobApplication obj) {
+    public void update(JobApplication obj) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             session.update(obj);
-
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't update job application: " + e);
+            throw new DAOException();
         }
     }
 
     @Override
-    public boolean delete(Serializable id) {
-        boolean isDeleted = false;
-
+    public void delete(Serializable id) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             JobApplication jobApp = session.get(JobApplication.class, id);
             jobApp.setStatus(JobApplication.Status.INACTIVE);
 
             session.update(jobApp);
-
-            transaction.commit();
-            isDeleted = true;
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't delete job application: " + e);
+            throw new DAOException();
         }
-
-        return isDeleted;
     }
 
     @Override
-    public JobApplication get(Serializable id) {
-        JobApplication jobApplication = null;
+    public JobApplication get(Serializable id) throws DAOException {
+        JobApplication jobApplication;
 
         try {
             Session session = MyApplicationContext.getHibSession();
@@ -86,17 +71,17 @@ public class JobApplicationDAO implements DAO<JobApplication> {
 
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't retrieve job application: " + e);
+            throw new DAOException();
         }
 
         return jobApplication;
     }
 
-    public List<Map<String, Object>> getSitterJobsList(int userId) {
+    public List<Map<String, Object>> getSitterJobsList(int userId) throws DAOException {
         List<Map<String, Object>> resultList = new LinkedList<>();
 
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             Criteria criteria = session.createCriteria(JobApplication.class);
             Criterion criterion = Restrictions.eq("sitter.memberId", userId);
@@ -119,20 +104,19 @@ public class JobApplicationDAO implements DAO<JobApplication> {
                 resultList.add(tempMap);
             }
 
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't get job application specific " +
                     "to particular sitter: " + e);
+            throw new DAOException();
         }
 
         return resultList;
     }
 
-    public List<Job> getSitterNAJobsList(int userId) {
-        List<Job> jobs = new LinkedList<>();
+    public List<Job> getSitterNAJobsList(int userId) throws DAOException {
+        List<Job> jobs;
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             String hql = "from Job as job " +
                     "where job.jobId not in ( " +
@@ -144,21 +128,19 @@ public class JobApplicationDAO implements DAO<JobApplication> {
                     .setParameter("status", Job.Status.ACTIVE);
             jobs = query.list();
 
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't get jobs not applied by " +
                     "particular sitter: " + e);
-
+            throw new DAOException();
         }
         return jobs;
     }
 
-    public List<Map<String, Object>> getAllByUserId(int userId) {
+    public List<Map<String, Object>> getAllByUserId(int userId) throws DAOException {
         List<Map<String, Object>> resultList = new LinkedList<>();
 
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             Criteria criteria = session.createCriteria(JobApplication.class);
             Criterion criterion = Restrictions.eq("sitter.memberId", userId);
@@ -183,41 +165,34 @@ public class JobApplicationDAO implements DAO<JobApplication> {
                 resultList.add(tempMap);
             }
 
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).info("Can't get job application specific " +
                     "to particular sitter: " + e);
+            throw new DAOException();
         }
 
         return resultList;
     }
 
-    public boolean update(int jobAppId, double expectedPay) {
-        boolean isUpdated = false;
-
+    public void update(int jobAppId, double expectedPay) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             JobApplication jobApplication = session.get(JobApplication.class, jobAppId);
             jobApplication.setExpectedPay(expectedPay);
             session.update(jobApplication);
 
-            transaction.commit();
-            isUpdated = true;
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't update job application: " + e);
+            throw new DAOException();
         }
-
-        return isUpdated;
     }
 
-    public int deleteByJobId(int jobId) {
-        int totalDeletedApps = -1;
+    public int deleteByJobId(int jobId) throws DAOException {
+        int totalDeletedApps;
 
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             String hql = "update JobApplication jbApp set jbApp.status = :status where jbApp.job.jobId = :jobId ";
             totalDeletedApps = session.createQuery(hql)
@@ -225,20 +200,19 @@ public class JobApplicationDAO implements DAO<JobApplication> {
                     .setParameter("jobId", jobId)
                     .executeUpdate();
 
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't delete job application: " + e);
+            throw new DAOException();
         }
 
         return totalDeletedApps;
     }
 
-    public List<Map<String, Object>> getAllByJobId(int jobId) {
+    public List<Map<String, Object>> getAllByJobId(int jobId) throws DAOException {
         List<Map<String, Object>> resultList = new LinkedList<>();
 
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             Criteria criteria = session.createCriteria(JobApplication.class);
             Criterion criterion = Restrictions.eq("job.jobId", jobId);
@@ -262,19 +236,18 @@ public class JobApplicationDAO implements DAO<JobApplication> {
                 resultList.add(tempMap);
             }
 
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't get job application specific " +
                     "to particular job: " + e);
+            throw new DAOException();
         }
 
         return resultList;
     }
 
-    public void deleteByUserId(int userId) {
+    public void deleteByUserId(int userId) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
 
             String hql = "update JobApplication jbApp set jbApp.status = :status where jbApp.sitter.memberId = :userId ";
             session.createQuery(hql)
@@ -282,9 +255,9 @@ public class JobApplicationDAO implements DAO<JobApplication> {
                     .setParameter("userId", userId)
                     .executeUpdate();
 
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(JobApplicationDAO.class.getName()).severe("Can't delete job application: " + e);
+            throw new DAOException();
         }
     }
 }

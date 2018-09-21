@@ -5,8 +5,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionMapping;
 import org.apache.struts.action.ActionMessage;
 import org.care.service.MemberService;
+import org.care.service.ServiceException;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.logging.Logger;
 
 public class RegistrationForm extends ActionForm {
     private String firstName;
@@ -45,12 +47,16 @@ public class RegistrationForm extends ActionForm {
             errors.add("phoneNo", new ActionMessage("Member.PhoneNo.NotValid"));
         }
 
-        if (emailId.isEmpty()) {
-            errors.add("emailId", new ActionMessage("Member.EmailId.Empty"));
-        } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\\.)+[a-z]{2,5}$")) {
-            errors.add("emailId", new ActionMessage("Member.EmailId.NotValid"));
-        } else if (MemberService.isEmailIdRegistered(emailId)) {
-            errors.add("emailId", new ActionMessage("Member.EmailId.Registered"));
+        try {
+            if (emailId.isEmpty()) {
+                errors.add("emailId", new ActionMessage("Member.EmailId.Empty"));
+            } else if (!emailId.matches("^[a-z0-9][-a-z0-9._]+@([-a-z0-9]+\\.)+[a-z]{2,5}$")) {
+                errors.add("emailId", new ActionMessage("Member.EmailId.NotValid"));
+            } else if (MemberService.isEmailIdRegistered(emailId)) {
+                errors.add("emailId", new ActionMessage("Member.EmailId.Registered"));
+            }
+        } catch (ServiceException e) {
+            Logger.getLogger(RegistrationForm.class.getName()).severe("Can't check emailId with db: " + e);
         }
 
         if (password.isEmpty()) {

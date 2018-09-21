@@ -18,71 +18,59 @@ import java.util.logging.Logger;
 public class MemberDAO<T extends Member> implements DAO<T> {
 
     @Override
-    public Integer create(T obj) {
-        Integer id = null;
+    public Integer create(T obj) throws DAOException {
+        Integer id;
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             id = (Integer) session.save(obj);
-
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't insert member: " + e);
+            throw new DAOException();
         }
         return id;
     }
 
     @Override
-    public void update(T obj) {
+    public void update(T obj) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             session.update(obj);
-
-            transaction.commit();
         } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't update member: " + e);
+            throw new DAOException();
         }
     }
 
     @Override
-    public boolean delete(Serializable id) {
-        boolean isDeleted = false;
-
+    public void delete(Serializable id) throws DAOException {
         try {
             Session session = MyApplicationContext.getHibSession();
-            Transaction transaction = session.beginTransaction();
-
             Member member = session.get(Member.class, id);
             member.setStatus(Member.Status.INACTIVE);
             session.update(member);
 
-            transaction.commit();
-            isDeleted = true;
-
         } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't delete member: " + e);
+            throw new DAOException();
         }
-        return isDeleted;
     }
 
     @Override
-    public T get(Serializable id) {
-        Member member = null;
+    public T get(Serializable id) throws DAOException {
+        Member member;
         try {
             Session session = MyApplicationContext.getHibSession();
             member = session.get(Member.class, id);
 
         } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).severe("Can't retrieve member: " + e);
+            throw new DAOException();
         }
 
         return (T) member;
     }
 
-    public Map<String, Object> get(String email, String password) {
+    public Map<String, Object> get(String email, String password) throws DAOException {
         Map<String, Object> resultMap = new HashMap<>();
 
         try {
@@ -106,13 +94,14 @@ public class MemberDAO<T extends Member> implements DAO<T> {
         } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).info("Can't retrieve login info: " + e);
             resultMap.put("UserId", -1);
+            throw new DAOException();
         }
 
         return resultMap;
     }
 
-    public int getByEmailId(String emailId) {
-        int userId = -1;
+    public int getByEmailId(String emailId) throws DAOException {
+        int userId;
 
         try {
             Session session = MyApplicationContext.getHibSession();
@@ -129,6 +118,7 @@ public class MemberDAO<T extends Member> implements DAO<T> {
 
         } catch (Exception e) {
             Logger.getLogger(MemberDAO.class.getName()).info("Can't retrieve login info: " + e);
+            throw new DAOException();
         }
 
         return userId;

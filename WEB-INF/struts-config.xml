@@ -79,12 +79,13 @@
 
         <action path="/seeker/list-job" type="org.care.controller.seeker.ListSeekerJobAction">
             <forward name="listJobPage" path="/WEB-INF/jsp/seeker/yourjobs.jsp"/>
+            <forward name="failure" path="/seeker/home.do?success=false" redirect="true"/>
         </action>
 
         <action path="/seeker/edit-job" name="jobForm" validate="false" scope="request"
                 type="org.care.controller.seeker.EditJobAction">
             <forward name="editJobPage" path="/WEB-INF/jsp/seeker/editjob.jsp"/>
-            <forward name="failure" path="/seeker/list-job?success=false" redirect="true"/>
+            <forward name="failure" path="/seeker/list-job.do?success=false" redirect="true"/>
         </action>
 
         <action path="/seeker/update-job" name="jobForm" validate="true" scope="request"
@@ -109,6 +110,7 @@
 
         <action path="/sitter/list-job" type="org.care.controller.sitter.ListJobAction">
             <forward name="listJobPage" path="/WEB-INF/jsp/sitter/listjobs.jsp"/>
+            <forward name="failure" path="/sitter/home.do?success=false" redirect="true"/>
         </action>
 
         <action path="/sitter/apply-job" name="jobAppForm" validate="false" scope="request"
@@ -125,6 +127,7 @@
 
         <action path="/sitter/list-job-app" type="org.care.controller.sitter.ListJobAppAction">
             <forward name="listJobAppPage" path="/WEB-INF/jsp/sitter/sitterjobapplications.jsp"/>
+            <forward name="failure" path="/sitter/home.do?success=false" redirect="true"/>
         </action>
 
         <action path="/sitter/edit-job-app" name="jobAppForm" validate="false" scope="request"

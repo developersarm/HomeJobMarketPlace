@@ -18,6 +18,7 @@ import org.care.context.MyApplicationContext;
 import org.care.form.ProfileForm;
 import org.care.model.Member;
 import org.care.service.SeekerService;
+import org.care.service.ServiceException;
 import org.care.service.SitterService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,15 +37,19 @@ public class SaveProfileAction extends Action {
 
         ProfileForm profileForm = (ProfileForm) form;
 
-        if (memberType == Member.MemberType.SITTER) {
-            SitterService.updateProfile(userId, profileForm);
+        try {
+            if (memberType == Member.MemberType.SITTER) {
+                SitterService.updateProfile(userId, profileForm);
+
+            } else if (memberType == Member.MemberType.SEEKER) {
+                SeekerService.updateProfile(userId, profileForm);
+
+            } else {
+                return mapping.findForward("failure");
+            }
             return mapping.findForward("success");
 
-        } else if (memberType == Member.MemberType.SEEKER) {
-            SeekerService.updateProfile(userId, profileForm);
-            return mapping.findForward("success");
-
-        } else {
+        } catch (ServiceException e) {
             return mapping.findForward("failure");
         }
     }
